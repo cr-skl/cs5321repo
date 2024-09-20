@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import net.sf.jsqlparser.schema.Column;
 import net.sf.jsqlparser.schema.Table;
 import org.apache.logging.log4j.LogManager;
@@ -77,5 +78,8 @@ public class DBCatalog {
    */
   public File getFileForTable(String tableName) {
     return new File(dbDirectory + "/data/" + tableName);
+  }
+  public Map<String, ArrayList<Column>> getSchema(){
+    return this.tables;
   }
 }

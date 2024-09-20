@@ -1,7 +1,11 @@
 package common;
 
 import jdk.jshell.spi.ExecutionControl;
+import net.sf.jsqlparser.expression.Alias;
+import net.sf.jsqlparser.schema.Table;
 import net.sf.jsqlparser.statement.Statement;
+import net.sf.jsqlparser.statement.select.PlainSelect;
+import net.sf.jsqlparser.statement.select.Select;
 import operator.*;
 
 /**
@@ -30,7 +34,13 @@ public class QueryPlanBuilder {
    * @precondition stmt is a Select having a body that is a PlainSelect
    */
   @SuppressWarnings("unchecked")
-  public Operator buildPlan(Statement stmt) throws ExecutionControl.NotImplementedException {
-    throw new ExecutionControl.NotImplementedException("");
+  public Operator buildPlan(Statement stmt){
+    Select sql = (Select) stmt;
+    PlainSelect body = (PlainSelect) sql.getSelectBody();
+    Table fromItem = (Table) body.getFromItem();
+    Alias alias = fromItem.getAlias();
+    String name = fromItem.getName();
+    ScanOperator s = new ScanOperator(name);
+    return s;
   }
 }

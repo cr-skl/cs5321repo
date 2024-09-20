@@ -4,8 +4,13 @@ import common.DBCatalog;
 import common.QueryPlanBuilder;
 import java.io.File;
 import java.io.PrintStream;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
+import java.util.Objects;
 import net.sf.jsqlparser.parser.CCJSqlParserUtil;
 import net.sf.jsqlparser.statement.Statement;
 import net.sf.jsqlparser.statement.Statements;
@@ -32,14 +37,18 @@ public class Compiler {
    *
    * <p>If dumping to files result of ith query is in file named queryi, indexed stating at 1.
    */
-  public static void main(String[] args) {
+  public static void main(String[] args) throws URISyntaxException {
 
     inputDir = args[0];
     outputDir = args[1];
-    DBCatalog.getInstance().setDataDirectory(inputDir + "/db");
+//    DBCatalog.getInstance().setDataDirectory(inputDir + "/db");
+    ClassLoader classLoader = Compiler.class.getClassLoader();
+    URI InputURI = Objects.requireNonNull(classLoader.getResource(inputDir)).toURI();
+    DBCatalog.getInstance().setDataDirectory(Paths.get(InputURI).resolve("db").toString());
+    logger.info("schema Directory:" + inputDir + "/db");
+    logger.info("sql Directory:" + inputDir + "/queries.sql");
     try {
-      String str = Files.readString(Paths.get(inputDir + "/queries.sql"));
-      Statements statements = CCJSqlParserUtil.parseStatements(str);
+      Statements statements = CCJSqlParserUtil.parseStatements(Files.readString(Paths.get(InputURI).resolve("queries.sql")));
       QueryPlanBuilder queryPlanBuilder = new QueryPlanBuilder();
 
       if (outputToFiles) {

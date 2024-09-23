@@ -9,10 +9,12 @@ import net.sf.jsqlparser.expression.Expression;
 import net.sf.jsqlparser.expression.ExpressionVisitorAdapter;
 import net.sf.jsqlparser.expression.LongValue;
 import net.sf.jsqlparser.expression.operators.conditional.AndExpression;
+import net.sf.jsqlparser.expression.operators.relational.EqualsTo;
 import net.sf.jsqlparser.expression.operators.relational.GreaterThan;
 import net.sf.jsqlparser.expression.operators.relational.GreaterThanEquals;
 import net.sf.jsqlparser.expression.operators.relational.MinorThan;
 import net.sf.jsqlparser.expression.operators.relational.MinorThanEquals;
+import net.sf.jsqlparser.expression.operators.relational.NotEqualsTo;
 import net.sf.jsqlparser.schema.Column;
 
 public class ExpVisitor extends ExpressionVisitorAdapter {
@@ -39,7 +41,6 @@ public class ExpVisitor extends ExpressionVisitorAdapter {
         data = value.getValue();
         result = true;
     }
-
     @Override
     public void visit(AndExpression expr) {
         Expression leftExp = expr.getLeftExpression();
@@ -51,6 +52,41 @@ public class ExpVisitor extends ExpressionVisitorAdapter {
         result = resLeft && resRight;
     }
 
+    @Override
+    public void visit(EqualsTo expr) {
+        dataVisited = false;
+        Expression leftExp = expr.getLeftExpression();
+        leftExp.accept(this);
+        Long resLeft = dataVisited ? data : null;
+
+        dataVisited = false;
+        Expression rightExp = expr.getRightExpression();
+        rightExp.accept(this);
+        Long resRight = dataVisited ? data : null;
+
+        if (resLeft == null || resRight == null)
+            result = false;
+        else
+            result = resLeft == resRight;
+    }
+
+    @Override
+    public void visit(NotEqualsTo expr) {
+        dataVisited = false;
+        Expression leftExp = expr.getLeftExpression();
+        leftExp.accept(this);
+        Long resLeft = dataVisited ? data : null;
+
+        dataVisited = false;
+        Expression rightExp = expr.getRightExpression();
+        rightExp.accept(this);
+        Long resRight = dataVisited ? data : null;
+
+        if (resLeft == null || resRight == null)
+            result = false;
+        else
+            result = resLeft != resRight;
+    }
     @Override
     public void visit(GreaterThan expr) {
         dataVisited = false;

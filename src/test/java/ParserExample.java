@@ -9,7 +9,6 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 import net.sf.jsqlparser.JSQLParserException;
 import net.sf.jsqlparser.expression.Alias;
 import net.sf.jsqlparser.expression.Expression;
@@ -17,12 +16,10 @@ import net.sf.jsqlparser.parser.CCJSqlParserUtil;
 import net.sf.jsqlparser.schema.Table;
 import net.sf.jsqlparser.statement.Statement;
 import net.sf.jsqlparser.statement.Statements;
-import net.sf.jsqlparser.statement.select.GroupByElement;
 import net.sf.jsqlparser.statement.select.Join;
 import net.sf.jsqlparser.statement.select.OrderByElement;
 import net.sf.jsqlparser.statement.select.PlainSelect;
 import net.sf.jsqlparser.statement.select.Select;
-import net.sf.jsqlparser.statement.select.SelectExpressionItem;
 import net.sf.jsqlparser.statement.select.SelectItem;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -63,7 +60,10 @@ public class ParserExample {
       Table fromItem = (Table) plainSelect.getFromItem();
       Expression where = plainSelect.getWhere();
       // Maybe there is no "ORDER BY" in the sql
-      List<OrderByElement> orderByElements = plainSelect.getOrderByElements() == null ? new ArrayList<>() : plainSelect.getOrderByElements();
+      List<OrderByElement> orderByElements =
+          plainSelect.getOrderByElements() == null
+              ? new ArrayList<>()
+              : plainSelect.getOrderByElements();
 
       logger.info("Select body is " + select.getSelectBody());
       for (SelectItem e : selectItems) {

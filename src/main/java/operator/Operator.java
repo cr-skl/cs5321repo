@@ -16,9 +16,14 @@ public abstract class Operator {
 
   protected ArrayList<Column> outputSchema;
 
-  public Operator(ArrayList<Column> outputSchema) {
+  //  public Operator(ArrayList<Column> outputSchema) {
+  //    this.outputSchema = outputSchema;
+  //  }
+
+  public void setOutputSchema(ArrayList<Column> outputSchema) {
     this.outputSchema = outputSchema;
   }
+
   public Operator() {}
 
   public ArrayList<Column> getOutputSchema() {

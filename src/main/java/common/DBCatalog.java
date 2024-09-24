@@ -79,7 +79,8 @@ public class DBCatalog {
   public File getFileForTable(String tableName) {
     return new File(dbDirectory + "/data/" + tableName);
   }
-  public Map<String, ArrayList<Column>> getSchema(){
+
+  public Map<String, ArrayList<Column>> getSchema() {
     return this.tables;
   }
 }

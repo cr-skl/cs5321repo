@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="P1UnitTests" tests="8" skipped="0" failures="0" errors="0" timestamp="2024-09-23T20:08:09" hostname="BATMAN-123" time="0.063">
+  <properties/>
+  <testcase name="testQuery1()" classname="P1UnitTests" time="0.015"/>
+  <testcase name="testQuery2()" classname="P1UnitTests" time="0.006"/>
+  <testcase name="testQuery3()" classname="P1UnitTests" time="0.002"/>
+  <testcase name="testQuery4()" classname="P1UnitTests" time="0.007"/>
+  <testcase name="testQuery5()" classname="P1UnitTests" time="0.007"/>
+  <testcase name="testQuery6()" classname="P1UnitTests" time="0.007"/>
+  <testcase name="testQuery7()" classname="P1UnitTests" time="0.006"/>
+  <testcase name="testQuery8()" classname="P1UnitTests" time="0.002"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

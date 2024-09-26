@@ -149,6 +149,7 @@ public class QueryPlanBuilder {
     if (orderByElements != null) {
       treeBuilder.visit(new SortOperator(orderByElements, aliasMap));
     }
+    // DISTINCT
     if (body.getDistinct() != null) {
       if (orderByElements == null) {
         treeBuilder.visit(new SortOperator(new ArrayList<>(), aliasMap));

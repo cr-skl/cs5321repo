@@ -1,28 +1,12 @@
 package common;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import net.sf.jsqlparser.expression.Expression;
 import net.sf.jsqlparser.expression.operators.conditional.AndExpression;
 import net.sf.jsqlparser.schema.Table;
 import net.sf.jsqlparser.statement.Statement;
-import net.sf.jsqlparser.statement.select.Join;
-import net.sf.jsqlparser.statement.select.OrderByElement;
-import net.sf.jsqlparser.statement.select.PlainSelect;
-import net.sf.jsqlparser.statement.select.Select;
-import net.sf.jsqlparser.statement.select.SelectItem;
-import operator.DedupOperator;
-import operator.JoinOperator;
-import operator.Operator;
-import operator.ProjectOperator;
-import operator.ScanOperator;
-import operator.SelectOperator;
-import operator.SortOperator;
+import net.sf.jsqlparser.statement.select.*;
+import operator.*;
 import visitor.AliasExpVisitor;
 import visitor.BuildOpVisitor;
 import visitor.ClassifyExpVisitor;
@@ -160,8 +144,8 @@ public class QueryPlanBuilder {
   }
 
   private void processAlias(Map<String, List<Expression>> map, Map<String, Table> aliasMap) {
+    // deal with case that don't use any alias
     if (map.size() == 0) return;
-    //
     Collection<List<Expression>> exprss = map.values();
     AliasExpVisitor aliasExpVisitor = new AliasExpVisitor(aliasMap);
     for (List<Expression> exprs : exprss) {

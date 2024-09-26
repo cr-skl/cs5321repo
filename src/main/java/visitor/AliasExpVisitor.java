@@ -16,7 +16,7 @@ import tools.AliasTool;
 public class AliasExpVisitor extends ExpressionVisitorAdapter {
   private Map<String, Table> aliasMap;
 
-  // 对于expr ，将两侧的 R.A  转为 Reserve.A
+  // Change the Column from  S.A  into  Sailor.A,  change the attribute of Column of the expression
   public AliasExpVisitor(Map<String, Table> aliasMap) {
     this.aliasMap = aliasMap;
   }

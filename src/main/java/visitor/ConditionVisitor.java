@@ -13,6 +13,11 @@ import net.sf.jsqlparser.expression.operators.relational.MinorThanEquals;
 import net.sf.jsqlparser.expression.operators.relational.NotEqualsTo;
 import net.sf.jsqlparser.schema.Column;
 
+/**
+ *  Upon initialization, map the schema with the tuple val for both left and right
+ *  evaluate the expression with the val of the map
+ *  p.s :
+ */
 public class ConditionVisitor extends ExpressionVisitorAdapter {
   private Map<String, Integer> leftMap;
   private Map<String, Integer> rightMap;

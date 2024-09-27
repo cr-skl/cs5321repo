@@ -21,6 +21,12 @@ public class SortOperator extends Operator {
     this.child = child;
   }
 
+  /**
+   * During initialization, no data been stored,
+   * the sign sorted marking as false
+   * @param orderByElements
+   * @param aliasMap
+   */
   public SortOperator(List<OrderByElement> orderByElements, Map<String, Table> aliasMap) {
     this.sorted = false;
     this.orderByElements = orderByElements;
@@ -28,13 +34,22 @@ public class SortOperator extends Operator {
     this.pointer = 0;
   }
 
+  /**
+   * reset pointer to 0 for the save list
+   */
   @Override
   public void reset() {
     pointer = 0;
   }
 
+  /**
+   * After calling the first getNextTuple, try fetch and sort all results in the save list
+   * then return the next of the save list
+   * @return
+   */
   @Override
   public Tuple getNextTuple() {
+    // only executed once
     if (!sorted) {
       fetchAndSort();
     }
@@ -45,6 +60,10 @@ public class SortOperator extends Operator {
     }
   }
 
+  /**
+   * Called on the first getNextTuple, generate all the result from its child's output
+   * and save them in the save list, then get them sorted with specific priors
+   */
   private void fetchAndSort() {
     if (child == null) {
       throw new IllegalStateException("Child operator is not set");

@@ -45,10 +45,6 @@ public class QueryPlanBuilder {
     // Get  "FROM"
     Table fromItem = (Table) body.getFromItem();
     String firstTableName = fromItem.getName();
-
-    //        String firstTableName = fromItem.getAlias() != null ? fromItem.getAlias().getName() :
-    // fromItem.getName();
-
     // Get "WHERE"
     Expression eval = body.getWhere();
     // Get "SELECT"
@@ -57,18 +53,18 @@ public class QueryPlanBuilder {
     List<Join> joins = body.getJoins();
     // Get "ORDER BY"
     List<OrderByElement> orderByElements = body.getOrderByElements();
-
+    // map each alias to a table instance
     buildAliasMap(aliasMap, fromItem, joins);
     // Build operator tree, return the top
     BuildOpVisitor treeBuilder = new BuildOpVisitor();
 
-    // parsing WHERE condition for following JOIN
+    // parsing WHERE condition for following JOINs
     Map<String, List<Expression>> selectCond = new HashMap<>();
     Map<String, List<Expression>> joinCond = new HashMap<>();
     if (eval != null) {
       // Classify it into two groups:
       //                              selectCond   :    after scan ,  can be done immediately
-      //                              joinCond     :    be done when joining
+      //                              joinCond     :    be done when joining two tables
       List<Expression> expressions = ConditionParser(eval);
       ClassifyExpVisitor classifier = new ClassifyExpVisitor(selectCond, joinCond, aliasMap);
       for (Expression e : expressions) {
@@ -78,9 +74,12 @@ public class QueryPlanBuilder {
       processAlias(selectCond, aliasMap);
       processAlias(joinCond, aliasMap);
     }
-    // FROM ... The first table as source    must use the table's name  , not alias
+
+    // Building the operator tree
+
+    // FROM ...
     treeBuilder.visit(new ScanOperator(fromItem.getName()));
-    // self-scan first
+    // self-selection
     if (selectCond.containsKey(firstTableName)) {
       for (Expression e : selectCond.get(firstTableName)) {
         treeBuilder.visit(new SelectOperator(e));
@@ -106,7 +105,7 @@ public class QueryPlanBuilder {
           }
         }
 
-        // use left-table (the already composite one)  to join (may conditioned) right-table
+        // use left-table (the already composite one)  to join (if conditioned) right-table
         for (String leftName : joined_tables) {
           String combi1 = leftName + "," + rightName;
           String combi2 = rightName + "," + leftName;
@@ -143,34 +142,13 @@ public class QueryPlanBuilder {
     return treeBuilder.getRoot();
   }
 
-  private void processAlias(Map<String, List<Expression>> map, Map<String, Table> aliasMap) {
-    // deal with case that don't use any alias
-    if (map.size() == 0) return;
-    Collection<List<Expression>> exprss = map.values();
-    AliasExpVisitor aliasExpVisitor = new AliasExpVisitor(aliasMap);
-    for (List<Expression> exprs : exprss) {
-      for (Expression expr : exprs) {
-        expr.accept(aliasExpVisitor);
-      }
-    }
-  }
-
-  //    private void buildAliasMap(Map<String, String> aliasMap, Table fromItem, List<Join> joins) {
-  //        // for the first
-  //        if (fromItem.getAlias() != null) {
-  //            aliasMap.put(fromItem.getAlias().getName(), fromItem.getName());
-  //        }
-  //        // for the rest
-  //        if (joins != null) {
-  //            for (Join j : joins) {
-  //                Table rightTable = (Table) j.getRightItem();
-  //                if (rightTable.getAlias() != null) {
-  //                    aliasMap.put(rightTable.getAlias().getName(), rightTable.getName());
-  //                }
-  //            }
-  //        }
-  //
-  //    }
+  /**
+   * For all the tables refered by the SQL,
+   * if it has alias, map the alias String to it
+   * @param aliasMap   the passed in aliasMap, expected to be empty first
+   * @param fromItem   the first table in FROM clause
+   * @param joins      the remaining table in FROM clause
+   */
   private void buildAliasMap(Map<String, Table> aliasMap, Table fromItem, List<Join> joins) {
     // project the fromTable onto its Table
     if (fromItem.getAlias() != null) {
@@ -188,12 +166,44 @@ public class QueryPlanBuilder {
     }
   }
 
+  /**
+   *  Process a Map, whose val is Expression. For each of the Expressions,
+   *  turn their alias Column into real Name .
+   *  e.g: Expression S.A < R.H   --> Expression Sailors.A < Reserves.H
+   * @param map
+   * @param aliasMap
+   */
+  private void processAlias(Map<String, List<Expression>> map, Map<String, Table> aliasMap) {
+    // deal with case that don't use any alias
+    if (map.size() == 0) return;
+    Collection<List<Expression>> exprss = map.values();
+    AliasExpVisitor aliasExpVisitor = new AliasExpVisitor(aliasMap);
+    for (List<Expression> exprs : exprss) {
+      for (Expression expr : exprs) {
+        expr.accept(aliasExpVisitor);
+      }
+    }
+  }
+
+  /**
+   * Parse the whole expression in the WHERE into List<Expression> that are
+   * delimited by AND
+   * Return the List
+   * p.s : cannot deal with nested AND
+   * @param expr
+   * @return
+   */
   private List<Expression> ConditionParser(Expression expr) {
     List<Expression> res = new ArrayList<>();
     parseHelper(expr, res);
     return res;
   }
 
+  /**
+   * Recursion helper for the method ConditionParser
+   * @param expr
+   * @param res
+   */
   private void parseHelper(Expression expr, List<Expression> res) {
     if (!(expr instanceof AndExpression)) {
       res.add(expr);

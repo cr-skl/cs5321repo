@@ -16,6 +16,11 @@ import net.sf.jsqlparser.schema.Column;
 import net.sf.jsqlparser.schema.Table;
 import tools.AliasTool;
 
+/**
+ *  Visitor for expression, determine if the given expression is a select-cond or a join-cond,
+ *  and classify it to the corresponding list
+ *  Map<String, List<Expression>>  the Key must be the table name, not alias
+ */
 public class ClassifyExpVisitor extends ExpressionVisitorAdapter {
   private Map<String, List<Expression>> selectCond;
   private Map<String, List<Expression>> joinCond;
@@ -60,6 +65,18 @@ public class ClassifyExpVisitor extends ExpressionVisitorAdapter {
     helper(expr);
   }
 
+  /**
+   *  Given a expression,
+   *  eval its both side:
+   *                    one of them not Column, but LongVal, then must be select-cond
+   *                    both are column:
+   *                                      case1:  both are alias
+   *                                                select / join
+   *                                      case2:  both are table
+   *                                                select / join
+   *  classify it to corresponding map
+   * @param expr
+   */
   private void helper(Expression expr) {
     Expression leftExpression = ((BinaryExpression) expr).getLeftExpression();
     Expression rightExpression = ((BinaryExpression) expr).getRightExpression();
@@ -76,9 +93,7 @@ public class ClassifyExpVisitor extends ExpressionVisitorAdapter {
       // both are Column,  can be selection or join
       Column leftColumn = (Column) leftExpression;
       Column rightColumn = (Column) rightExpression;
-      if (leftExpression instanceof Column && rightExpression instanceof Column) {
-        JoinOrSelect(leftColumn, rightColumn, expr);
-      }
+      JoinOrSelect(leftColumn, rightColumn, expr);
     }
   }
 
@@ -106,11 +121,13 @@ public class ClassifyExpVisitor extends ExpressionVisitorAdapter {
     // both are alias  can be join or selection
     if (AliasTool.isAlias(leftAliasOrName, aliasMap)
         && AliasTool.isAlias(rightAliasOrName, aliasMap)) {
-      String leftAlias = AliasTool.getAlias(leftCol, aliasMap);
-      String rightAlias = AliasTool.getAlias(rightCol, aliasMap);
+//      String leftAlias = AliasTool.getAlias(leftCol, aliasMap);
+//      String rightAlias = AliasTool.getAlias(rightCol, aliasMap);
+      String leftAlias = leftAliasOrName;
+      String rightAlias = rightAliasOrName;
       String leftTableName = aliasMap.get(leftAlias).getName();
       String rightTableName = aliasMap.get(rightAlias).getName();
-      // alias equals,   selection
+      // alias equals,   select-cond
       if (leftAlias.equalsIgnoreCase(rightAlias)) {
         if (!selectCond.containsKey(leftTableName)) {
           List<Expression> lst = new ArrayList<>();
@@ -118,7 +135,7 @@ public class ClassifyExpVisitor extends ExpressionVisitorAdapter {
         }
         selectCond.get(leftTableName).add(expr);
       } else {
-        // alias not equal,   join
+        // alias not equal,   join-cond
         String combineKey = leftTableName + "," + rightTableName;
         if (!joinCond.containsKey(combineKey)) {
           List<Expression> lst = new ArrayList<>();
@@ -130,6 +147,7 @@ public class ClassifyExpVisitor extends ExpressionVisitorAdapter {
       // both are not aliases, can be selection or join
       String leftTableName = leftAliasOrName;
       String rightTableName = rightAliasOrName;
+      // name equals,  select-cond
       if (leftTableName.equalsIgnoreCase(rightTableName)) {
         if (!selectCond.containsKey(leftTableName)) {
           List<Expression> lst = new ArrayList<>();
@@ -137,6 +155,7 @@ public class ClassifyExpVisitor extends ExpressionVisitorAdapter {
         }
         selectCond.get(leftTableName).add(expr);
       } else {
+        // name not equals, join-cond
         String combineKey = leftTableName + "," + rightTableName;
         if (!joinCond.containsKey(combineKey)) {
           List<Expression> lst = new ArrayList<>();

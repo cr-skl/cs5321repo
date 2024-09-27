@@ -6,26 +6,36 @@ import net.sf.jsqlparser.schema.Column;
 import net.sf.jsqlparser.schema.Table;
 
 public class AliasTool {
-  // define if a table name is Alias or not
+  /**
+   * Given a Column
+   * Decide if it has Alias
+   * @param column col
+   * @param aliasMap aMap
+   * @return
+   */
   public static boolean isAlias(Column column, Map<String, Table> aliasMap) {
     String aliasOrName = column.getTable().getName();
     return isAlias(aliasOrName, aliasMap);
   }
 
+  /**
+   * Given a name
+   * Decide if a String is alias
+   * @param name name
+   * @param aliasMap aMap
+   * @return
+   */
   public static boolean isAlias(String name, Map<String, Table> aliasMap) {
     return aliasMap.containsKey(name);
   }
 
-  // if Column wrapped with alias,  then return alias
-  public static String getAlias(Column column, Map<String, Table> aliasMap) {
-    Table table = column.getTable();
-    String aliasName = table.getName();
-    if (aliasMap.containsKey(aliasName)) {
-      return aliasMap.get(aliasName).getAlias().getName();
-    }
-    return null;
-  }
-
+  /**
+   * Given the column
+   * return its tableName
+   * @param column col
+   * @param aliasMap aMap
+   * @return
+   */
   public static String getOriginalName(Column column, Map<String, Table> aliasMap) {
     Table table = column.getTable();
     String alias = table.getName();
@@ -37,13 +47,26 @@ public class AliasTool {
     return null;
   }
 
-  public static void aliasToName(Column target, Map<String, Table> aliasMap) {
-    if (isAlias(target, aliasMap)) {
-      Table table = target.getTable();
-      table.setName(getOriginalName(target, aliasMap));
+  /**
+   * Given the Column
+   * set its Column's tableName by its tableName
+   * @param column column
+   * @param aliasMap aMap
+   */
+  public static void aliasToName(Column column, Map<String, Table> aliasMap) {
+    if (isAlias(column, aliasMap)) {
+      Table table = column.getTable();
+      table.setName(getOriginalName(column, aliasMap));
     }
   }
 
+  /**
+   * Given the Expression
+   * Cast is as Column
+   * set its Column's tableName by its tableName
+   * @param expr expression
+   * @param aliasMap aMap
+   */
   public static void aliasToName(Expression expr, Map<String, Table> aliasMap) {
     if (!(expr instanceof Column)) return;
     Column col = (Column) expr;

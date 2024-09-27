@@ -8,9 +8,9 @@ src/main/java/visitor/ExpVisitor.java,1727122019797056100,5425,FORMATTED
 src/main/java/compiler/Compiler.java,1727122019497779000,3571,FORMATTED
 src/main/java/Comparator/TupleComparator.java,1727122019459778000,2856,FORMATTED
 src/main/java/common/DBCatalog.java,1727122019363706700,2465,FORMATTED
-src/main/java/visitor/AliasExpVisitor.java,1727122019727052000,1771,FORMATTED
+src/main/java/visitor/AliasExpVisitor.java,1727316530060941800,1817,FORMATTED
 src/test/java/P1UnitTests.java,1727031805644685700,10254,FORMATTED
-src/main/java/common/QueryPlanBuilder.java,1727122019427780300,8550,FORMATTED
+src/main/java/common/QueryPlanBuilder.java,1727317184226554700,8022,FORMATTED
 src/test/java/HelperMethods.java,1725585559947861300,384,FORMATTED
 src/test/java/OperatorTests.java,1727122019837500100,2682,FORMATTED
 src/main/java/visitor/OpVisitor.java,1727122019803065300,269,FORMATTED
@@ -21,5 +21,5 @@ src/main/java/visitor/ClassifyExpVisitor.java,1727122019758055800,5388,FORMATTED
 src/main/java/operator/Operator.java,1727122019574314900,1788,FORMATTED
 src/main/java/operator/DedupOperator.java,1727122019519318400,769,FORMATTED
 src/main/java/operator/SortOperator.java,1727122019699866600,1604,FORMATTED
-src/main/java/common/Tuple.java,1725585559944867000,2206,FORMATTED
+src/main/java/common/Tuple.java,1727317184274562200,2206,FORMATTED
 src/main/java/operator/SelectOperator.java,1727122019685861100,1099,FORMATTED

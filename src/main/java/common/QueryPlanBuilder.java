@@ -175,7 +175,7 @@ public class QueryPlanBuilder {
    */
   private void processAlias(Map<String, List<Expression>> map, Map<String, Table> aliasMap) {
     // deal with case that don't use any alias
-    if (map.size() == 0) return;
+    if (map.isEmpty()) return;
     Collection<List<Expression>> exprss = map.values();
     AliasExpVisitor aliasExpVisitor = new AliasExpVisitor(aliasMap);
     for (List<Expression> exprs : exprss) {
@@ -190,8 +190,8 @@ public class QueryPlanBuilder {
    * delimited by AND
    * Return the List
    * p.s : cannot deal with nested AND
-   * @param expr
-   * @return
+   * @param expr long expression to be parsed
+   * @return the list result
    */
   private List<Expression> ConditionParser(Expression expr) {
     List<Expression> res = new ArrayList<>();
@@ -201,8 +201,8 @@ public class QueryPlanBuilder {
 
   /**
    * Recursion helper for the method ConditionParser
-   * @param expr
-   * @param res
+   * @param expr expression  maybe leaf root
+   * @param res result list to be added
    */
   private void parseHelper(Expression expr, List<Expression> res) {
     if (!(expr instanceof AndExpression)) {

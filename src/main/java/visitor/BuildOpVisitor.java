@@ -32,7 +32,7 @@ public class BuildOpVisitor implements OpVisitor {
 
   /**
    * see top comment
-   * @param operator
+   * @param operator op
    */
   @Override
   public void visit(ScanOperator operator) {
@@ -41,7 +41,7 @@ public class BuildOpVisitor implements OpVisitor {
 
   /**
    * see top comment
-   * @param operator
+   * @param operator op
    */
   @Override
   public void visit(SelectOperator operator) {
@@ -56,7 +56,7 @@ public class BuildOpVisitor implements OpVisitor {
 
   /**
    * see top comment
-   * @param operator
+   * @param operator op
    */
   @Override
   public void visit(ProjectOperator operator) {
@@ -70,7 +70,7 @@ public class BuildOpVisitor implements OpVisitor {
 
   /**
    * see the top comment
-   * @param operator
+   * @param operator op
    */
   public void visit(JoinOperator operator) {
     if (root == null) {
@@ -89,7 +89,7 @@ public class BuildOpVisitor implements OpVisitor {
 
   /**
    * see top comment
-   * @param operator
+   * @param operator op
    */
   public void visit(SortOperator operator) {
     if (root == null) {
@@ -103,7 +103,7 @@ public class BuildOpVisitor implements OpVisitor {
 
   /**
    * see top comment
-   * @param operator
+   * @param operator op
    */
   public void visit(DedupOperator operator) {
     if (root == null) {

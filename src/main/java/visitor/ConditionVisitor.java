@@ -55,8 +55,8 @@ public class ConditionVisitor extends ExpressionVisitorAdapter {
     String leftKey = leftCol.getTable().getName() + "," + leftCol.getColumnName();
     String rightKey = rightCol.getTable().getName() + "," + rightCol.getColumnName();
     if (leftMap.containsKey(leftKey))
-      result = leftMap.get(leftKey) == rightMap.get(rightKey) ? true : false;
-    else result = rightMap.get(leftKey) == leftMap.get(rightKey) ? true : false;
+      result = leftMap.get(leftKey) == rightMap.get(rightKey);
+    else result = rightMap.get(leftKey) == leftMap.get(rightKey);
   }
 
   @Override
@@ -66,8 +66,8 @@ public class ConditionVisitor extends ExpressionVisitorAdapter {
     String leftKey = leftCol.getTable().getName() + "," + leftCol.getColumnName();
     String rightKey = rightCol.getTable().getName() + "," + rightCol.getColumnName();
     if (leftMap.containsKey(leftKey))
-      result = leftMap.get(leftKey) != rightMap.get(rightKey) ? true : false;
-    else result = rightMap.get(leftKey) != leftMap.get(rightKey) ? true : false;
+      result = leftMap.get(leftKey) != rightMap.get(rightKey);
+    else result = rightMap.get(leftKey) != leftMap.get(rightKey);
   }
 
   @Override
@@ -77,8 +77,8 @@ public class ConditionVisitor extends ExpressionVisitorAdapter {
     String leftKey = leftCol.getTable().getName() + "," + leftCol.getColumnName();
     String rightKey = rightCol.getTable().getName() + "," + rightCol.getColumnName();
     if (leftMap.containsKey(leftKey))
-      result = leftMap.get(leftKey) > rightMap.get(rightKey) ? true : false;
-    else result = rightMap.get(leftKey) > leftMap.get(rightKey) ? true : false;
+      result = leftMap.get(leftKey) > rightMap.get(rightKey);
+    else result = rightMap.get(leftKey) > leftMap.get(rightKey);
   }
 
   @Override
@@ -88,8 +88,8 @@ public class ConditionVisitor extends ExpressionVisitorAdapter {
     String leftKey = leftCol.getTable().getName() + "," + leftCol.getColumnName();
     String rightKey = rightCol.getTable().getName() + "," + rightCol.getColumnName();
     if (leftMap.containsKey(leftKey))
-      result = leftMap.get(leftKey) >= rightMap.get(rightKey) ? true : false;
-    else result = rightMap.get(leftKey) >= leftMap.get(rightKey) ? true : false;
+      result = leftMap.get(leftKey) >= rightMap.get(rightKey);
+    else result = rightMap.get(leftKey) >= leftMap.get(rightKey);
   }
 
   @Override
@@ -99,8 +99,8 @@ public class ConditionVisitor extends ExpressionVisitorAdapter {
     String leftKey = leftCol.getTable().getName() + "," + leftCol.getColumnName();
     String rightKey = rightCol.getTable().getName() + "," + rightCol.getColumnName();
     if (leftMap.containsKey(leftKey))
-      result = leftMap.get(leftKey) < rightMap.get(rightKey) ? true : false;
-    else result = rightMap.get(leftKey) < leftMap.get(rightKey) ? true : false;
+      result = leftMap.get(leftKey) < rightMap.get(rightKey);
+    else result = rightMap.get(leftKey) < leftMap.get(rightKey);
   }
 
   @Override
@@ -110,7 +110,7 @@ public class ConditionVisitor extends ExpressionVisitorAdapter {
     String leftKey = leftCol.getTable().getName() + "," + leftCol.getColumnName();
     String rightKey = rightCol.getTable().getName() + "," + rightCol.getColumnName();
     if (leftMap.containsKey(leftKey))
-      result = leftMap.get(leftKey) <= rightMap.get(rightKey) ? true : false;
-    else result = rightMap.get(leftKey) <= leftMap.get(rightKey) ? true : false;
+      result = leftMap.get(leftKey) <= rightMap.get(rightKey);
+    else result = rightMap.get(leftKey) <= leftMap.get(rightKey);
   }
 }

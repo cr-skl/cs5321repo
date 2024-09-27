@@ -45,7 +45,7 @@ public class SortOperator extends Operator {
   /**
    * After calling the first getNextTuple, try fetch and sort all results in the save list
    * then return the next of the save list
-   * @return
+   * @return the nextTuple needed to be returned (after sorting)
    */
   @Override
   public Tuple getNextTuple() {
@@ -70,10 +70,8 @@ public class SortOperator extends Operator {
     }
     // get all the input of child
     Tuple tuple = null;
-    int i = 0;
     while ((tuple = child.getNextTuple()) != null) {
       save.add(tuple);
-      i++;
     }
     // get it sorted
     Collections.sort(

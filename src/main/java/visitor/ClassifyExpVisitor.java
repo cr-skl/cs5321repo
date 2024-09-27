@@ -75,7 +75,7 @@ public class ClassifyExpVisitor extends ExpressionVisitorAdapter {
    *                                      case2:  both are table
    *                                                select / join
    *  classify it to corresponding map
-   * @param expr
+   * @param expr expr
    */
   private void helper(Expression expr) {
     Expression leftExpression = ((BinaryExpression) expr).getLeftExpression();

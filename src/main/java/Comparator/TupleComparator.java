@@ -26,12 +26,10 @@ public class TupleComparator implements Comparator<Tuple> {
    *        orderAscMap,
    *        remainingColumns
    *  which will be of great use in compare() method
-   *
-   *  schema is the output schema of all these tuples, which helps mapping Column into Tuple[i]
-   *  aliasMap for dealing alias
-   * @param orderByElements
-   * @param schema
-   * @param aliasMap
+
+   * @param orderByElements elements that are metrics for sorting
+   * @param schema schema is the output schema of all these tuples, which helps mapping Column into Tuple[i]
+   * @param aliasMap aliasMap for dealing alias
    */
   public TupleComparator(
       List<OrderByElement> orderByElements, ArrayList<Column> schema, Map<String, Table> aliasMap) {
@@ -74,7 +72,7 @@ public class TupleComparator implements Comparator<Tuple> {
    * then compare with remainingColumns
    * @param t1 the first object to be compared.
    * @param t2 the second object to be compared.
-   * @return
+   * @return the comparing integer result
    */
   @Override
   public int compare(Tuple t1, Tuple t2) {
@@ -103,9 +101,9 @@ public class TupleComparator implements Comparator<Tuple> {
 
   /**
    * Decide if two Column are the same using both tableName and colName
-   * @param c1
-   * @param c2
-   * @return
+   * @param c1 column
+   * @param c2 column
+   * @return boolean res
    */
   private boolean columnEqual(Column c1, Column c2) {
     return c1.getTable().getName().equalsIgnoreCase(c2.getTable().getName())

@@ -11,7 +11,7 @@ public class AliasTool {
    * Decide if it has Alias
    * @param column col
    * @param aliasMap aMap
-   * @return
+   * @return bool
    */
   public static boolean isAlias(Column column, Map<String, Table> aliasMap) {
     String aliasOrName = column.getTable().getName();
@@ -23,7 +23,7 @@ public class AliasTool {
    * Decide if a String is alias
    * @param name name
    * @param aliasMap aMap
-   * @return
+   * @return bool
    */
   public static boolean isAlias(String name, Map<String, Table> aliasMap) {
     return aliasMap.containsKey(name);
@@ -34,15 +34,14 @@ public class AliasTool {
    * return its tableName
    * @param column col
    * @param aliasMap aMap
-   * @return
+   * @return str of tableName
    */
   public static String getOriginalName(Column column, Map<String, Table> aliasMap) {
     Table table = column.getTable();
     String alias = table.getName();
     if (aliasMap.containsKey(alias)) {
       Table tb = aliasMap.get(alias);
-      String tb_name = tb.getName();
-      return tb_name;
+      return tb.getName();
     }
     return null;
   }

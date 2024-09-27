@@ -30,7 +30,8 @@ public class ProjectOperator extends Operator {
       if (e instanceof SelectExpressionItem) {
         SelectExpressionItem expressionItem = (SelectExpressionItem) e;
         Column aliasCol = (Column) expressionItem.getExpression();
-        if (AliasTool.getAlias(aliasCol, aliasMap) != null) {
+        // if the Column is alias, set it to tableName
+          if (AliasTool.isAlias(aliasCol, aliasMap)) {
           Table table = aliasCol.getTable();
           table.setName(AliasTool.getOriginalName(aliasCol, aliasMap));
         }
@@ -39,6 +40,10 @@ public class ProjectOperator extends Operator {
     }
   }
 
+  /**
+   * set its child, called on .visit()
+   * @param child c
+   */
   public void setChild(Operator child) {
     this.child = child;
     this.setOutputSchema(requiredList == null ? child.getOutputSchema() : requiredList);
@@ -87,16 +92,5 @@ public class ProjectOperator extends Operator {
       }
     }
     return new Tuple(temp);
-  }
-
-  private int indexExists(ArrayList<Column> cols, Column target) {
-    for (int i = 0; i < cols.size(); i++) {
-      Column column = cols.get(i);
-      if (column.getTable().getName().equalsIgnoreCase(target.getTable().getName())
-          && column.getColumnName().equalsIgnoreCase(target.getColumnName())) {
-        return i;
-      }
-    }
-    return -1;
   }
 }

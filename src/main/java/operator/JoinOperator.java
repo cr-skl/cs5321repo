@@ -12,18 +12,35 @@ public class JoinOperator extends Operator {
   private Tuple rightNextTuple = null;
   private Expression eval;
 
+  /**
+   * set the child, called on .visit()
+   * @param leftChild lc
+   */
   public void setLeftChild(Operator leftChild) {
     this.leftChild = leftChild;
   }
 
+  /**
+   * get left Child
+   * @return c
+   */
   public Operator getLeftChild() {
     return leftChild;
   }
 
+  /**
+   * get right Child
+   * @return c
+   */
   public Operator getRightChild() {
     return rightChild;
   }
 
+  /**
+   *  init
+   * @param rightChild rc
+   * @param eval e
+   */
   public JoinOperator(Operator rightChild, Expression eval) {
     this.rightChild = rightChild;
     this.eval = eval;
@@ -43,10 +60,12 @@ public class JoinOperator extends Operator {
    */
   @Override
   public Tuple getNextTuple() {
-    // init
+    // initialization, both are null, set left to the first
     if (leftNextTuple == null && rightNextTuple == null) {
       leftNextTuple = leftChild.getNextTuple();
     }
+    // get the next right (not null)
+    // if next right is null, update the left (if left is null then join ends) and reset rightTable, then get the next right
     rightNextTuple = rightChild.getNextTuple();
     if (rightNextTuple == null) {
       rightChild.reset();
@@ -62,9 +81,16 @@ public class JoinOperator extends Operator {
       res.addAll(rightArray);
       return new Tuple(res);
     }
+    // the given left and right don't satisfy, get the next as result
     return getNextTuple();
   }
 
+  /**
+   * Return if the given tuple left and right  satisfy the eval expression
+   * @param left tuple
+   * @param right tuple
+   * @return boolean res
+   */
   private boolean evalMatches(Tuple left, Tuple right) {
     ConditionVisitor expVisitor =
         new ConditionVisitor(

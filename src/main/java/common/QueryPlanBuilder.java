@@ -35,7 +35,6 @@ public class QueryPlanBuilder {
    *
    * @param stmt statement to be translated
    * @return the root of the query plan
-   * @precondition stmt is a Select having a body that is a PlainSelect
    */
   public Operator buildPlan(Statement stmt) {
     // alias -> name

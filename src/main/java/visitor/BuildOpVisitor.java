@@ -16,7 +16,6 @@ import operator.SortOperator;
  *  will make current root to the left child of the current operator,
  *  set the operator's schema based on all its child's schema
  *  then set the operator as current root
- *
  *  p.s :  all the schema is expected to be only Column using real tableName, not alias
  */
 public class BuildOpVisitor implements OpVisitor {

@@ -167,11 +167,11 @@ public class QueryPlanBuilder {
   }
 
   /**
-   *  Process a Map, whose val is Expression. For each of the Expressions,
+   *  For each of the Expressions in the map.keySet()
    *  turn their alias Column into real Name .
    *  e.g: Expression S.A < R.H   --> Expression Sailors.A < Reserves.H
-   * @param map
-   * @param aliasMap
+   * @param map Map<String, List<Expression> the target Map
+   * @param aliasMap aMap
    */
   private void processAlias(Map<String, List<Expression>> map, Map<String, Table> aliasMap) {
     // deal with case that don't use any alias

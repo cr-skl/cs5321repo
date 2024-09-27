@@ -40,6 +40,10 @@ public class ProjectOperator extends Operator {
     }
   }
 
+  /**
+   * set its child, called on .visit()
+   * @param child c
+   */
   public void setChild(Operator child) {
     this.child = child;
     this.setOutputSchema(requiredList == null ? child.getOutputSchema() : requiredList);

@@ -29,7 +29,10 @@ public class DedupOperator extends Operator {
     }
     return null;
   }
-
+  /**
+   * set the child, called on .visit()
+   * @param child c
+   */
   public void setChild(Operator child) {
     this.child = child;
   }

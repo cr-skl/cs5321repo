@@ -25,6 +25,10 @@ public class BuildOpVisitor implements OpVisitor {
     this.root = null;
   }
 
+  /**
+   * return final result
+   * @return r
+   */
   public Operator getRoot() {
     return root;
   }

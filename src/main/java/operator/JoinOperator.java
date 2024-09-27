@@ -12,18 +12,35 @@ public class JoinOperator extends Operator {
   private Tuple rightNextTuple = null;
   private Expression eval;
 
+  /**
+   * set the child, called on .visit()
+   * @param leftChild lc
+   */
   public void setLeftChild(Operator leftChild) {
     this.leftChild = leftChild;
   }
 
+  /**
+   * get left Child
+   * @return c
+   */
   public Operator getLeftChild() {
     return leftChild;
   }
 
+  /**
+   * get right Child
+   * @return c
+   */
   public Operator getRightChild() {
     return rightChild;
   }
 
+  /**
+   *  init
+   * @param rightChild rc
+   * @param eval e
+   */
   public JoinOperator(Operator rightChild, Expression eval) {
     this.rightChild = rightChild;
     this.eval = eval;

@@ -8,6 +8,10 @@ public class SelectOperator extends Operator {
   private Operator child;
   private Expression exp;
 
+  /**
+   * child setter called on .visit()
+   * @param child c
+   */
   public void setChild(Operator child) {
     this.child = child;
   }

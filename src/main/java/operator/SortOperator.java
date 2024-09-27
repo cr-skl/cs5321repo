@@ -17,6 +17,10 @@ public class SortOperator extends Operator {
   private Map<String, Table> aliasMap;
   private int pointer;
 
+  /**
+   * set the child, called on .visit()
+   * @param child c
+   */
   public void setChild(Operator child) {
     this.child = child;
   }
@@ -24,8 +28,8 @@ public class SortOperator extends Operator {
   /**
    * During initialization, no data been stored,
    * the sign sorted marking as false
-   * @param orderByElements
-   * @param aliasMap
+   * @param orderByElements objects
+   * @param aliasMap aMap
    */
   public SortOperator(List<OrderByElement> orderByElements, Map<String, Table> aliasMap) {
     this.sorted = false;

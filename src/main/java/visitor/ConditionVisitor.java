@@ -16,7 +16,7 @@ import net.sf.jsqlparser.schema.Column;
 /**
  *  Upon initialization, map the schema with the tuple val for both left and right
  *  evaluate the expression with the val of the map
- *  p.s :
+ *  p.s : names are tableName+","+colName
  */
 public class ConditionVisitor extends ExpressionVisitorAdapter {
   private Map<String, Integer> leftMap;
@@ -44,10 +44,18 @@ public class ConditionVisitor extends ExpressionVisitorAdapter {
     }
   }
 
+  /**
+   * get the final result
+   * @return r
+   */
   public Boolean getResult() {
     return result;
   }
 
+  /**
+   * eval the expr
+   * @param expr e
+   */
   @Override
   public void visit(EqualsTo expr) {
     Column leftCol = (Column) expr.getLeftExpression();
@@ -59,6 +67,10 @@ public class ConditionVisitor extends ExpressionVisitorAdapter {
     else result = rightMap.get(leftKey) == leftMap.get(rightKey);
   }
 
+  /**
+   * eval the expr
+   * @param expr e
+   */
   @Override
   public void visit(NotEqualsTo expr) {
     Column leftCol = (Column) expr.getLeftExpression();
@@ -70,6 +82,10 @@ public class ConditionVisitor extends ExpressionVisitorAdapter {
     else result = rightMap.get(leftKey) != leftMap.get(rightKey);
   }
 
+  /**
+   * eval the expr
+   * @param expr e
+   */
   @Override
   public void visit(GreaterThan expr) {
     Column leftCol = (Column) expr.getLeftExpression();
@@ -81,6 +97,10 @@ public class ConditionVisitor extends ExpressionVisitorAdapter {
     else result = rightMap.get(leftKey) > leftMap.get(rightKey);
   }
 
+  /**
+   * eval the expr
+   * @param expr e
+   */
   @Override
   public void visit(GreaterThanEquals expr) {
     Column leftCol = (Column) expr.getLeftExpression();
@@ -92,6 +112,10 @@ public class ConditionVisitor extends ExpressionVisitorAdapter {
     else result = rightMap.get(leftKey) >= leftMap.get(rightKey);
   }
 
+  /**
+   * eval the expr
+   * @param expr e
+   */
   @Override
   public void visit(MinorThan expr) {
     Column leftCol = (Column) expr.getLeftExpression();
@@ -103,6 +127,10 @@ public class ConditionVisitor extends ExpressionVisitorAdapter {
     else result = rightMap.get(leftKey) < leftMap.get(rightKey);
   }
 
+  /**
+   * eval the expr
+   * @param expr e
+   */
   @Override
   public void visit(MinorThanEquals expr) {
     Column leftCol = (Column) expr.getLeftExpression();

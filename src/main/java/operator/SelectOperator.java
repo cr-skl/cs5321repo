@@ -10,6 +10,7 @@ public class SelectOperator extends Operator {
 
   /**
    * child setter called on .visit()
+   *
    * @param child c
    */
   public void setChild(Operator child) {

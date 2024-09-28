@@ -26,9 +26,8 @@ public class ScanOperator extends Operator {
       logger.info("Cannot read File" + e.getMessage());
     }
   }
-  /**
-   * Resets cursor on the operator to the beginning
-   */
+
+  /** Resets cursor on the operator to the beginning */
   @Override
   public void reset() {
     try {
@@ -57,9 +56,7 @@ public class ScanOperator extends Operator {
     return null;
   }
 
-  /**
-   * close the resource
-   */
+  /** close the resource */
   public void close() {
     try {
       if (reader != null) reader.close();

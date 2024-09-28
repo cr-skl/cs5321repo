@@ -142,11 +142,11 @@ public class QueryPlanBuilder {
   }
 
   /**
-   * For all the tables refered by the SQL,
-   * if it has alias, map the alias String to it
-   * @param aliasMap   the passed in aliasMap, expected to be empty first
-   * @param fromItem   the first table in FROM clause
-   * @param joins      the remaining table in FROM clause
+   * For all the tables refered by the SQL, if it has alias, map the alias String to it
+   *
+   * @param aliasMap the passed in aliasMap, expected to be empty first
+   * @param fromItem the first table in FROM clause
+   * @param joins the remaining table in FROM clause
    */
   private void buildAliasMap(Map<String, Table> aliasMap, Table fromItem, List<Join> joins) {
     // project the fromTable onto its Table
@@ -166,9 +166,9 @@ public class QueryPlanBuilder {
   }
 
   /**
-   *  For each of the Expressions in the map.keySet()
-   *  turn their alias Column into real Name .
-   *  e.g: Expression S.A < R.H   --> Expression Sailors.A < Reserves.H
+   * For each of the Expressions in the map.keySet() turn their alias Column into real Name . e.g:
+   * Expression S.A < R.H --> Expression Sailors.A < Reserves.H
+   *
    * @param map Map<String, List<Expression> the target Map
    * @param aliasMap aMap
    */
@@ -185,10 +185,9 @@ public class QueryPlanBuilder {
   }
 
   /**
-   * Parse the whole expression in the WHERE into List<Expression> that are
-   * delimited by AND
-   * Return the List
-   * p.s : cannot deal with nested AND
+   * Parse the whole expression in the WHERE into List<Expression> that are delimited by AND Return
+   * the List p.s : cannot deal with nested AND
+   *
    * @param expr long expression to be parsed
    * @return the list result
    */
@@ -200,7 +199,8 @@ public class QueryPlanBuilder {
 
   /**
    * Recursion helper for the method ConditionParser
-   * @param expr expression  maybe leaf root
+   *
+   * @param expr expression maybe leaf root
    * @param res result list to be added
    */
   private void parseHelper(Expression expr, List<Expression> res) {

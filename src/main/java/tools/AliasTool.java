@@ -7,8 +7,8 @@ import net.sf.jsqlparser.schema.Table;
 
 public class AliasTool {
   /**
-   * Given a Column
-   * Decide if it has Alias
+   * Given a Column Decide if it has Alias
+   *
    * @param column col
    * @param aliasMap aMap
    * @return bool
@@ -19,8 +19,8 @@ public class AliasTool {
   }
 
   /**
-   * Given a name
-   * Decide if a String is alias
+   * Given a name Decide if a String is alias
+   *
    * @param name name
    * @param aliasMap aMap
    * @return bool
@@ -30,8 +30,8 @@ public class AliasTool {
   }
 
   /**
-   * Given the column
-   * return its tableName
+   * Given the column return its tableName
+   *
    * @param column col
    * @param aliasMap aMap
    * @return str of tableName
@@ -47,8 +47,8 @@ public class AliasTool {
   }
 
   /**
-   * Given the Column
-   * set its Column's tableName by its tableName
+   * Given the Column set its Column's tableName by its tableName
+   *
    * @param column column
    * @param aliasMap aMap
    */
@@ -60,9 +60,8 @@ public class AliasTool {
   }
 
   /**
-   * Given the Expression
-   * Cast is as Column
-   * set its Column's tableName by its tableName
+   * Given the Expression Cast is as Column set its Column's tableName by its tableName
+   *
    * @param expr expression
    * @param aliasMap aMap
    */

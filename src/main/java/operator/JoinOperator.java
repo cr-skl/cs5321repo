@@ -14,6 +14,7 @@ public class JoinOperator extends Operator {
 
   /**
    * set the child, called on .visit()
+   *
    * @param leftChild lc
    */
   public void setLeftChild(Operator leftChild) {
@@ -22,6 +23,7 @@ public class JoinOperator extends Operator {
 
   /**
    * get left Child
+   *
    * @return c
    */
   public Operator getLeftChild() {
@@ -30,6 +32,7 @@ public class JoinOperator extends Operator {
 
   /**
    * get right Child
+   *
    * @return c
    */
   public Operator getRightChild() {
@@ -37,7 +40,8 @@ public class JoinOperator extends Operator {
   }
 
   /**
-   *  init
+   * init
+   *
    * @param rightChild rc
    * @param eval e
    */
@@ -65,7 +69,8 @@ public class JoinOperator extends Operator {
       leftNextTuple = leftChild.getNextTuple();
     }
     // get the next right (not null)
-    // if next right is null, update the left (if left is null then join ends) and reset rightTable, then get the next right
+    // if next right is null, update the left (if left is null then join ends) and reset rightTable,
+    // then get the next right
     rightNextTuple = rightChild.getNextTuple();
     if (rightNextTuple == null) {
       rightChild.reset();
@@ -86,7 +91,8 @@ public class JoinOperator extends Operator {
   }
 
   /**
-   * Return if the given tuple left and right  satisfy the eval expression
+   * Return if the given tuple left and right satisfy the eval expression
+   *
    * @param left tuple
    * @param right tuple
    * @return boolean res

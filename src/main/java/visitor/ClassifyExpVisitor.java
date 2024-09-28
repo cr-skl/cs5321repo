@@ -17,9 +17,9 @@ import net.sf.jsqlparser.schema.Table;
 import tools.AliasTool;
 
 /**
- *  Visitor for expression, determine if the given expression is a select-cond or a join-cond,
- *  and classify it to the corresponding list
- *  Map<String, List<Expression>>  the Key must be the table name, not alias
+ * Visitor for expression, determine if the given expression is a select-cond or a join-cond, and
+ * classify it to the corresponding list Map<String, List<Expression>> the Key must be the table
+ * name, not alias
  */
 public class ClassifyExpVisitor extends ExpressionVisitorAdapter {
   private Map<String, List<Expression>> selectCond;
@@ -36,7 +36,8 @@ public class ClassifyExpVisitor extends ExpressionVisitorAdapter {
   }
 
   /**
-   *  evaluate the expr to classify the expr to select-cond / join-cond
+   * evaluate the expr to classify the expr to select-cond / join-cond
+   *
    * @param expr e
    */
   @Override
@@ -45,7 +46,8 @@ public class ClassifyExpVisitor extends ExpressionVisitorAdapter {
   }
 
   /**
-   *  evaluate the expr to classify the expr to select-cond / join-cond
+   * evaluate the expr to classify the expr to select-cond / join-cond
+   *
    * @param expr e
    */
   @Override
@@ -54,7 +56,8 @@ public class ClassifyExpVisitor extends ExpressionVisitorAdapter {
   }
 
   /**
-   *  evaluate the expr to classify the expr to select-cond / join-cond
+   * evaluate the expr to classify the expr to select-cond / join-cond
+   *
    * @param expr e
    */
   @Override
@@ -63,7 +66,8 @@ public class ClassifyExpVisitor extends ExpressionVisitorAdapter {
   }
 
   /**
-   *  evaluate the expr to classify the expr to select-cond / join-cond
+   * evaluate the expr to classify the expr to select-cond / join-cond
+   *
    * @param expr e
    */
   @Override
@@ -72,7 +76,8 @@ public class ClassifyExpVisitor extends ExpressionVisitorAdapter {
   }
 
   /**
-   *  evaluate the expr to classify the expr to select-cond / join-cond
+   * evaluate the expr to classify the expr to select-cond / join-cond
+   *
    * @param expr e
    */
   @Override
@@ -81,7 +86,8 @@ public class ClassifyExpVisitor extends ExpressionVisitorAdapter {
   }
 
   /**
-   *  evaluate the expr to classify the expr to select-cond / join-cond
+   * evaluate the expr to classify the expr to select-cond / join-cond
+   *
    * @param expr e
    */
   @Override
@@ -90,15 +96,10 @@ public class ClassifyExpVisitor extends ExpressionVisitorAdapter {
   }
 
   /**
-   *  Given a expression,
-   *  eval its both side:
-   *                    one of them not Column, but LongVal, then must be select-cond
-   *                    both are column:
-   *                                      case1:  both are alias
-   *                                                select / join
-   *                                      case2:  both are table
-   *                                                select / join
-   *  classify it to corresponding map
+   * Given a expression, eval its both side: one of them not Column, but LongVal, then must be
+   * select-cond both are column: case1: both are alias select / join case2: both are table select /
+   * join classify it to corresponding map
+   *
    * @param expr expr
    */
   private void helper(Expression expr) {
@@ -123,6 +124,7 @@ public class ClassifyExpVisitor extends ExpressionVisitorAdapter {
 
   /**
    * process case where at least one side is not column
+   *
    * @param column c
    * @param expr e
    */
@@ -146,6 +148,7 @@ public class ClassifyExpVisitor extends ExpressionVisitorAdapter {
 
   /**
    * process case where expr ' both sizes are Columns
+   *
    * @param leftCol lcol
    * @param rightCol rcol
    * @param expr e

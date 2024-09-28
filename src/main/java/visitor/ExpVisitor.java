@@ -16,11 +16,11 @@ import net.sf.jsqlparser.expression.operators.relational.MinorThan;
 import net.sf.jsqlparser.expression.operators.relational.MinorThanEquals;
 import net.sf.jsqlparser.expression.operators.relational.NotEqualsTo;
 import net.sf.jsqlparser.schema.Column;
+
 @Deprecated
 /**
- * originally designed to deal with WHERE clause for a single table
- * now considering the JOIN operation relating with several tables
- * it is of no use now
+ * originally designed to deal with WHERE clause for a single table now considering the JOIN
+ * operation relating with several tables it is of no use now
  */
 public class ExpVisitor extends ExpressionVisitorAdapter {
   private Tuple tuple;

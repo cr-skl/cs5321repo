@@ -14,9 +14,8 @@ import net.sf.jsqlparser.expression.operators.relational.NotEqualsTo;
 import net.sf.jsqlparser.schema.Column;
 
 /**
- *  Upon initialization, map the schema with the tuple val for both left and right
- *  evaluate the expression with the val of the map
- *  p.s : names are tableName+","+colName
+ * Upon initialization, map the schema with the tuple val for both left and right evaluate the
+ * expression with the val of the map p.s : names are tableName+","+colName
  */
 public class ConditionVisitor extends ExpressionVisitorAdapter {
   private Map<String, Integer> leftMap;
@@ -46,6 +45,7 @@ public class ConditionVisitor extends ExpressionVisitorAdapter {
 
   /**
    * get the final result
+   *
    * @return r
    */
   public Boolean getResult() {
@@ -54,6 +54,7 @@ public class ConditionVisitor extends ExpressionVisitorAdapter {
 
   /**
    * eval the expr
+   *
    * @param expr e
    */
   @Override
@@ -62,13 +63,13 @@ public class ConditionVisitor extends ExpressionVisitorAdapter {
     Column rightCol = (Column) expr.getRightExpression();
     String leftKey = leftCol.getTable().getName() + "," + leftCol.getColumnName();
     String rightKey = rightCol.getTable().getName() + "," + rightCol.getColumnName();
-    if (leftMap.containsKey(leftKey))
-      result = leftMap.get(leftKey) == rightMap.get(rightKey);
+    if (leftMap.containsKey(leftKey)) result = leftMap.get(leftKey) == rightMap.get(rightKey);
     else result = rightMap.get(leftKey) == leftMap.get(rightKey);
   }
 
   /**
    * eval the expr
+   *
    * @param expr e
    */
   @Override
@@ -77,13 +78,13 @@ public class ConditionVisitor extends ExpressionVisitorAdapter {
     Column rightCol = (Column) expr.getRightExpression();
     String leftKey = leftCol.getTable().getName() + "," + leftCol.getColumnName();
     String rightKey = rightCol.getTable().getName() + "," + rightCol.getColumnName();
-    if (leftMap.containsKey(leftKey))
-      result = leftMap.get(leftKey) != rightMap.get(rightKey);
+    if (leftMap.containsKey(leftKey)) result = leftMap.get(leftKey) != rightMap.get(rightKey);
     else result = rightMap.get(leftKey) != leftMap.get(rightKey);
   }
 
   /**
    * eval the expr
+   *
    * @param expr e
    */
   @Override
@@ -92,13 +93,13 @@ public class ConditionVisitor extends ExpressionVisitorAdapter {
     Column rightCol = (Column) expr.getRightExpression();
     String leftKey = leftCol.getTable().getName() + "," + leftCol.getColumnName();
     String rightKey = rightCol.getTable().getName() + "," + rightCol.getColumnName();
-    if (leftMap.containsKey(leftKey))
-      result = leftMap.get(leftKey) > rightMap.get(rightKey);
+    if (leftMap.containsKey(leftKey)) result = leftMap.get(leftKey) > rightMap.get(rightKey);
     else result = rightMap.get(leftKey) > leftMap.get(rightKey);
   }
 
   /**
    * eval the expr
+   *
    * @param expr e
    */
   @Override
@@ -107,13 +108,13 @@ public class ConditionVisitor extends ExpressionVisitorAdapter {
     Column rightCol = (Column) expr.getRightExpression();
     String leftKey = leftCol.getTable().getName() + "," + leftCol.getColumnName();
     String rightKey = rightCol.getTable().getName() + "," + rightCol.getColumnName();
-    if (leftMap.containsKey(leftKey))
-      result = leftMap.get(leftKey) >= rightMap.get(rightKey);
+    if (leftMap.containsKey(leftKey)) result = leftMap.get(leftKey) >= rightMap.get(rightKey);
     else result = rightMap.get(leftKey) >= leftMap.get(rightKey);
   }
 
   /**
    * eval the expr
+   *
    * @param expr e
    */
   @Override
@@ -122,13 +123,13 @@ public class ConditionVisitor extends ExpressionVisitorAdapter {
     Column rightCol = (Column) expr.getRightExpression();
     String leftKey = leftCol.getTable().getName() + "," + leftCol.getColumnName();
     String rightKey = rightCol.getTable().getName() + "," + rightCol.getColumnName();
-    if (leftMap.containsKey(leftKey))
-      result = leftMap.get(leftKey) < rightMap.get(rightKey);
+    if (leftMap.containsKey(leftKey)) result = leftMap.get(leftKey) < rightMap.get(rightKey);
     else result = rightMap.get(leftKey) < leftMap.get(rightKey);
   }
 
   /**
    * eval the expr
+   *
    * @param expr e
    */
   @Override
@@ -137,8 +138,7 @@ public class ConditionVisitor extends ExpressionVisitorAdapter {
     Column rightCol = (Column) expr.getRightExpression();
     String leftKey = leftCol.getTable().getName() + "," + leftCol.getColumnName();
     String rightKey = rightCol.getTable().getName() + "," + rightCol.getColumnName();
-    if (leftMap.containsKey(leftKey))
-      result = leftMap.get(leftKey) <= rightMap.get(rightKey);
+    if (leftMap.containsKey(leftKey)) result = leftMap.get(leftKey) <= rightMap.get(rightKey);
     else result = rightMap.get(leftKey) <= leftMap.get(rightKey);
   }
 }

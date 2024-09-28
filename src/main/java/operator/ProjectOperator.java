@@ -31,7 +31,7 @@ public class ProjectOperator extends Operator {
         SelectExpressionItem expressionItem = (SelectExpressionItem) e;
         Column aliasCol = (Column) expressionItem.getExpression();
         // if the Column is alias, set it to tableName
-          if (AliasTool.isAlias(aliasCol, aliasMap)) {
+        if (AliasTool.isAlias(aliasCol, aliasMap)) {
           Table table = aliasCol.getTable();
           table.setName(AliasTool.getOriginalName(aliasCol, aliasMap));
         }
@@ -42,6 +42,7 @@ public class ProjectOperator extends Operator {
 
   /**
    * set its child, called on .visit()
+   *
    * @param child c
    */
   public void setChild(Operator child) {

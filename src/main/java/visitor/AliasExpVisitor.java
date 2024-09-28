@@ -16,13 +16,13 @@ import tools.AliasTool;
 public class AliasExpVisitor extends ExpressionVisitorAdapter {
   private Map<String, Table> aliasMap;
 
-
   public AliasExpVisitor(Map<String, Table> aliasMap) {
     this.aliasMap = aliasMap;
   }
 
   /**
-   * Change the Column from  S.A  into  Sailor.A,  change the attribute of Column of the expression
+   * Change the Column from S.A into Sailor.A, change the attribute of Column of the expression
+   *
    * @param expr e
    */
   private void helper(Expression expr) {
@@ -34,6 +34,7 @@ public class AliasExpVisitor extends ExpressionVisitorAdapter {
 
   /**
    * change both sides of expr (if Column has alias) into Column with tableName
+   *
    * @param expr e
    */
   @Override
@@ -43,6 +44,7 @@ public class AliasExpVisitor extends ExpressionVisitorAdapter {
 
   /**
    * change both sides of expr (if Column has alias) into Column with tableName
+   *
    * @param expr e
    */
   @Override
@@ -52,6 +54,7 @@ public class AliasExpVisitor extends ExpressionVisitorAdapter {
 
   /**
    * change both sides of expr (if Column has alias) into Column with tableName
+   *
    * @param expr e
    */
   @Override
@@ -61,6 +64,7 @@ public class AliasExpVisitor extends ExpressionVisitorAdapter {
 
   /**
    * change both sides of expr (if Column has alias) into Column with tableName
+   *
    * @param expr e
    */
   @Override
@@ -70,6 +74,7 @@ public class AliasExpVisitor extends ExpressionVisitorAdapter {
 
   /**
    * change both sides of expr (if Column has alias) into Column with tableName
+   *
    * @param expr e
    */
   @Override
@@ -79,6 +84,7 @@ public class AliasExpVisitor extends ExpressionVisitorAdapter {
 
   /**
    * change both sides of expr (if Column has alias) into Column with tableName
+   *
    * @param expr e
    */
   @Override

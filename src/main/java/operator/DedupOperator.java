@@ -12,15 +12,14 @@ public class DedupOperator extends Operator {
 
   /**
    * set the child, called on .visit()
+   *
    * @param child c
    */
   public void setChild(Operator child) {
     this.child = child;
   }
 
-  /**
-   * Reset its pointer to null, and the child pointer
-   */
+  /** Reset its pointer to null, and the child pointer */
   @Override
   public void reset() {
     child.reset();
@@ -45,5 +44,4 @@ public class DedupOperator extends Operator {
     }
     return null;
   }
-
 }

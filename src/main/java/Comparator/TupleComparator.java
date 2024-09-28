@@ -19,16 +19,13 @@ public class TupleComparator implements Comparator<Tuple> {
   private ArrayList<Column> schema;
 
   /**
-   *  Given the Priors of orderByElements, specialize its comparator for the Tuple
-   *  For each column in schema, decide it is in orderByElements or not
-   *  generate the
-   *        orderColumns,
-   *        orderAscMap,
-   *        remainingColumns
-   *  which will be of great use in compare() method
-
+   * Given the Priors of orderByElements, specialize its comparator for the Tuple For each column in
+   * schema, decide it is in orderByElements or not generate the orderColumns, orderAscMap,
+   * remainingColumns which will be of great use in compare() method
+   *
    * @param orderByElements elements that are metrics for sorting
-   * @param schema schema is the output schema of all these tuples, which helps mapping Column into Tuple[i]
+   * @param schema schema is the output schema of all these tuples, which helps mapping Column into
+   *     Tuple[i]
    * @param aliasMap aliasMap for dealing alias
    */
   public TupleComparator(
@@ -67,9 +64,9 @@ public class TupleComparator implements Comparator<Tuple> {
   }
 
   /**
-   * compare method for comapring tuples
-   * compare with orderColumns first
-   * then compare with remainingColumns
+   * compare method for comapring tuples compare with orderColumns first then compare with
+   * remainingColumns
+   *
    * @param t1 the first object to be compared.
    * @param t2 the second object to be compared.
    * @return the comparing integer result
@@ -101,6 +98,7 @@ public class TupleComparator implements Comparator<Tuple> {
 
   /**
    * Decide if two Column are the same using both tableName and colName
+   *
    * @param c1 column
    * @param c2 column
    * @return boolean res

@@ -120,7 +120,7 @@ import org.apache.logging.log4j.*;
  * Top level harness class; reads queries from an input file one at a time, processes them and sends
  * output to file or to System depending on flag.
  */
-public class Compiler {
+public class gitCompiler {
   private static final Logger logger = LogManager.getLogger();
 
   private static String outputDir;

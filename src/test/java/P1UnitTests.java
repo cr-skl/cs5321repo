@@ -222,10 +222,10 @@ public class P1UnitTests {
 
     Tuple[] expectedTuples =
         new Tuple[] {
-          new Tuple(new ArrayList<>(Arrays.asList(1))),
-          new Tuple(new ArrayList<>(Arrays.asList(2))),
-          new Tuple(new ArrayList<>(Arrays.asList(3))),
-          new Tuple(new ArrayList<>(Arrays.asList(4)))
+          new Tuple(new ArrayList<>(List.of(1))),
+          new Tuple(new ArrayList<>(List.of(2))),
+          new Tuple(new ArrayList<>(List.of(3))),
+          new Tuple(new ArrayList<>(List.of(4)))
         };
 
     for (int i = 0; i < expectedSize; i++) {

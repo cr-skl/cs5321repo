@@ -1,3 +1,4 @@
+//  // compiler for test
 // package compiler;
 //
 // import common.DBCatalog;
@@ -16,11 +17,13 @@
 // import org.apache.logging.log4j.LogManager;
 // import org.apache.logging.log4j.Logger;
 //
-/// **
-// * Top level harness class; reads queries from an input file one at a time, processes them and
-// sends
-// * output to file or to System depending on flag.
-// */
+////
+///// **
+//// * Top level harness class; reads queries from an input file one at a time, processes them and
+//// sends
+//// * output to file or to System depending on flag.
+//// */
+//
 // public class Compiler {
 //
 //  private static final Logger logger = LogManager.getLogger();
@@ -50,15 +53,14 @@
 //    try {
 //      //      Statements statements =
 //      //
-// CCJSqlParserUtil.parseStatements(Files.readString(Paths.get(InputURI).resolve("queries.sql")));
+//      CCJSqlParserUtil.parseStatements(
+//          Files.readString(Paths.get(InputURI).resolve("testqueries.sql")));
 //      Statements statements =
 //          CCJSqlParserUtil.parseStatements(
 //              Files.readString(Paths.get(InputURI).resolve("testqueries.sql")));
 //      QueryPlanBuilder queryPlanBuilder = new QueryPlanBuilder();
 //
 //      if (outputToFiles) {
-//        //        for (File file : (new File(outputDir).listFiles())) file.delete(); // clean
-// output
 //        // directory
 //        File[] files = new File(OutputURI).listFiles();
 //        if (files != null) {
@@ -101,7 +103,7 @@
 //  }
 // }
 /****************************************************************************************/
-
+// compiler for jar
 package compiler;
 
 import common.DBCatalog;
@@ -120,7 +122,7 @@ import org.apache.logging.log4j.*;
  * Top level harness class; reads queries from an input file one at a time, processes them and sends
  * output to file or to System depending on flag.
  */
-public class gitCompiler {
+public class Compiler {
   private static final Logger logger = LogManager.getLogger();
 
   private static String outputDir;
@@ -143,11 +145,13 @@ public class gitCompiler {
     DBCatalog.getInstance().setDataDirectory(inputDir + "/db");
     try {
       String str = Files.readString(Paths.get(inputDir + "/queries.sql"));
+      //      String str = Files.readString(Paths.get(inputDir + "/testqueries.sql"));
+
       Statements statements = CCJSqlParserUtil.parseStatements(str);
       QueryPlanBuilder queryPlanBuilder = new QueryPlanBuilder();
 
       if (outputToFiles) {
-        for (File file : (new File(outputDir).listFiles())) file.delete(); // clean output directory
+        for (File file : (new File(outputDir).listFiles())) file.delete();
       }
 
       int counter = 1; // for numbering output files

@@ -1,31 +1,131 @@
+// package compiler;
+//
+// import common.DBCatalog;
+// import common.QueryPlanBuilder;
+// import java.io.File;
+// import java.io.PrintStream;
+// import java.net.URI;
+// import java.net.URISyntaxException;
+// import java.nio.file.Files;
+// import java.nio.file.Paths;
+// import java.util.Objects;
+// import net.sf.jsqlparser.parser.CCJSqlParserUtil;
+// import net.sf.jsqlparser.statement.Statement;
+// import net.sf.jsqlparser.statement.Statements;
+// import operator.Operator;
+// import org.apache.logging.log4j.LogManager;
+// import org.apache.logging.log4j.Logger;
+//
+/// **
+// * Top level harness class; reads queries from an input file one at a time, processes them and
+// sends
+// * output to file or to System depending on flag.
+// */
+// public class Compiler {
+//
+//  private static final Logger logger = LogManager.getLogger();
+//  private static final boolean outputToFiles = true; // true = output to
+//  private static String outputDir;
+//  private static String inputDir;
+//
+//  // files, false = output
+//  // to System.out
+//
+//  /**
+//   * Reads statements from queriesFile one at a time, builds query plan and evaluates, dumping
+//   * results to files or console as desired.
+//   *
+//   * <p>If dumping to files result of ith query is in file named queryi, indexed stating at 1.
+//   */
+//  public static void main(String[] args) throws URISyntaxException {
+//
+//    inputDir = args[0];
+//    outputDir = args[1];
+//    ClassLoader classLoader = Compiler.class.getClassLoader();
+//    URI InputURI = Objects.requireNonNull(classLoader.getResource(inputDir)).toURI();
+//    URI OutputURI = Objects.requireNonNull(classLoader.getResource(outputDir)).toURI();
+//    DBCatalog.getInstance().setDataDirectory(Paths.get(InputURI).resolve("db").toString());
+//    logger.info("schema Directory:" + inputDir + "/db");
+//    logger.info("sql Directory:" + inputDir + "/testqueries.sql");
+//    try {
+//      //      Statements statements =
+//      //
+// CCJSqlParserUtil.parseStatements(Files.readString(Paths.get(InputURI).resolve("queries.sql")));
+//      Statements statements =
+//          CCJSqlParserUtil.parseStatements(
+//              Files.readString(Paths.get(InputURI).resolve("testqueries.sql")));
+//      QueryPlanBuilder queryPlanBuilder = new QueryPlanBuilder();
+//
+//      if (outputToFiles) {
+//        //        for (File file : (new File(outputDir).listFiles())) file.delete(); // clean
+// output
+//        // directory
+//        File[] files = new File(OutputURI).listFiles();
+//        if (files != null) {
+//          for (File file : files) {
+//            if (file != null && file.isFile()) {
+//              file.delete();
+//            }
+//          }
+//        } else {
+//          logger.warn("Output directory is empty or cannot be read: " + outputDir);
+//        }
+//      }
+//
+//      int counter = 1; // for numbering output files
+//      for (Statement statement : statements.getStatements()) {
+//
+//        logger.info("Processing query: " + statement);
+//        PrintStream out = null;
+//        try {
+//          Operator plan = queryPlanBuilder.buildPlan(statement);
+//
+//          if (outputToFiles) {
+//            File outfile = new File(Paths.get(OutputURI).resolve("query" + counter).toString());
+//            out = new PrintStream(outfile);
+//            plan.dump(out);
+//            out.close();
+//          } else {
+//            plan.dump(System.out);
+//          }
+//        } catch (Exception e) {
+//          logger.error(e.getMessage());
+//        }
+//
+//        ++counter;
+//      }
+//    } catch (Exception e) {
+//      System.err.println("Exception occurred in interpreter");
+//      logger.error(e.getMessage());
+//    }
+//  }
+// }
+/****************************************************************************************/
+
 package compiler;
 
 import common.DBCatalog;
 import common.QueryPlanBuilder;
 import java.io.File;
 import java.io.PrintStream;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Objects;
 import net.sf.jsqlparser.parser.CCJSqlParserUtil;
 import net.sf.jsqlparser.statement.Statement;
 import net.sf.jsqlparser.statement.Statements;
 import operator.Operator;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.*;
 
 /**
  * Top level harness class; reads queries from an input file one at a time, processes them and sends
  * output to file or to System depending on flag.
  */
 public class Compiler {
-
   private static final Logger logger = LogManager.getLogger();
-  private static final boolean outputToFiles = true; // true = output to
+
   private static String outputDir;
   private static String inputDir;
+  private static final boolean outputToFiles = true; // true = output to
 
   // files, false = output
   // to System.out
@@ -36,52 +136,31 @@ public class Compiler {
    *
    * <p>If dumping to files result of ith query is in file named queryi, indexed stating at 1.
    */
-  public static void main(String[] args) throws URISyntaxException {
+  public static void main(String[] args) {
 
     inputDir = args[0];
     outputDir = args[1];
-    ClassLoader classLoader = Compiler.class.getClassLoader();
-    URI InputURI = Objects.requireNonNull(classLoader.getResource(inputDir)).toURI();
-    URI OutputURI = Objects.requireNonNull(classLoader.getResource(outputDir)).toURI();
-    DBCatalog.getInstance().setDataDirectory(Paths.get(InputURI).resolve("db").toString());
-    logger.info("schema Directory:" + inputDir + "/db");
-    logger.info("sql Directory:" + inputDir + "/testqueries.sql");
+    DBCatalog.getInstance().setDataDirectory(inputDir + "/db");
     try {
-      //      Statements statements =
-      // CCJSqlParserUtil.parseStatements(Files.readString(Paths.get(InputURI).resolve("queries.sql")));
-      Statements statements =
-          CCJSqlParserUtil.parseStatements(
-              Files.readString(Paths.get(InputURI).resolve("testqueries.sql")));
+      String str = Files.readString(Paths.get(inputDir + "/queries.sql"));
+      Statements statements = CCJSqlParserUtil.parseStatements(str);
       QueryPlanBuilder queryPlanBuilder = new QueryPlanBuilder();
 
       if (outputToFiles) {
-        //        for (File file : (new File(outputDir).listFiles())) file.delete(); // clean output
-        // directory
-        File[] files = new File(OutputURI).listFiles();
-        if (files != null) {
-          for (File file : files) {
-            if (file != null && file.isFile()) {
-              file.delete();
-            }
-          }
-        } else {
-          logger.warn("Output directory is empty or cannot be read: " + outputDir);
-        }
+        for (File file : (new File(outputDir).listFiles())) file.delete(); // clean output directory
       }
 
       int counter = 1; // for numbering output files
       for (Statement statement : statements.getStatements()) {
 
         logger.info("Processing query: " + statement);
-        PrintStream out = null;
+
         try {
           Operator plan = queryPlanBuilder.buildPlan(statement);
 
           if (outputToFiles) {
-            File outfile = new File(Paths.get(OutputURI).resolve("query" + counter).toString());
-            out = new PrintStream(outfile);
-            plan.dump(out);
-            out.close();
+            File outfile = new File(outputDir + "/query" + counter);
+            plan.dump(new PrintStream(outfile));
           } else {
             plan.dump(System.out);
           }

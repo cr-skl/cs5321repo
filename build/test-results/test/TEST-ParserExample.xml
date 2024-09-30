@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="ParserExample" tests="1" skipped="0" failures="0" errors="0" timestamp="2024-09-30T18:21:35" hostname="BATMAN-123" time="0.033">
+  <properties/>
+  <testcase name="parserExampleTest()" classname="ParserExample" time="0.033"/>
+  <system-out><![CDATA[14:21:35.289 [Test worker] INFO  ParserExample - Read statement: SELECT * FROM Sailors
+14:21:35.292 [Test worker] INFO  ParserExample - Select body is SELECT * FROM Sailors
+14:21:35.293 [Test worker] INFO  ParserExample -     Select item is *
+14:21:35.293 [Test worker] INFO  ParserExample - From item is Sailors
+14:21:35.293 [Test worker] INFO  ParserExample - Where is null
+14:21:35.293 [Test worker] INFO  ParserExample - Name: Sailors
+14:21:35.293 [Test worker] INFO  ParserExample - Alias: null
+14:21:35.293 [Test worker] INFO  ParserExample - Read statement: SELECT Sailors.A FROM Sailors
+14:21:35.293 [Test worker] INFO  ParserExample - Select body is SELECT Sailors.A FROM Sailors
+14:21:35.293 [Test worker] INFO  ParserExample -     Select item is Sailors.A
+14:21:35.294 [Test worker] INFO  ParserExample - From item is Sailors
+14:21:35.294 [Test worker] INFO  ParserExample - Where is null
+14:21:35.294 [Test worker] INFO  ParserExample - Name: Sailors
+14:21:35.294 [Test worker] INFO  ParserExample - Alias: null
+14:21:35.294 [Test worker] INFO  ParserExample - Read statement: SELECT S.A FROM Sailors S
+14:21:35.294 [Test worker] INFO  ParserExample - Select body is SELECT S.A FROM Sailors S
+14:21:35.294 [Test worker] INFO  ParserExample -     Select item is S.A
+14:21:35.295 [Test worker] INFO  ParserExample - From item is Sailors S
+14:21:35.295 [Test worker] INFO  ParserExample - Where is null
+14:21:35.295 [Test worker] INFO  ParserExample - Name: Sailors
+14:21:35.295 [Test worker] INFO  ParserExample - Alias:  S
+14:21:35.295 [Test worker] INFO  ParserExample - Read statement: SELECT * FROM Sailors S WHERE S.A < 3
+14:21:35.296 [Test worker] INFO  ParserExample - Select body is SELECT * FROM Sailors S WHERE S.A < 3
+14:21:35.296 [Test worker] INFO  ParserExample -     Select item is *
+14:21:35.296 [Test worker] INFO  ParserExample - From item is Sailors S
+14:21:35.296 [Test worker] INFO  ParserExample - Where is S.A < 3
+14:21:35.296 [Test worker] INFO  ParserExample - Name: Sailors
+14:21:35.296 [Test worker] INFO  ParserExample - Alias:  S
+14:21:35.296 [Test worker] INFO  ParserExample - Read statement: SELECT * FROM Sailors, Reserves WHERE Sailors.A = Reserves.G
+14:21:35.297 [Test worker] INFO  ParserExample - Select body is SELECT * FROM Sailors, Reserves WHERE Sailors.A = Reserves.G
+14:21:35.297 [Test worker] INFO  ParserExample -     Select item is *
+14:21:35.297 [Test worker] INFO  ParserExample - From item is Sailors
+14:21:35.297 [Test worker] INFO  ParserExample - Where is Sailors.A = Reserves.G
+14:21:35.297 [Test worker] INFO  ParserExample - Name: Sailors
+14:21:35.297 [Test worker] INFO  ParserExample - Alias: null
+14:21:35.298 [Test worker] INFO  ParserExample - Read statement: SELECT * FROM Sailors S1, Sailors S2 WHERE S1.A < S2.A
+14:21:35.298 [Test worker] INFO  ParserExample - Select body is SELECT * FROM Sailors S1, Sailors S2 WHERE S1.A < S2.A
+14:21:35.298 [Test worker] INFO  ParserExample -     Select item is *
+14:21:35.298 [Test worker] INFO  ParserExample - From item is Sailors S1
+14:21:35.298 [Test worker] INFO  ParserExample - Where is S1.A < S2.A
+14:21:35.298 [Test worker] INFO  ParserExample - Name: Sailors
+14:21:35.298 [Test worker] INFO  ParserExample - Alias:  S1
+14:21:35.298 [Test worker] INFO  ParserExample - Read statement: SELECT DISTINCT R.G FROM Reserves R
+14:21:35.299 [Test worker] INFO  ParserExample - Select body is SELECT DISTINCT R.G FROM Reserves R
+14:21:35.299 [Test worker] INFO  ParserExample -     Select item is R.G
+14:21:35.299 [Test worker] INFO  ParserExample - From item is Reserves R
+14:21:35.299 [Test worker] INFO  ParserExample - Where is null
+14:21:35.299 [Test worker] INFO  ParserExample - Name: Reserves
+14:21:35.299 [Test worker] INFO  ParserExample - Alias:  R
+14:21:35.299 [Test worker] INFO  ParserExample - Read statement: SELECT * FROM Sailors ORDER BY Sailors.B
+14:21:35.299 [Test worker] INFO  ParserExample - Select body is SELECT * FROM Sailors ORDER BY Sailors.B
+14:21:35.300 [Test worker] INFO  ParserExample -     Select item is *
+14:21:35.300 [Test worker] INFO  ParserExample - From item is Sailors
+14:21:35.300 [Test worker] INFO  ParserExample - Where is null
+14:21:35.300 [Test worker] INFO  ParserExample -     OrderBy item is Sailors.B
+14:21:35.300 [Test worker] INFO  ParserExample - Name: Sailors
+14:21:35.300 [Test worker] INFO  ParserExample - Alias: null
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

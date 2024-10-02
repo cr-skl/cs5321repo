@@ -72,7 +72,6 @@ public class QueryPlanBuilder {
       // turn alias into table_name
       processAlias(selectCond, aliasMap);
       processAlias(joinCond, aliasMap);
-      processJoinCond(joinCond);
     }
 
     // Building the operator tree

@@ -29,20 +29,6 @@ public class ConditionVisitor extends ExpressionVisitorAdapter {
       ArrayList<Column> rightSchema,
       Tuple leftTuple,
       Tuple rightTuple) {
-    //    ArrayList<Integer> leftElems = leftTuple.getAllElements();
-    //    ArrayList<Integer> rightElems = rightTuple.getAllElements();
-    //    leftMap = new HashMap<>();
-    //    for (int i = 0; i < leftElems.size(); i++) {
-    //      String tName = leftSchema.get(i).getTable().getName();
-    //      String cName = leftSchema.get(i).getColumnName();
-    //      leftMap.put(tName + "," + cName, leftElems.get(i));
-    //    }
-    //    rightMap = new HashMap<>();
-    //    for (int i = 0; i < rightElems.size(); i++) {
-    //      String tName = rightSchema.get(i).getTable().getName();
-    //      String cName = rightSchema.get(i).getColumnName();
-    //      rightMap.put(tName + "," + cName, rightElems.get(i));
-    //    }
     leftMap = new HashMap<>();
     rightMap = new HashMap<>();
     mapSchemaToTuple(leftSchema, leftTuple, leftMap);
@@ -67,19 +53,16 @@ public class ConditionVisitor extends ExpressionVisitorAdapter {
   }
 
   public void visit(AndExpression expr) {
-    // 初始化结果为 true
+
     boolean leftResult = false;
     boolean rightResult = false;
 
-    // 递归访问左边的表达式
     expr.getLeftExpression().accept(this);
     leftResult = this.result; // 保存左边的结果
 
-    // 递归访问右边的表达式
     expr.getRightExpression().accept(this);
     rightResult = this.result; // 保存右边的结果
 
-    // 最终结果是两个结果的逻辑与
     this.result = leftResult && rightResult;
   }
 

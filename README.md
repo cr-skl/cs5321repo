@@ -128,3 +128,11 @@ To check if your code style complies, type the following:
 In case the previous step fails, you can auto-format your code as follows:
 
 `$ ./gradlew goJF`
+
+
+### test/submit
+Difference lies on compiler.Copiler
+if you want run the test in the /test,  use the upper one
+else you want to wrap it as a jar, and run as **java -jar xx.jar \input \output**, then use the downer one.
+
+make sure one of them is commented while the other is working

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="compilerTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2024-09-30T18:21:35" hostname="BATMAN-123" time="0.01">
+<testsuite name="compilerTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2024-10-02T14:24:16" hostname="BATMAN-123" time="0.827">
   <properties/>
-  <testcase name="testCompilerMain()" classname="compilerTest" time="0.01"/>
-  <system-out><![CDATA[14:21:35.309 [Test worker] ERROR common.DBCatalog - samples\input\db\schema.txt (系统找不到指定的路径。)
-14:21:35.312 [Test worker] ERROR compiler.Compiler - samples\input\queries.sql
+  <testcase name="testCompilerMain()" classname="compilerTest" time="0.827"/>
+  <system-out><![CDATA[10:24:17.273 [Test worker] ERROR common.DBCatalog - samples\input\db\schema.txt (系统找不到指定的路径。)
+10:24:17.283 [Test worker] ERROR compiler.Compiler - samples\input\queries.sql
 ]]></system-out>
   <system-err><![CDATA[Exception occurred in interpreter
 ]]></system-err>

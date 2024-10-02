@@ -105,23 +105,51 @@ public class QueryPlanBuilder {
         }
 
         // use left-table (the already composite one)  to join (if conditioned) right-table
+        // imp2
+        // Combine join conditions
+        Expression combinedCondition = null;
         for (String leftName : joined_tables) {
           String combi1 = leftName + "," + rightName;
           String combi2 = rightName + "," + leftName;
-          if (joinCond.containsKey(combi1)) {
-            for (Expression e : joinCond.get(combi1)) {
-              treeBuilder.visit(new JoinOperator(subTreeBuilder.getRoot(), e));
+          if (joinCond.containsKey(combi1) || joinCond.containsKey(combi2)) {
+            List<Expression> conditions = joinCond.getOrDefault(combi1, joinCond.get(combi2));
+            for (Expression e : conditions) {
+              if (combinedCondition == null) {
+                combinedCondition = e;
+              } else {
+                combinedCondition = new AndExpression(combinedCondition, e);
+              }
             }
-          } else if (joinCond.containsKey(combi2)) {
-            for (Expression e : joinCond.get(combi2)) {
-              treeBuilder.visit(new JoinOperator(subTreeBuilder.getRoot(), e));
-            }
-          } else {
-            treeBuilder.visit(new JoinOperator(subTreeBuilder.getRoot(), null));
           }
+        }
+
+        // Create a single join operator with the combined condition
+        if (combinedCondition != null) {
+          treeBuilder.visit(new JoinOperator(subTreeBuilder.getRoot(), combinedCondition));
+        } else {
+          // If no specific condition, just join without conditions
+          treeBuilder.visit(new JoinOperator(subTreeBuilder.getRoot(), null));
         }
         joined_tables.add(rightName);
       }
+      // imp1
+      //        for (String leftName : joined_tables) {
+      //          String combi1 = leftName + "," + rightName;
+      //          String combi2 = rightName + "," + leftName;
+      //          if (joinCond.containsKey(combi1)) {
+      //            for (Expression e : joinCond.get(combi1)) {
+      //              treeBuilder.visit(new JoinOperator(subTreeBuilder.getRoot(), e));
+      //            }
+      //          } else if (joinCond.containsKey(combi2)) {
+      //            for (Expression e : joinCond.get(combi2)) {
+      //              treeBuilder.visit(new JoinOperator(subTreeBuilder.getRoot(), e));
+      //            }
+      //          } else {
+      //            treeBuilder.visit(new JoinOperator(subTreeBuilder.getRoot(), null));
+      //          }
+      //        }
+      //        joined_tables.add(rightName);
+      //      }
     }
     // SELECT .... projection
     if (selectItems.size() > 0) {

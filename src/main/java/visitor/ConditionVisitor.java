@@ -58,10 +58,10 @@ public class ConditionVisitor extends ExpressionVisitorAdapter {
     boolean rightResult = false;
 
     expr.getLeftExpression().accept(this);
-    leftResult = this.result; // 保存左边的结果
+    leftResult = this.result;
 
     expr.getRightExpression().accept(this);
-    rightResult = this.result; // 保存右边的结果
+    rightResult = this.result;
 
     this.result = leftResult && rightResult;
   }
@@ -89,12 +89,6 @@ public class ConditionVisitor extends ExpressionVisitorAdapter {
     } else if (rightMap.containsKey(leftKey) && leftMap.containsKey(rightKey)) {
       result = rightMap.get(leftKey) == leftMap.get(rightKey);
     }
-    //    Column leftCol = (Column) expr.getLeftExpression();
-    //    Column rightCol = (Column) expr.getRightExpression();
-    //    String leftKey = leftCol.getTable().getName() + "," + leftCol.getColumnName();
-    //    String rightKey = rightCol.getTable().getName() + "," + rightCol.getColumnName();
-    //    if (leftMap.containsKey(leftKey)) result = leftMap.get(leftKey) == rightMap.get(rightKey);
-    //    else result = rightMap.get(leftKey) == leftMap.get(rightKey);
   }
 
   /**
@@ -106,10 +100,6 @@ public class ConditionVisitor extends ExpressionVisitorAdapter {
   public void visit(NotEqualsTo expr) {
     String leftKey = getKey(expr.getLeftExpression());
     String rightKey = getKey(expr.getRightExpression());
-    //    Column leftCol = (Column) expr.getLeftExpression();
-    //    Column rightCol = (Column) expr.getRightExpression();
-    //    String leftKey = leftCol.getTable().getName() + "," + leftCol.getColumnName();
-    //    String rightKey = rightCol.getTable().getName() + "," + rightCol.getColumnName();
     if (leftMap.containsKey(leftKey)) result = leftMap.get(leftKey) != rightMap.get(rightKey);
     else result = rightMap.get(leftKey) != leftMap.get(rightKey);
   }
@@ -123,10 +113,6 @@ public class ConditionVisitor extends ExpressionVisitorAdapter {
   public void visit(GreaterThan expr) {
     String leftKey = getKey(expr.getLeftExpression());
     String rightKey = getKey(expr.getRightExpression());
-    //    Column leftCol = (Column) expr.getLeftExpression();
-    //    Column rightCol = (Column) expr.getRightExpression();
-    //    String leftKey = leftCol.getTable().getName() + "," + leftCol.getColumnName();
-    //    String rightKey = rightCol.getTable().getName() + "," + rightCol.getColumnName();
     if (leftMap.containsKey(leftKey)) result = leftMap.get(leftKey) > rightMap.get(rightKey);
     else result = rightMap.get(leftKey) > leftMap.get(rightKey);
   }
@@ -140,10 +126,6 @@ public class ConditionVisitor extends ExpressionVisitorAdapter {
   public void visit(GreaterThanEquals expr) {
     String leftKey = getKey(expr.getLeftExpression());
     String rightKey = getKey(expr.getRightExpression());
-    //    Column leftCol = (Column) expr.getLeftExpression();
-    //    Column rightCol = (Column) expr.getRightExpression();
-    //    String leftKey = leftCol.getTable().getName() + "," + leftCol.getColumnName();
-    //    String rightKey = rightCol.getTable().getName() + "," + rightCol.getColumnName();
     if (leftMap.containsKey(leftKey)) result = leftMap.get(leftKey) >= rightMap.get(rightKey);
     else result = rightMap.get(leftKey) >= leftMap.get(rightKey);
   }
@@ -157,10 +139,6 @@ public class ConditionVisitor extends ExpressionVisitorAdapter {
   public void visit(MinorThan expr) {
     String leftKey = getKey(expr.getLeftExpression());
     String rightKey = getKey(expr.getRightExpression());
-    //    Column leftCol = (Column) expr.getLeftExpression();
-    //    Column rightCol = (Column) expr.getRightExpression();
-    //    String leftKey = leftCol.getTable().getName() + "," + leftCol.getColumnName();
-    //    String rightKey = rightCol.getTable().getName() + "," + rightCol.getColumnName();
     if (leftMap.containsKey(leftKey)) result = leftMap.get(leftKey) < rightMap.get(rightKey);
     else result = rightMap.get(leftKey) < leftMap.get(rightKey);
   }
@@ -174,10 +152,6 @@ public class ConditionVisitor extends ExpressionVisitorAdapter {
   public void visit(MinorThanEquals expr) {
     String leftKey = getKey(expr.getLeftExpression());
     String rightKey = getKey(expr.getRightExpression());
-    //    Column leftCol = (Column) expr.getLeftExpression();
-    //    Column rightCol = (Column) expr.getRightExpression();
-    //    String leftKey = leftCol.getTable().getName() + "," + leftCol.getColumnName();
-    //    String rightKey = rightCol.getTable().getName() + "," + rightCol.getColumnName();
     if (leftMap.containsKey(leftKey)) result = leftMap.get(leftKey) <= rightMap.get(rightKey);
     else result = rightMap.get(leftKey) <= leftMap.get(rightKey);
   }

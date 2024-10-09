@@ -5,6 +5,7 @@ import net.sf.jsqlparser.expression.Expression;
 import visitor.ExpVisitor;
 
 public class SelectOperator extends Operator {
+
   private Operator child;
   private Expression exp;
 

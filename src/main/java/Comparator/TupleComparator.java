@@ -51,8 +51,8 @@ public class TupleComparator implements Comparator<Tuple> {
         }
         if (columnEqual(curColumn, target)) {
           // is in required, need to record asc/desc as well
-          orderColumns.add(target);
-          orderAscMap.put(target.toString(), orderByElements.get(j).isAsc());
+          orderColumns.add(curColumn);
+          orderAscMap.put(curColumn.toString(), orderByElements.get(j).isAsc());
           inRequired = true;
           break;
         }

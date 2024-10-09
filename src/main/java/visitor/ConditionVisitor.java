@@ -85,9 +85,11 @@ public class ConditionVisitor extends ExpressionVisitorAdapter {
     String leftKey = getKey(expr.getLeftExpression());
     String rightKey = getKey(expr.getRightExpression());
     if (leftMap.containsKey(leftKey) && rightMap.containsKey(rightKey)) {
-      result = leftMap.get(leftKey) == rightMap.get(rightKey);
+      result = leftMap.get(leftKey).equals(rightMap.get(rightKey));
+      //      result = leftMap.get(leftKey) == rightMap.get(rightKey);
     } else if (rightMap.containsKey(leftKey) && leftMap.containsKey(rightKey)) {
-      result = rightMap.get(leftKey) == leftMap.get(rightKey);
+      result = rightMap.get(leftKey).equals(leftMap.get(rightKey));
+      //      result = rightMap.get(leftKey) == leftMap.get(rightKey);
     }
   }
 

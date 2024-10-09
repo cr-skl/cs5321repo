@@ -1,7 +1,7 @@
 src/main/java/tools/AliasTool.java,1727719907842112600,1959,FORMATTED
 src/main/java/operator/JoinOperator.java,1727719907838110400,2849,FORMATTED
 src/test/java/ParserExample.java,1727719907851185100,3466,FORMATTED
-src/main/java/visitor/ConditionVisitor.java,1727819018274371500,8063,FORMATTED
+src/main/java/visitor/ConditionVisitor.java,1727894460964697500,7153,FORMATTED
 src/main/java/operator/ScanOperator.java,1727719907839112800,1816,FORMATTED
 src/test/java/compilerTest.java,1727719907851185100,296,FORMATTED
 src/main/java/visitor/ExpVisitor.java,1727722486333052500,5425,FORMATTED
@@ -10,7 +10,7 @@ src/main/java/Comparator/TupleComparator.java,1727719907832111300,4205,FORMATTED
 src/main/java/common/DBCatalog.java,1727719907834111400,2465,FORMATTED
 src/main/java/visitor/AliasExpVisitor.java,1727719907843113700,2579,FORMATTED
 src/test/java/P1UnitTests.java,1727803381684159300,10230,FORMATTED
-src/main/java/common/QueryPlanBuilder.java,1727819018170838000,9655,FORMATTED
+src/main/java/common/QueryPlanBuilder.java,1727894218961392000,9443,FORMATTED
 src/test/java/HelperMethods.java,1727719907849184900,384,FORMATTED
 src/test/java/OperatorTests.java,1727719907850186300,2682,FORMATTED
 src/main/java/visitor/OpVisitor.java,1727719907846187700,269,FORMATTED

@@ -96,9 +96,12 @@ public class ClassifyExpVisitor extends ExpressionVisitorAdapter {
   }
 
   /**
-   * Given a expression, eval its both side: one of them not Column, but LongVal, then must be
-   * select-cond both are column: case1: both are alias select / join case2: both are table select /
-   * join classify it to corresponding map
+   * Given an expression, eval its both side: one of them not Column, but LongVal, then must be
+   * select-cond.
+   * Both are column:
+   * case1: both are alias  it can be select / join
+   * case2: both are table  it can be select / join
+   * classify it to corresponding map
    *
    * @param expr expr
    */

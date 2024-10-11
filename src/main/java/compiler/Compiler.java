@@ -18,7 +18,7 @@ import operator.Operator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import tools.IO.TupleWriter;
-import tools.IO.TupleWriterHumanImpl;
+import tools.IO.TupleWriterBinImpl;
 
 //
 /// **
@@ -91,9 +91,9 @@ public class Compiler {
             //            File outfile = new File(Paths.get(OutputURI).resolve("query" +
             // counter).toString());
             //            TupleWriter writer = new TupleWriterHumanImpl(outfile);
-            File outfile = new File(Paths.get(OutputURI).resolve("query" + counter).toString());
+            File outfile = new File(Paths.get(OutputURI).resolve("queryBin" + counter).toString());
             // binary
-            TupleWriter writer = new TupleWriterHumanImpl(outfile);
+            TupleWriter writer = new TupleWriterBinImpl(outfile);
             plan.dump(writer);
           } else {
             plan.dump(System.out);

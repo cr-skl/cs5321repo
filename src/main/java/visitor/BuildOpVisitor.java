@@ -1,14 +1,14 @@
 package visitor;
 
+import PhysicalOperator.DedupOperator;
+import PhysicalOperator.JoinOperator;
+import PhysicalOperator.Operator;
+import PhysicalOperator.ProjectOperator;
+import PhysicalOperator.ScanOperator;
+import PhysicalOperator.SelectOperator;
+import PhysicalOperator.SortOperator;
 import java.util.ArrayList;
 import net.sf.jsqlparser.schema.Column;
-import operator.DedupOperator;
-import operator.JoinOperator;
-import operator.Operator;
-import operator.ProjectOperator;
-import operator.ScanOperator;
-import operator.SelectOperator;
-import operator.SortOperator;
 
 /**
  * top comment: calling the visit, will make current root to the left child of the current operator,

@@ -1,15 +1,15 @@
 package common;
 
+import LogicalOperator.*;
 import java.util.*;
 import net.sf.jsqlparser.expression.Expression;
 import net.sf.jsqlparser.expression.operators.conditional.AndExpression;
 import net.sf.jsqlparser.schema.Table;
 import net.sf.jsqlparser.statement.Statement;
 import net.sf.jsqlparser.statement.select.*;
-import operator.*;
 import visitor.AliasExpVisitor;
-import visitor.BuildOpVisitor;
 import visitor.ClassifyExpVisitor;
+import visitor.LogicalOpVisitor;
 
 /**
  * Class to translate a JSQLParser statement into a relational algebra query plan. For now only
@@ -28,17 +28,24 @@ import visitor.ClassifyExpVisitor;
  */
 public class QueryPlanBuilder {
 
-  public QueryPlanBuilder() {}
+  public QueryPlanBuilder() {
+    aliasMap = new HashMap<>();
+  }
+
+  private Map<String, Table> aliasMap;
+
+  public Map<String, Table> getAliasMap() {
+    return aliasMap;
+  }
 
   /**
-   * Top level method to translate statement to query plan
+   * Top level method to translate statement to LOGICAL query plan. Also generates the alias map
    *
    * @param stmt statement to be translated
-   * @return the root of the query plan
+   * @return the root of the logical query plan
    */
-  public Operator buildPlan(Statement stmt) {
+  public LogicalOperator buildPlan(Statement stmt) {
     // alias -> name
-    Map<String, Table> aliasMap = new HashMap<>();
     Select sql = (Select) stmt;
     PlainSelect body = (PlainSelect) sql.getSelectBody();
     // Get  "FROM"
@@ -55,7 +62,7 @@ public class QueryPlanBuilder {
     // map each alias to a table instance
     buildAliasMap(aliasMap, fromItem, joins);
     // Build operator tree, return the top
-    BuildOpVisitor treeBuilder = new BuildOpVisitor();
+    LogicalOpVisitor treeBuilder = new LogicalOpVisitor();
 
     // parsing WHERE condition for following JOINs
     Map<String, List<Expression>> selectCond = new HashMap<>();
@@ -77,11 +84,11 @@ public class QueryPlanBuilder {
     // Building the operator tree
 
     // FROM ...
-    treeBuilder.visit(new ScanOperator(fromItem.getName()));
+    treeBuilder.visit(new LogicalScanOp(fromItem.getName()));
     // self-selection
     if (selectCond.containsKey(firstTableName)) {
       for (Expression e : selectCond.get(firstTableName)) {
-        treeBuilder.visit(new SelectOperator(e));
+        treeBuilder.visit(new LogicalSelectOp(e));
       }
     }
 
@@ -92,15 +99,15 @@ public class QueryPlanBuilder {
     if (joins != null) {
       for (Join join : joins) {
         // get the right table info
-        BuildOpVisitor subTreeBuilder = new BuildOpVisitor();
+        LogicalOpVisitor subTreeBuilder = new LogicalOpVisitor();
         Table rightTable = (Table) join.getRightItem();
         String rightName = rightTable.getName();
         // scan right table    must use the table's name  , not alias
-        subTreeBuilder.visit(new ScanOperator(rightTable.getName()));
+        subTreeBuilder.visit(new LogicalScanOp(rightTable.getName()));
         // do self-selection
         if (selectCond.containsKey(rightName)) {
           for (Expression e : selectCond.get(rightName)) {
-            subTreeBuilder.visit(new SelectOperator(e));
+            subTreeBuilder.visit(new LogicalSelectOp(e));
           }
         }
 
@@ -125,10 +132,10 @@ public class QueryPlanBuilder {
 
         // Create a single join operator with the combined condition
         if (combinedCondition != null) {
-          treeBuilder.visit(new JoinOperator(subTreeBuilder.getRoot(), combinedCondition));
+          treeBuilder.visit(new LogicalJoinOp(subTreeBuilder.getRoot(), combinedCondition));
         } else {
           // If no specific condition, just join without conditions
-          treeBuilder.visit(new JoinOperator(subTreeBuilder.getRoot(), null));
+          treeBuilder.visit(new LogicalJoinOp(subTreeBuilder.getRoot(), null));
         }
         joined_tables.add(rightName);
       }
@@ -153,18 +160,15 @@ public class QueryPlanBuilder {
     }
     // SELECT .... projection
     if (selectItems.size() > 0) {
-      treeBuilder.visit(new ProjectOperator(selectItems, aliasMap));
+      treeBuilder.visit(new LogicalProjectOp(selectItems));
     }
     // ORDER...BY
     if (orderByElements != null) {
-      treeBuilder.visit(new SortOperator(orderByElements, aliasMap));
+      treeBuilder.visit(new LogicalSortOp(orderByElements));
     }
     // DISTINCT
     if (body.getDistinct() != null) {
-      if (orderByElements == null) {
-        treeBuilder.visit(new SortOperator(new ArrayList<>(), aliasMap));
-      }
-      treeBuilder.visit(new DedupOperator());
+      treeBuilder.visit(new LogicalDedupOp());
     }
     return treeBuilder.getRoot();
   }

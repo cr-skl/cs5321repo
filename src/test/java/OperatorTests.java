@@ -1,3 +1,5 @@
+import PhysicalOperator.Operator;
+import PhysicalOperator.ScanOperator;
 import common.DBCatalog;
 import common.Tuple;
 import java.net.URI;
@@ -15,8 +17,6 @@ import net.sf.jsqlparser.statement.Statement;
 import net.sf.jsqlparser.statement.Statements;
 import net.sf.jsqlparser.statement.select.PlainSelect;
 import net.sf.jsqlparser.statement.select.Select;
-import operator.Operator;
-import operator.ScanOperator;
 import org.junit.jupiter.api.Test;
 
 public class OperatorTests {

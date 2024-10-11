@@ -1,5 +1,5 @@
 import common.DBCatalog;
-import common.QueryPlanBuilder;
+import common.QueryPlanBuilder_old;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -48,7 +48,7 @@ public class ParserExample {
 
     Statements statements = CCJSqlParserUtil.parseStatements(Files.readString(queriesFilePath));
 
-    QueryPlanBuilder queryPlanBuilder = new QueryPlanBuilder();
+    QueryPlanBuilder_old queryPlanBuilder = new QueryPlanBuilder_old();
 
     for (Statement statement : statements.getStatements()) {
       logger.info("Read statement: " + statement);

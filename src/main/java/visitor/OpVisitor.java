@@ -1,8 +1,8 @@
 package visitor;
 
-import operator.ProjectOperator;
-import operator.ScanOperator;
-import operator.SelectOperator;
+import PhysicalOperator.ProjectOperator;
+import PhysicalOperator.ScanOperator;
+import PhysicalOperator.SelectOperator;
 
 interface OpVisitor {
   void visit(ScanOperator operator);

@@ -2,6 +2,8 @@
 /*******************************************************************************************/
 package compiler;
 
+import LogicalOperator.LogicalOperator;
+import PhysicalOperator.Operator;
 import common.DBCatalog;
 import common.QueryPlanBuilder;
 import java.io.File;
@@ -14,9 +16,9 @@ import java.util.Objects;
 import net.sf.jsqlparser.parser.CCJSqlParserUtil;
 import net.sf.jsqlparser.statement.Statement;
 import net.sf.jsqlparser.statement.Statements;
-import operator.Operator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import visitor.PhysicalPlanBuilder;
 
 //
 /// **
@@ -61,6 +63,7 @@ public class Compiler {
           CCJSqlParserUtil.parseStatements(
               Files.readString(Paths.get(InputURI).resolve("testqueries.sql")));
       QueryPlanBuilder queryPlanBuilder = new QueryPlanBuilder();
+      PhysicalPlanBuilder physicalPlanBuilder = new PhysicalPlanBuilder();
 
       if (outputToFiles) {
         // directory
@@ -82,7 +85,9 @@ public class Compiler {
         logger.info("Processing query: " + statement);
         PrintStream out = null;
         try {
-          Operator plan = queryPlanBuilder.buildPlan(statement);
+          LogicalOperator logicalPlan = queryPlanBuilder.buildPlan(statement);
+          Operator plan =
+              physicalPlanBuilder.buildPlan(logicalPlan, queryPlanBuilder.getAliasMap());
 
           if (outputToFiles) {
             File outfile = new File(Paths.get(OutputURI).resolve("query" + counter).toString());
@@ -110,7 +115,7 @@ public class Compiler {
 // package compiler;
 //
 // import common.DBCatalog;
-// import common.QueryPlanBuilder;
+// import common.QueryPlanBuilder_old;
 // import java.io.File;
 // import java.io.PrintStream;
 // import java.nio.file.Files;
@@ -152,7 +157,9 @@ public class Compiler {
 //      //      String str = Files.readString(Paths.get(inputDir + "/testqueries.sql"));
 //
 //      Statements statements = CCJSqlParserUtil.parseStatements(str);
-//      QueryPlanBuilder queryPlanBuilder = new QueryPlanBuilder();
+//      LogicalOperator logicalPlan = queryPlanBuilder.buildPlan(statement);
+//      Operator plan = PhysicalPlanBuilder.BuildPlan(logicalPlan, queryPlanBuilder.getAliasMap(),
+// InputURI);
 //
 //      if (outputToFiles) {
 //        for (File file : (new File(outputDir).listFiles())) file.delete();

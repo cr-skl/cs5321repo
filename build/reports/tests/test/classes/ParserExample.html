@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta http-equiv="x-ua-compatible" content="IE=edge"/>
+<title>Test results - Class ParserExample</title>
+<link href="../css/base-style.css" rel="stylesheet" type="text/css"/>
+<link href="../css/style.css" rel="stylesheet" type="text/css"/>
+<script src="../js/report.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="content">
+<h1>Class ParserExample</h1>
+<div class="breadcrumbs">
+<a href="../index.html">all</a> &gt; 
+<a href="../packages/default-package.html">default-package</a> &gt; ParserExample</div>
+<div id="summary">
+<table>
+<tr>
+<td>
+<div class="summaryGroup">
+<table>
+<tr>
+<td>
+<div class="infoBox" id="tests">
+<div class="counter">1</div>
+<p>tests</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="failures">
+<div class="counter">0</div>
+<p>failures</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="ignored">
+<div class="counter">0</div>
+<p>ignored</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="duration">
+<div class="counter">0.091s</div>
+<p>duration</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</td>
+<td>
+<div class="infoBox success" id="successRate">
+<div class="percent">100%</div>
+<p>successful</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="tabs">
+<ul class="tabLinks">
+<li>
+<a href="#tab0">Tests</a>
+</li>
+<li>
+<a href="#tab1">Standard output</a>
+</li>
+</ul>
+<div id="tab0" class="tab">
+<h2>Tests</h2>
+<table>
+<thead>
+<tr>
+<th>Test</th>
+<th>Duration</th>
+<th>Result</th>
+</tr>
+</thead>
+<tr>
+<td class="success">parserExampleTest()</td>
+<td class="success">0.091s</td>
+<td class="success">passed</td>
+</tr>
+</table>
+</div>
+<div id="tab1" class="tab">
+<h2>Standard output</h2>
+<span class="code">
+<pre>19:23:02.258 [Test worker] INFO  ParserExample - Read statement: SELECT * FROM Sailors
+19:23:02.266 [Test worker] INFO  ParserExample - Select body is SELECT * FROM Sailors
+19:23:02.267 [Test worker] INFO  ParserExample -     Select item is *
+19:23:02.267 [Test worker] INFO  ParserExample - From item is Sailors
+19:23:02.268 [Test worker] INFO  ParserExample - Where is null
+19:23:02.268 [Test worker] INFO  ParserExample - Name: Sailors
+19:23:02.269 [Test worker] INFO  ParserExample - Alias: null
+19:23:02.269 [Test worker] INFO  ParserExample - Read statement: SELECT Sailors.A FROM Sailors
+19:23:02.270 [Test worker] INFO  ParserExample - Select body is SELECT Sailors.A FROM Sailors
+19:23:02.270 [Test worker] INFO  ParserExample -     Select item is Sailors.A
+19:23:02.271 [Test worker] INFO  ParserExample - From item is Sailors
+19:23:02.272 [Test worker] INFO  ParserExample - Where is null
+19:23:02.273 [Test worker] INFO  ParserExample - Name: Sailors
+19:23:02.273 [Test worker] INFO  ParserExample - Alias: null
+19:23:02.274 [Test worker] INFO  ParserExample - Read statement: SELECT S.A FROM Sailors S
+19:23:02.275 [Test worker] INFO  ParserExample - Select body is SELECT S.A FROM Sailors S
+19:23:02.275 [Test worker] INFO  ParserExample -     Select item is S.A
+19:23:02.276 [Test worker] INFO  ParserExample - From item is Sailors S
+19:23:02.276 [Test worker] INFO  ParserExample - Where is null
+19:23:02.277 [Test worker] INFO  ParserExample - Name: Sailors
+19:23:02.277 [Test worker] INFO  ParserExample - Alias:  S
+19:23:02.278 [Test worker] INFO  ParserExample - Read statement: SELECT * FROM Sailors S WHERE S.A &lt; 3
+19:23:02.278 [Test worker] INFO  ParserExample - Select body is SELECT * FROM Sailors S WHERE S.A &lt; 3
+19:23:02.279 [Test worker] INFO  ParserExample -     Select item is *
+19:23:02.279 [Test worker] INFO  ParserExample - From item is Sailors S
+19:23:02.280 [Test worker] INFO  ParserExample - Where is S.A &lt; 3
+19:23:02.280 [Test worker] INFO  ParserExample - Name: Sailors
+19:23:02.280 [Test worker] INFO  ParserExample - Alias:  S
+19:23:02.281 [Test worker] INFO  ParserExample - Read statement: SELECT * FROM Sailors, Reserves WHERE Sailors.A = Reserves.G
+19:23:02.281 [Test worker] INFO  ParserExample - Select body is SELECT * FROM Sailors, Reserves WHERE Sailors.A = Reserves.G
+19:23:02.281 [Test worker] INFO  ParserExample -     Select item is *
+19:23:02.282 [Test worker] INFO  ParserExample - From item is Sailors
+19:23:02.282 [Test worker] INFO  ParserExample - Where is Sailors.A = Reserves.G
+19:23:02.282 [Test worker] INFO  ParserExample - Name: Sailors
+19:23:02.282 [Test worker] INFO  ParserExample - Alias: null
+19:23:02.283 [Test worker] INFO  ParserExample - Read statement: SELECT * FROM Sailors S1, Sailors S2 WHERE S1.A &lt; S2.A
+19:23:02.283 [Test worker] INFO  ParserExample - Select body is SELECT * FROM Sailors S1, Sailors S2 WHERE S1.A &lt; S2.A
+19:23:02.284 [Test worker] INFO  ParserExample -     Select item is *
+19:23:02.284 [Test worker] INFO  ParserExample - From item is Sailors S1
+19:23:02.284 [Test worker] INFO  ParserExample - Where is S1.A &lt; S2.A
+19:23:02.284 [Test worker] INFO  ParserExample - Name: Sailors
+19:23:02.285 [Test worker] INFO  ParserExample - Alias:  S1
+19:23:02.285 [Test worker] INFO  ParserExample - Read statement: SELECT DISTINCT R.G FROM Reserves R
+19:23:02.286 [Test worker] INFO  ParserExample - Select body is SELECT DISTINCT R.G FROM Reserves R
+19:23:02.286 [Test worker] INFO  ParserExample -     Select item is R.G
+19:23:02.287 [Test worker] INFO  ParserExample - From item is Reserves R
+19:23:02.287 [Test worker] INFO  ParserExample - Where is null
+19:23:02.287 [Test worker] INFO  ParserExample - Name: Reserves
+19:23:02.288 [Test worker] INFO  ParserExample - Alias:  R
+19:23:02.288 [Test worker] INFO  ParserExample - Read statement: SELECT * FROM Sailors ORDER BY Sailors.B
+19:23:02.289 [Test worker] INFO  ParserExample - Select body is SELECT * FROM Sailors ORDER BY Sailors.B
+19:23:02.289 [Test worker] INFO  ParserExample -     Select item is *
+19:23:02.289 [Test worker] INFO  ParserExample - From item is Sailors
+19:23:02.289 [Test worker] INFO  ParserExample - Where is null
+19:23:02.290 [Test worker] INFO  ParserExample -     OrderBy item is Sailors.B
+19:23:02.290 [Test worker] INFO  ParserExample - Name: Sailors
+19:23:02.290 [Test worker] INFO  ParserExample - Alias: null
+19:23:02.291 [Test worker] INFO  ParserExample - Read statement: SELECT User.I, Order.L, Detail.N FROM User, Order, Detail WHERE User.I = Order.K AND User.I = Detail.M
+19:23:02.291 [Test worker] INFO  ParserExample - Select body is SELECT User.I, Order.L, Detail.N FROM User, Order, Detail WHERE User.I = Order.K AND User.I = Detail.M
+19:23:02.292 [Test worker] INFO  ParserExample -     Select item is User.I
+19:23:02.292 [Test worker] INFO  ParserExample -     Select item is Order.L
+19:23:02.292 [Test worker] INFO  ParserExample -     Select item is Detail.N
+19:23:02.292 [Test worker] INFO  ParserExample - From item is User
+19:23:02.293 [Test worker] INFO  ParserExample - Where is User.I = Order.K AND User.I = Detail.M
+19:23:02.293 [Test worker] INFO  ParserExample - Name: User
+19:23:02.294 [Test worker] INFO  ParserExample - Alias: null
+19:23:02.294 [Test worker] INFO  ParserExample - Read statement: SELECT User.I, Order.L, Detail.N FROM User, Order, Detail WHERE User.I = Order.K AND User.I = Detail.M ORDER BY Detail.N DESC
+19:23:02.295 [Test worker] INFO  ParserExample - Select body is SELECT User.I, Order.L, Detail.N FROM User, Order, Detail WHERE User.I = Order.K AND User.I = Detail.M ORDER BY Detail.N DESC
+19:23:02.295 [Test worker] INFO  ParserExample -     Select item is User.I
+19:23:02.295 [Test worker] INFO  ParserExample -     Select item is Order.L
+19:23:02.295 [Test worker] INFO  ParserExample -     Select item is Detail.N
+19:23:02.296 [Test worker] INFO  ParserExample - From item is User
+19:23:02.296 [Test worker] INFO  ParserExample - Where is User.I = Order.K AND User.I = Detail.M
+19:23:02.296 [Test worker] INFO  ParserExample -     OrderBy item is Detail.N DESC
+19:23:02.296 [Test worker] INFO  ParserExample - Name: User
+19:23:02.297 [Test worker] INFO  ParserExample - Alias: null
+</pre>
+</span>
+</div>
+</div>
+<div id="footer">
+<p>
+<div>
+<label class="hidden" id="label-for-line-wrapping-toggle" for="line-wrapping-toggle">Wrap lines
+<input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
+</label>
+</div>Generated by 
+<a href="http://www.gradle.org">Gradle 8.5</a> at Oct 11, 2024, 7:23:02 PM</p>
+</div>
+</div>
+</body>
+</html>

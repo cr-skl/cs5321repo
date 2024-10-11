@@ -1,5 +1,7 @@
+import PhysicalOperator.Operator;
 import common.DBCatalog;
 import common.QueryPlanBuilder;
+import common.QueryPlanBuilder_old;
 import common.Tuple;
 import java.io.IOException;
 import java.net.URI;
@@ -16,15 +18,18 @@ import net.sf.jsqlparser.JSQLParserException;
 import net.sf.jsqlparser.parser.CCJSqlParserUtil;
 import net.sf.jsqlparser.statement.Statement;
 import net.sf.jsqlparser.statement.Statements;
-import operator.Operator;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import visitor.PhysicalPlanBuilder;
+import LogicalOperator.LogicalOperator;
 
 public class P1UnitTests {
   private static List<Statement> statementList;
   private static QueryPlanBuilder queryPlanBuilder;
   private static Statements statements;
+  private static PhysicalPlanBuilder physicalPlanBuilder;
+  private static QueryPlanBuilder_old queryPlanBuilder_old;
 
   @BeforeAll
   static void setupBeforeAllTests() throws IOException, JSQLParserException, URISyntaxException {
@@ -39,12 +44,15 @@ public class P1UnitTests {
 
     statements = CCJSqlParserUtil.parseStatements(Files.readString(Paths.get(queriesFile)));
     queryPlanBuilder = new QueryPlanBuilder();
+    physicalPlanBuilder = new PhysicalPlanBuilder();
+    queryPlanBuilder_old = new QueryPlanBuilder_old();
     statementList = statements.getStatements();
   }
 
   @Test
-  public void testQuery1() throws ExecutionControl.NotImplementedException {
-    Operator plan = queryPlanBuilder.buildPlan(statementList.get(0));
+  public void testQuery1() throws ExecutionControl.NotImplementedException, URISyntaxException {
+    LogicalOperator lPlan = queryPlanBuilder.buildPlan(statementList.get(0));
+    Operator plan = physicalPlanBuilder.buildPlan(lPlan, queryPlanBuilder.getAliasMap());
 
     List<Tuple> tuples = HelperMethods.collectAllTuples(plan);
 
@@ -70,8 +78,9 @@ public class P1UnitTests {
   }
 
   @Test
-  public void testQuery2() throws ExecutionControl.NotImplementedException {
-    Operator plan = queryPlanBuilder.buildPlan(statementList.get(1));
+  public void testQuery2() throws ExecutionControl.NotImplementedException, URISyntaxException {
+    LogicalOperator lPlan = queryPlanBuilder.buildPlan(statementList.get(1));
+    Operator plan = physicalPlanBuilder.buildPlan(lPlan, queryPlanBuilder.getAliasMap());
 
     List<Tuple> tuples = HelperMethods.collectAllTuples(plan);
 
@@ -97,8 +106,9 @@ public class P1UnitTests {
   }
 
   @Test
-  public void testQuery3() throws ExecutionControl.NotImplementedException {
-    Operator plan = queryPlanBuilder.buildPlan(statementList.get(2));
+  public void testQuery3() throws ExecutionControl.NotImplementedException, URISyntaxException {
+    LogicalOperator lPlan = queryPlanBuilder.buildPlan(statementList.get(2));
+    Operator plan = physicalPlanBuilder.buildPlan(lPlan, queryPlanBuilder.getAliasMap());
 
     List<Tuple> tuples = HelperMethods.collectAllTuples(plan);
 
@@ -124,8 +134,10 @@ public class P1UnitTests {
   }
 
   @Test
-  public void testQuery4() throws ExecutionControl.NotImplementedException {
-    Operator plan = queryPlanBuilder.buildPlan(statementList.get(3));
+  public void testQuery4() throws ExecutionControl.NotImplementedException, URISyntaxException {
+    LogicalOperator lPlan = queryPlanBuilder.buildPlan(statementList.get(3));
+    Operator plan = physicalPlanBuilder.buildPlan(lPlan, queryPlanBuilder.getAliasMap());
+    //Operator plan = queryPlanBuilder_old.buildPlan(statementList.get(3));
 
     List<Tuple> tuples = HelperMethods.collectAllTuples(plan);
 
@@ -147,8 +159,9 @@ public class P1UnitTests {
   }
 
   @Test
-  public void testQuery5() throws ExecutionControl.NotImplementedException {
-    Operator plan = queryPlanBuilder.buildPlan(statementList.get(4));
+  public void testQuery5() throws ExecutionControl.NotImplementedException, URISyntaxException {
+    LogicalOperator lPlan = queryPlanBuilder.buildPlan(statementList.get(4));
+    Operator plan = physicalPlanBuilder.buildPlan(lPlan, queryPlanBuilder.getAliasMap());
 
     List<Tuple> tuples = HelperMethods.collectAllTuples(plan);
 
@@ -174,10 +187,9 @@ public class P1UnitTests {
   }
 
   @Test
-  public void testQuery6() throws ExecutionControl.NotImplementedException {
-    Operator plan =
-        queryPlanBuilder.buildPlan(
-            statementList.get(5)); // Assuming statementList index 5 corresponds to query 6
+  public void testQuery6() throws ExecutionControl.NotImplementedException, URISyntaxException {
+    LogicalOperator lPlan = queryPlanBuilder.buildPlan(statementList.get(5));
+    Operator plan = physicalPlanBuilder.buildPlan(lPlan, queryPlanBuilder.getAliasMap());
 
     List<Tuple> tuples = HelperMethods.collectAllTuples(plan);
 
@@ -211,8 +223,9 @@ public class P1UnitTests {
   }
 
   @Test
-  public void testQuery7() throws ExecutionControl.NotImplementedException {
-    Operator plan = queryPlanBuilder.buildPlan(statementList.get(6));
+  public void testQuery7() throws ExecutionControl.NotImplementedException, URISyntaxException {
+    LogicalOperator lPlan = queryPlanBuilder.buildPlan(statementList.get(6));
+    Operator plan = physicalPlanBuilder.buildPlan(lPlan, queryPlanBuilder.getAliasMap());
 
     List<Tuple> tuples = HelperMethods.collectAllTuples(plan);
 
@@ -236,8 +249,9 @@ public class P1UnitTests {
   }
 
   @Test
-  public void testQuery8() throws ExecutionControl.NotImplementedException {
-    Operator plan = queryPlanBuilder.buildPlan(statementList.get(7));
+  public void testQuery8() throws ExecutionControl.NotImplementedException, URISyntaxException {
+    LogicalOperator lPlan = queryPlanBuilder.buildPlan(statementList.get(7));
+    Operator plan = physicalPlanBuilder.buildPlan(lPlan, queryPlanBuilder.getAliasMap());
 
     List<Tuple> tuples = HelperMethods.collectAllTuples(plan);
 

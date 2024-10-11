@@ -17,6 +17,8 @@ import net.sf.jsqlparser.statement.Statements;
 import operator.Operator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import tools.IO.TupleWriter;
+import tools.IO.TupleWriterHumanImpl;
 
 //
 /// **
@@ -85,10 +87,14 @@ public class Compiler {
           Operator plan = queryPlanBuilder.buildPlan(statement);
 
           if (outputToFiles) {
+            // human
+            //            File outfile = new File(Paths.get(OutputURI).resolve("query" +
+            // counter).toString());
+            //            TupleWriter writer = new TupleWriterHumanImpl(outfile);
             File outfile = new File(Paths.get(OutputURI).resolve("query" + counter).toString());
-            out = new PrintStream(outfile);
-            plan.dump(out);
-            out.close();
+            // binary
+            TupleWriter writer = new TupleWriterHumanImpl(outfile);
+            plan.dump(writer);
           } else {
             plan.dump(System.out);
           }

@@ -1,21 +1,22 @@
-  // compiler for test
- package compiler;
+// compiler for test
+/*******************************************************************************************/
+package compiler;
 
- import common.DBCatalog;
- import common.QueryPlanBuilder;
- import java.io.File;
- import java.io.PrintStream;
- import java.net.URI;
- import java.net.URISyntaxException;
- import java.nio.file.Files;
- import java.nio.file.Paths;
- import java.util.Objects;
- import net.sf.jsqlparser.parser.CCJSqlParserUtil;
- import net.sf.jsqlparser.statement.Statement;
- import net.sf.jsqlparser.statement.Statements;
- import operator.Operator;
- import org.apache.logging.log4j.LogManager;
- import org.apache.logging.log4j.Logger;
+import common.DBCatalog;
+import common.QueryPlanBuilder;
+import java.io.File;
+import java.io.PrintStream;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.Objects;
+import net.sf.jsqlparser.parser.CCJSqlParserUtil;
+import net.sf.jsqlparser.statement.Statement;
+import net.sf.jsqlparser.statement.Statements;
+import operator.Operator;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 //
 /// **
@@ -24,7 +25,7 @@
 // * output to file or to System depending on flag.
 // */
 
- public class Compiler {
+public class Compiler {
 
   private static final Logger logger = LogManager.getLogger();
   private static final boolean outputToFiles = true; // true = output to
@@ -49,6 +50,7 @@
     URI OutputURI = Objects.requireNonNull(classLoader.getResource(outputDir)).toURI();
     DBCatalog.getInstance().setDataDirectory(Paths.get(InputURI).resolve("db").toString());
     logger.info("schema Directory:" + inputDir + "/db");
+    String query = "testqueries.sql";
     logger.info("sql Directory:" + inputDir + "/testqueries.sql");
     try {
       //      Statements statements =
@@ -101,28 +103,30 @@
       logger.error(e.getMessage());
     }
   }
- }
+}
 /****************************************************************************************/
 // compiler for jar
-//package compiler;
+/****************************************************************************************/
+// package compiler;
 //
-//import common.DBCatalog;
-//import common.QueryPlanBuilder;
-//import java.io.File;
-//import java.io.PrintStream;
-//import java.nio.file.Files;
-//import java.nio.file.Paths;
-//import net.sf.jsqlparser.parser.CCJSqlParserUtil;
-//import net.sf.jsqlparser.statement.Statement;
-//import net.sf.jsqlparser.statement.Statements;
-//import operator.Operator;
-//import org.apache.logging.log4j.*;
+// import common.DBCatalog;
+// import common.QueryPlanBuilder;
+// import java.io.File;
+// import java.io.PrintStream;
+// import java.nio.file.Files;
+// import java.nio.file.Paths;
+// import net.sf.jsqlparser.parser.CCJSqlParserUtil;
+// import net.sf.jsqlparser.statement.Statement;
+// import net.sf.jsqlparser.statement.Statements;
+// import operator.Operator;
+// import org.apache.logging.log4j.*;
 //
-///**
-// * Top level harness class; reads queries from an input file one at a time, processes them and sends
+/// **
+// * Top level harness class; reads queries from an input file one at a time, processes them and
+// sends
 // * output to file or to System depending on flag.
 // */
-//public class Compiler {
+// public class Compiler {
 //  private static final Logger logger = LogManager.getLogger();
 //
 //  private static String outputDir;
@@ -179,4 +183,4 @@
 //      logger.error(e.getMessage());
 //    }
 //  }
-//}
+// }

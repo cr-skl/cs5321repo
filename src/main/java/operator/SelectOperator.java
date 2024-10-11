@@ -1,12 +1,16 @@
 package operator;
 
 import common.Tuple;
+import java.util.Map;
 import net.sf.jsqlparser.expression.Expression;
+import net.sf.jsqlparser.schema.Table;
 import visitor.ExpVisitor;
 
 public class SelectOperator extends Operator {
+
   private Operator child;
   private Expression exp;
+  private Map<String, Table> aliasMap;
 
   /**
    * child setter called on .visit()
@@ -17,8 +21,9 @@ public class SelectOperator extends Operator {
     this.child = child;
   }
 
-  public SelectOperator(Expression exp) {
+  public SelectOperator(Expression exp, Map<String, Table> aliasMap) {
     this.exp = exp;
+    this.aliasMap = aliasMap;
   }
 
   /** Resets cursor on the operator to the beginning */
@@ -39,7 +44,7 @@ public class SelectOperator extends Operator {
       nextTuple = child.getNextTuple();
       // if at the end, return null
       if (nextTuple == null) return null;
-      ExpVisitor ev = new ExpVisitor(nextTuple);
+      ExpVisitor ev = new ExpVisitor(nextTuple, aliasMap);
       exp.accept(ev);
       // if finding the required tuple, return this tuple
       if (ev.getResult()) {

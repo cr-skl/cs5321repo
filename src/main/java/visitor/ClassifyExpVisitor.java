@@ -14,7 +14,6 @@ import net.sf.jsqlparser.expression.operators.relational.MinorThanEquals;
 import net.sf.jsqlparser.expression.operators.relational.NotEqualsTo;
 import net.sf.jsqlparser.schema.Column;
 import net.sf.jsqlparser.schema.Table;
-import tools.AliasTool;
 
 /**
  * Visitor for expression, determine if the given expression is a select-cond or a join-cond, and
@@ -97,11 +96,8 @@ public class ClassifyExpVisitor extends ExpressionVisitorAdapter {
 
   /**
    * Given an expression, eval its both side: one of them not Column, but LongVal, then must be
-   * select-cond.
-   * Both are column:
-   * case1: both are alias  it can be select / join
-   * case2: both are table  it can be select / join
-   * classify it to corresponding map
+   * select-cond. Both are column: case1: both are alias it can be select / join case2: both are
+   * table it can be select / join classify it to corresponding map
    *
    * @param expr expr
    */
@@ -132,21 +128,33 @@ public class ClassifyExpVisitor extends ExpressionVisitorAdapter {
    * @param expr e
    */
   private void putInSelection(Column column, Expression expr) {
-    String aliasOrName = column.getTable().getName();
-    String tableName = null;
-    // if is alias, cast to its original name
-    // else it is  just the exact original name
-    if (AliasTool.isAlias(aliasOrName, aliasMap)) {
-      String alias = aliasOrName;
-      tableName = aliasMap.get(alias).getName();
-    } else {
-      tableName = aliasOrName;
-    }
-    if (!selectCond.containsKey(tableName)) {
+    //    String aliasOrName = column.getTable().getName();
+    //    String tableName = null;
+    //    // if is alias, cast to its original name
+    //    // else it is  just the exact original name
+    //    if (AliasTool.isAlias(aliasOrName, aliasMap)) {
+    //      String alias = aliasOrName;
+    //      Table table = aliasMap.get(alias);
+    //      tableName = aliasMap.get(alias).getName();
+    //    } else {
+    //      tableName = aliasOrName;
+    //    }
+    //
+    //    if (!selectCond.containsKey(tableName)) {
+    //      List<Expression> lst = new ArrayList<>();
+    //      selectCond.put(tableName, lst);
+    //    }
+    //    selectCond.get(tableName).add(expr);
+
+    String aliasOrName =
+        column.getTable().getAlias() != null
+            ? column.getTable().getAlias().getName()
+            : column.getTable().getName();
+    if (!selectCond.containsKey(aliasOrName)) {
       List<Expression> lst = new ArrayList<>();
-      selectCond.put(tableName, lst);
+      selectCond.put(aliasOrName, lst);
     }
-    selectCond.get(tableName).add(expr);
+    selectCond.get(aliasOrName).add(expr);
   }
 
   /**
@@ -157,51 +165,78 @@ public class ClassifyExpVisitor extends ExpressionVisitorAdapter {
    * @param expr e
    */
   private void JoinOrSelect(Column leftCol, Column rightCol, Expression expr) {
-    String leftAliasOrName = leftCol.getTable().getName();
-    String rightAliasOrName = rightCol.getTable().getName();
-    // both are alias  can be join or selection
-    if (AliasTool.isAlias(leftAliasOrName, aliasMap)
-        && AliasTool.isAlias(rightAliasOrName, aliasMap)) {
-      String leftAlias = leftAliasOrName;
-      String rightAlias = rightAliasOrName;
-      String leftTableName = aliasMap.get(leftAlias).getName();
-      String rightTableName = aliasMap.get(rightAlias).getName();
-      // alias equals,   select-cond
-      if (leftAlias.equalsIgnoreCase(rightAlias)) {
-        if (!selectCond.containsKey(leftTableName)) {
-          List<Expression> lst = new ArrayList<>();
-          selectCond.put(leftTableName, lst);
-        }
-        selectCond.get(leftTableName).add(expr);
-      } else {
-        // alias not equal,   join-cond
-        String combineKey = leftTableName + "," + rightTableName;
-        if (!joinCond.containsKey(combineKey)) {
-          List<Expression> lst = new ArrayList<>();
-          joinCond.put(combineKey, lst);
-        }
-        joinCond.get(combineKey).add(expr);
+    //    String leftAliasOrName = leftCol.getTable().getName();
+    //    String rightAliasOrName = rightCol.getTable().getName();
+    //    // both are alias  can be join or selection
+    //    if (AliasTool.isAlias(leftAliasOrName, aliasMap)
+    //        && AliasTool.isAlias(rightAliasOrName, aliasMap)) {
+    //      String leftAlias = leftAliasOrName;
+    //      String rightAlias = rightAliasOrName;
+    //      String leftTableName = aliasMap.get(leftAlias).getName();
+    //      String rightTableName = aliasMap.get(rightAlias).getName();
+    //      // alias equals,   select-cond
+    //      if (leftAlias.equalsIgnoreCase(rightAlias)) {
+    //        if (!selectCond.containsKey(leftTableName)) {
+    //          List<Expression> lst = new ArrayList<>();
+    //          selectCond.put(leftTableName, lst);
+    //        }
+    //        selectCond.get(leftTableName).add(expr);
+    //      } else {
+    //        // alias not equal,   join-cond
+    //        String combineKey = leftTableName + "," + rightTableName;
+    //        if (!joinCond.containsKey(combineKey)) {
+    //          List<Expression> lst = new ArrayList<>();
+    //          joinCond.put(combineKey, lst);
+    //        }
+    //        joinCond.get(combineKey).add(expr);
+    //      }
+    //    } else {
+    //      // both are not aliases, can be selection or join
+    //      String leftTableName = leftAliasOrName;
+    //      String rightTableName = rightAliasOrName;
+    //      // name equals,  select-cond
+    //      if (leftTableName.equalsIgnoreCase(rightTableName)) {
+    //        if (!selectCond.containsKey(leftTableName)) {
+    //          List<Expression> lst = new ArrayList<>();
+    //          selectCond.put(leftTableName, lst);
+    //        }
+    //        selectCond.get(leftTableName).add(expr);
+    //      } else {
+    //        // name not equals, join-cond
+    //        String combineKey = leftTableName + "," + rightTableName;
+    //        if (!joinCond.containsKey(combineKey)) {
+    //          List<Expression> lst = new ArrayList<>();
+    //          joinCond.put(combineKey, lst);
+    //        }
+    //        joinCond.get(combineKey).add(expr);
+    //      }
+    //    }
+    // get the Alias or the TableName
+    String leftAliasOrName =
+        leftCol.getTable().getAlias() != null
+            ? leftCol.getTable().getAlias().getName()
+            : leftCol.getTable().getName();
+
+    String rightAliasOrName =
+        rightCol.getTable().getAlias() != null
+            ? rightCol.getTable().getAlias().getName()
+            : rightCol.getTable().getName();
+
+    // TableName == TableName  / Alias == Alias   is connection
+    if (leftAliasOrName.equalsIgnoreCase(rightAliasOrName)) {
+      if (!selectCond.containsKey(leftAliasOrName)) {
+        List<Expression> lst = new ArrayList<>();
+        selectCond.put(leftAliasOrName, lst);
       }
+      selectCond.get(leftAliasOrName).add(expr);
     } else {
-      // both are not aliases, can be selection or join
-      String leftTableName = leftAliasOrName;
-      String rightTableName = rightAliasOrName;
-      // name equals,  select-cond
-      if (leftTableName.equalsIgnoreCase(rightTableName)) {
-        if (!selectCond.containsKey(leftTableName)) {
-          List<Expression> lst = new ArrayList<>();
-          selectCond.put(leftTableName, lst);
-        }
-        selectCond.get(leftTableName).add(expr);
-      } else {
-        // name not equals, join-cond
-        String combineKey = leftTableName + "," + rightTableName;
-        if (!joinCond.containsKey(combineKey)) {
-          List<Expression> lst = new ArrayList<>();
-          joinCond.put(combineKey, lst);
-        }
-        joinCond.get(combineKey).add(expr);
+      // TableName != TableName  / Alias != Alias   is Join
+      String combineKey = leftAliasOrName + "," + rightAliasOrName;
+      if (!joinCond.containsKey(combineKey)) {
+        List<Expression> lst = new ArrayList<>();
+        joinCond.put(combineKey, lst);
       }
+      joinCond.get(combineKey).add(expr);
     }
   }
 }

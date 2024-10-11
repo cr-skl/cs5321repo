@@ -2,40 +2,57 @@ package operator;
 
 import common.DBCatalog;
 import common.Tuple;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import java.util.ArrayList;
+import java.util.Map;
+import net.sf.jsqlparser.schema.Column;
+import net.sf.jsqlparser.schema.Table;
+import tools.IO.TupleReader;
+// import tools.IO.TupleReaderBinImpl;
+import tools.IO.TupleReaderFileImpl;
 
 public class ScanOperator extends Operator {
-  private final Logger logger = LogManager.getLogger();
-  private File file;
-  private BufferedReader reader;
+  private TupleReader tupleReader;
 
-  // Upon initialization, it opens a file scan on the appropriate data file
+  public ScanOperator(String tName, Table tableEntity, Map<String, Table> aliasMap) {
+    this.tupleReader = new TupleReaderFileImpl(DBCatalog.getInstance().getFileForTable(tName));
+    //    this.tupleReader = new TupleReaderBinImpl(DBCatalog.getInstance().getFileForTable(tName));
 
-  public ScanOperator(String tName) {
-    // load schema and file reader
-    try {
-      this.setOutputSchema(DBCatalog.getInstance().getSchema().get(tName));
-      this.file = DBCatalog.getInstance().getFileForTable(tName);
-      this.reader = new BufferedReader(new FileReader(this.file));
-    } catch (Exception e) {
-      logger.info("Cannot read File" + e.getMessage());
+    //    this.setOutputSchema(DBCatalog.getInstance().getSchema().get(tName));
+
+    // get Original Schema with only Table Name
+    ArrayList<Column> originalSchema = DBCatalog.getInstance().getSchema().get(tName);
+    ArrayList<Column> updatedSchema = getColumns(tableEntity, originalSchema);
+
+    // 设置输出的 schema
+    this.setOutputSchema(updatedSchema);
+  }
+
+  private static ArrayList<Column> getColumns(Table tableEntity, ArrayList<Column> originalSchema) {
+    ArrayList<Column> updatedSchema = new ArrayList<>();
+
+    // 更新列的表信息以包含别名
+    for (Column column : originalSchema) {
+      // 创建一个新的 Table 实例，保持原始表名和别名
+      Table updatedTable = new Table();
+      if (tableEntity.getAlias() != null) {
+        // 如果有别名，使用别名
+        updatedTable.setName(tableEntity.getAlias().getName());
+      } else {
+        // 如果没有别名，使用原始表名
+        updatedTable.setName(tableEntity.getName());
+      }
+
+      // 创建一个新的 Column 并设置表信息
+      Column updatedColumn = new Column(updatedTable, column.getColumnName());
+      updatedSchema.add(updatedColumn);
     }
+    return updatedSchema;
   }
 
   /** Resets cursor on the operator to the beginning */
   @Override
   public void reset() {
-    try {
-      reader.close();
-      reader = new BufferedReader(new FileReader(file));
-    } catch (IOException e) {
-      logger.info("Cannot close reader" + e.getMessage());
-    }
+    tupleReader.reset();
   }
 
   /**
@@ -45,23 +62,11 @@ public class ScanOperator extends Operator {
    */
   @Override
   public Tuple getNextTuple() {
-    try {
-      String curLine = reader.readLine();
-      if (curLine != null) {
-        return new Tuple(curLine);
-      }
-    } catch (Exception e) {
-      logger.info("Cannot readLine " + e.getMessage());
-    }
-    return null;
+    return tupleReader.readNextTuple();
   }
 
   /** close the resource */
   public void close() {
-    try {
-      if (reader != null) reader.close();
-    } catch (IOException e) {
-      logger.info("Cannot close reader " + e.getMessage());
-    }
+    tupleReader.close();
   }
 }

@@ -7,7 +7,6 @@ import java.util.List;
 import net.sf.jsqlparser.schema.Column;
 import net.sf.jsqlparser.schema.Table;
 import net.sf.jsqlparser.statement.select.OrderByElement;
-import tools.AliasTool;
 
 public class TupleComparator implements Comparator<Tuple> {
   private Map<String, Integer> indexMap;
@@ -36,31 +35,59 @@ public class TupleComparator implements Comparator<Tuple> {
     this.orderAscMap = new HashMap<>();
     this.orderColumns = new ArrayList<>();
     this.remainingColumns = new ArrayList<>();
+    // record order columns
+    Set<String> usedColumns = new HashSet<>();
 
-    // for each column in schema, decide it is in orderByElements or not
-    for (int i = 0; i < schema.size(); i++) {
-      Column curColumn = schema.get(i);
-      // sign for recording it is a required Column in orderByElements or not
-      boolean inRequired = false;
-      for (int j = 0; j < orderByElements.size(); j++) {
-        Column target = (Column) orderByElements.get(j).getExpression();
-        String targetAliasOrName = target.getTable().getName();
-        // Deal with Alias : like S.A ,  convert it to Sailors.A
-        if (AliasTool.isAlias(targetAliasOrName, aliasMap)) {
-          target.setTable(aliasMap.get(targetAliasOrName));
-        }
+    // by OrderElements
+    for (OrderByElement orderByElement : orderByElements) {
+      Column target = (Column) orderByElement.getExpression();
+
+      // find corresponding Column in schema
+      for (int i = 0; i < schema.size(); i++) {
+        Column curColumn = schema.get(i);
         if (columnEqual(curColumn, target)) {
-          // is in required, need to record asc/desc as well
-          orderColumns.add(target);
-          orderAscMap.put(target.toString(), orderByElements.get(j).isAsc());
-          inRequired = true;
+          orderColumns.add(curColumn);
+          orderAscMap.put(curColumn.toString(), orderByElement.isAsc());
+          usedColumns.add(curColumn.toString());
+          indexMap.put(curColumn.toString(), i);
           break;
         }
       }
-      // if not in required
-      if (!inRequired) remainingColumns.add(curColumn);
-      indexMap.put(curColumn.toString(), i);
     }
+
+    // put all remaining columns
+    for (int i = 0; i < schema.size(); i++) {
+      Column curColumn = schema.get(i);
+      if (!usedColumns.contains(curColumn.toString())) {
+        remainingColumns.add(curColumn);
+        indexMap.put(curColumn.toString(), i);
+      }
+    }
+
+    //    // for each column in schema, decide it is in orderByElements or not
+    //    for (int i = 0; i < schema.size(); i++) {
+    //      Column curColumn = schema.get(i);
+    //      // sign for recording it is a required Column in orderByElements or not
+    //      boolean inRequired = false;
+    //      for (int j = 0; j < orderByElements.size(); j++) {
+    //        Column target = (Column) orderByElements.get(j).getExpression();
+    //        String targetAliasOrName = target.getTable().getName();
+    //        // Deal with Alias : like S.A ,  convert it to Sailors.A
+    //        if (AliasTool.isAlias(targetAliasOrName, aliasMap)) {
+    //          target.setTable(aliasMap.get(targetAliasOrName));
+    //        }
+    //        if (columnEqual(curColumn, target)) {
+    //          // is in required, need to record asc/desc as well
+    //          orderColumns.add(curColumn);
+    //          orderAscMap.put(curColumn.toString(), orderByElements.get(j).isAsc());
+    //          inRequired = true;
+    //          break;
+    //        }
+    //      }
+    //      // if not in required
+    //      if (!inRequired) remainingColumns.add(curColumn);
+    //      indexMap.put(curColumn.toString(), i);
+    //    }
   }
 
   /**

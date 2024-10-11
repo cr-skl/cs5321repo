@@ -1,14 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="compilerTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2024-10-11T19:19:17" hostname="BATMAN-123" time="1.065">
+<testsuite name="compilerTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2024-10-11T21:18:59" hostname="BATMAN-123" time="24.602">
   <properties/>
-  <testcase name="testCompilerMain()" classname="compilerTest" time="1.065"/>
-  <system-out><![CDATA[15:19:18.240 [Test worker] INFO  compiler.Compiler - schema Directory:samples/input/db
-15:19:18.249 [Test worker] INFO  compiler.Compiler - sql Directory:samples/input/testqueries.sql
-15:19:18.389 [Test worker] INFO  compiler.Compiler - Processing query: SELECT * FROM Sailors S1, Sailors S2, Reserves R WHERE S1.A < S2.A AND S1.A = R.G
-15:19:18.437 [Test worker] INFO  compiler.Compiler - Processing query: SELECT S1.A, S2.A, S3.A FROM Sailors S1, Sailors S2, Sailors S3 WHERE S1.A < S2.A AND S2.A < S3.A AND S3.A < 5
-15:19:18.453 [Test worker] INFO  compiler.Compiler - Processing query: SELECT * FROM Sailors, Reserves, Boats WHERE Sailors.A = Reserves.G AND Reserves.H = Boats.D ORDER BY Sailors.C, Boats.F, Boats.E
-15:19:18.462 [Test worker] INFO  compiler.Compiler - Processing query: SELECT B.F, B.D FROM Boats B ORDER BY B.D
-15:19:18.464 [Test worker] INFO  compiler.Compiler - Processing query: SELECT * FROM Sailors S, Reserves R, Boats B WHERE S.A = R.G AND R.H = B.D ORDER BY S.C
+  <testcase name="testCompilerMain()" classname="compilerTest" time="24.602"/>
+  <system-out><![CDATA[17:19:00.683 [Test worker] INFO  compiler.Compiler - schema Directory:samples/input/db
+17:19:00.697 [Test worker] INFO  compiler.Compiler - sql Directory:samples/input/testqueries.sql
+17:19:00.889 [Test worker] INFO  compiler.Compiler - Processing query: SELECT * FROM Sailors
+17:19:00.928 [Test worker] INFO  compiler.Compiler - Processing query: SELECT Sailors.A FROM Sailors
+17:19:00.946 [Test worker] INFO  compiler.Compiler - Processing query: SELECT Boats.F, Boats.D FROM Boats
+17:19:00.959 [Test worker] INFO  compiler.Compiler - Processing query: SELECT Reserves.G, Reserves.H FROM Reserves
+17:19:00.971 [Test worker] INFO  compiler.Compiler - Processing query: SELECT * FROM Sailors WHERE Sailors.B >= Sailors.C
+17:19:01.007 [Test worker] INFO  compiler.Compiler - Processing query: SELECT Sailors.A FROM Sailors WHERE Sailors.B >= Sailors.C
+17:19:01.015 [Test worker] INFO  compiler.Compiler - Processing query: SELECT Sailors.A FROM Sailors WHERE Sailors.B >= Sailors.C AND Sailors.B < Sailors.C
+17:19:01.018 [Test worker] INFO  compiler.Compiler - Processing query: SELECT * FROM Sailors, Reserves WHERE Sailors.A = Reserves.G
+17:19:02.111 [Test worker] INFO  compiler.Compiler - Processing query: SELECT * FROM Sailors, Reserves, Boats WHERE Sailors.A = Reserves.G AND Reserves.H = Boats.D
+17:19:07.367 [Test worker] INFO  compiler.Compiler - Processing query: SELECT * FROM Sailors, Reserves, Boats WHERE Sailors.A = Reserves.G AND Reserves.H = Boats.D AND Sailors.B < 150
+17:19:11.058 [Test worker] INFO  compiler.Compiler - Processing query: SELECT DISTINCT * FROM Sailors
+17:19:11.073 [Test worker] INFO  compiler.Compiler - Processing query: SELECT * FROM Sailors S1, Sailors S2 WHERE S1.A < S2.A
+17:19:14.408 [Test worker] INFO  compiler.Compiler - Processing query: SELECT B.F, B.D FROM Boats B ORDER BY B.D
+17:19:14.421 [Test worker] INFO  compiler.Compiler - Processing query: SELECT * FROM Sailors S, Reserves R, Boats B WHERE S.A = R.G AND R.H = B.D ORDER BY S.C
+17:19:19.281 [Test worker] INFO  compiler.Compiler - Processing query: SELECT DISTINCT * FROM Sailors S, Reserves R, Boats B WHERE S.A = R.G AND R.H = B.D ORDER BY S.C
 ]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

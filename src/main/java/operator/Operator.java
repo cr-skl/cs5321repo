@@ -5,6 +5,7 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 import net.sf.jsqlparser.schema.Column;
+import tools.IO.TupleWriter;
 
 /**
  * Abstract class to represent relational operators. Every operator has a reference to an
@@ -65,5 +66,13 @@ public abstract class Operator {
     while ((t = this.getNextTuple()) != null) {
       printStream.println(t);
     }
+  }
+
+  public void dump(TupleWriter tupleWriter) {
+    Tuple t;
+    while ((t = this.getNextTuple()) != null) {
+      tupleWriter.writeTuple(t);
+    }
+    tupleWriter.close();
   }
 }

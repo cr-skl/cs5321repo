@@ -4,12 +4,12 @@ import common.Tuple;
 import java.io.*;
 import tools.debug.FileLogger;
 
-public class TupleReaderFileImpl implements TupleReader {
+public class TupleReaderHumanImpl implements TupleReader {
   private FileLogger logger = FileLogger.getInstance();
   private File file;
   private BufferedReader reader;
 
-  public TupleReaderFileImpl(File file) {
+  public TupleReaderHumanImpl(File file) {
     this.file = file;
     try {
       this.reader = new BufferedReader(new FileReader(this.file));

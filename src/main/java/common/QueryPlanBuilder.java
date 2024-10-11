@@ -181,17 +181,17 @@ public class QueryPlanBuilder {
    * @param map Map<String, List<Expression> the target Map
    * @param aliasMap aMap
    */
-//  private void processAlias(Map<String, List<Expression>> map, Map<String, Table> aliasMap) {
-//    // deal with case that don't use any alias
-//    if (map.isEmpty()) return;
-//    Collection<List<Expression>> exprss = map.values();
-//    AliasExpVisitor aliasExpVisitor = new AliasExpVisitor(aliasMap);
-//    for (List<Expression> exprs : exprss) {
-//      for (Expression expr : exprs) {
-//        expr.accept(aliasExpVisitor);
-//      }
-//    }
-//  }
+  //  private void processAlias(Map<String, List<Expression>> map, Map<String, Table> aliasMap) {
+  //    // deal with case that don't use any alias
+  //    if (map.isEmpty()) return;
+  //    Collection<List<Expression>> exprss = map.values();
+  //    AliasExpVisitor aliasExpVisitor = new AliasExpVisitor(aliasMap);
+  //    for (List<Expression> exprs : exprss) {
+  //      for (Expression expr : exprs) {
+  //        expr.accept(aliasExpVisitor);
+  //      }
+  //    }
+  //  }
 
   /**
    * Parse the whole expression in the WHERE into List<Expression> that are delimited by AND Return

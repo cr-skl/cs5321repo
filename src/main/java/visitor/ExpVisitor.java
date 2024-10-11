@@ -8,7 +8,6 @@ import java.util.Map;
 import net.sf.jsqlparser.expression.Expression;
 import net.sf.jsqlparser.expression.ExpressionVisitorAdapter;
 import net.sf.jsqlparser.expression.LongValue;
-import net.sf.jsqlparser.expression.operators.conditional.AndExpression;
 import net.sf.jsqlparser.expression.operators.relational.EqualsTo;
 import net.sf.jsqlparser.expression.operators.relational.GreaterThan;
 import net.sf.jsqlparser.expression.operators.relational.GreaterThanEquals;
@@ -43,6 +42,7 @@ public class ExpVisitor extends ExpressionVisitorAdapter {
     data = value.getValue();
     result = true;
   }
+
   @Override
   public void visit(Column column) {
     // map to original tableName
@@ -64,7 +64,6 @@ public class ExpVisitor extends ExpressionVisitorAdapter {
       data = null;
     }
   }
-
 
   @Override
   public void visit(EqualsTo expr) {

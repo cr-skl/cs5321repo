@@ -2,25 +2,22 @@ package operator;
 
 import common.DBCatalog;
 import common.Tuple;
+import java.util.ArrayList;
+import java.util.Map;
 import net.sf.jsqlparser.schema.Column;
 import net.sf.jsqlparser.schema.Table;
 import tools.IO.TupleReader;
 // import tools.IO.TupleReaderBinImpl;
-import tools.IO.TupleReaderBinImpl;
 import tools.IO.TupleReaderFileImpl;
-
-import java.util.ArrayList;
-import java.util.Map;
 
 public class ScanOperator extends Operator {
   private TupleReader tupleReader;
 
   public ScanOperator(String tName, Table tableEntity, Map<String, Table> aliasMap) {
     this.tupleReader = new TupleReaderFileImpl(DBCatalog.getInstance().getFileForTable(tName));
-//    this.tupleReader = new TupleReaderBinImpl(DBCatalog.getInstance().getFileForTable(tName));
+    //    this.tupleReader = new TupleReaderBinImpl(DBCatalog.getInstance().getFileForTable(tName));
 
-
-//    this.setOutputSchema(DBCatalog.getInstance().getSchema().get(tName));
+    //    this.setOutputSchema(DBCatalog.getInstance().getSchema().get(tName));
 
     // get Original Schema with only Table Name
     ArrayList<Column> originalSchema = DBCatalog.getInstance().getSchema().get(tName);

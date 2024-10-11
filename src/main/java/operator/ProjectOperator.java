@@ -69,13 +69,13 @@ public class ProjectOperator extends Operator {
       if (nextTuple == null) return null;
 
       ArrayList<Integer> tupleVal = nextTuple.getAllElements();
-/**      imp1  use Column.toString as Key, not good for self-join
-         since Column.toString() => tableName.columnName
-         which cannot differentiate different tableAlias with same table entity
- */
-//      for (int i = 0; i < tupleSchema.size(); i++) {
-//        tupleMap.put(tupleSchema.get(i).toString(), tupleVal.get(i));
-//      }
+      /**
+       * imp1 use Column.toString as Key, not good for self-join since Column.toString() =>
+       * tableName.columnName which cannot differentiate different tableAlias with same table entity
+       */
+      //      for (int i = 0; i < tupleSchema.size(); i++) {
+      //        tupleMap.put(tupleSchema.get(i).toString(), tupleVal.get(i));
+      //      }
       for (int i = 0; i < tupleSchema.size(); i++) {
         Column col = tupleSchema.get(i);
         String key = AliasTool.getColumnKey(col);
@@ -100,5 +100,4 @@ public class ProjectOperator extends Operator {
     }
     return new Tuple(temp);
   }
-
 }

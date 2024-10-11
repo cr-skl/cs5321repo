@@ -6,9 +6,9 @@ src/main/java/tools/IO/TupleReaderHumanImpl.java,1728680247568454500,1241,FORMAT
 src/main/java/visitor/ConditionVisitor.java,1728516066169483200,5216,FORMATTED
 src/main/java/operator/ScanOperator.java,1728681724784427800,2360,FORMATTED
 src/test/java/compilerTest.java,1727719907851185100,296,FORMATTED
-src/main/java/tools/IO/TupleWriter.java,1728680998288315300,134,FORMATTED
+src/main/java/tools/IO/TupleWriter.java,1728686087094446000,134,FORMATTED
 src/main/java/visitor/ExpVisitor.java,1728674717706665300,4544,FORMATTED
-src/main/java/compiler/Compiler.java,1728681724749209500,6814,FORMATTED
+src/main/java/compiler/Compiler.java,1728683178085960300,6813,FORMATTED
 src/main/java/Comparator/TupleComparator.java,1728674717515666300,5293,FORMATTED
 src/main/java/tools/debug/FileLogger.java,1728511743281199200,957,FORMATTED
 src/main/java/common/DBCatalog.java,1728681724662805200,2532,FORMATTED
@@ -29,9 +29,9 @@ src/main/java/operator/ProjectOperator.java,1728674717540671900,3361,FORMATTED
 src/main/java/visitor/BuildOpVisitor.java,1727719907844113300,2821,FORMATTED
 src/main/java/visitor/ClassifyExpVisitor.java,1728674717676667200,8646,FORMATTED
 src/main/java/operator/ScanOperator_old.java,1728511743238199200,1824,FORMATTED
-src/main/java/operator/Operator.java,1728681724764736800,2002,FORMATTED
+src/main/java/operator/Operator.java,1728683178119743300,2002,FORMATTED
 src/main/java/operator/DedupOperator.java,1727719907837113400,993,FORMATTED
-src/main/java/tools/IO/TupleWriterBinImpl.java,1728681724808040400,202,FORMATTED
+src/main/java/tools/IO/TupleWriterBinImpl.java,1728686087180496000,2588,FORMATTED
 src/main/java/operator/SortOperator.java,1727719907841110200,2302,FORMATTED
 src/main/java/tools/generator/TupleGenerator.java,1728511743295226300,551,FORMATTED
 src/main/java/common/Tuple.java,1727719907835112100,2206,FORMATTED

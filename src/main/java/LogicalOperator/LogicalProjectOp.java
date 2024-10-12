@@ -2,8 +2,10 @@ package LogicalOperator;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import net.sf.jsqlparser.schema.Column;
+import net.sf.jsqlparser.schema.Table;
 import net.sf.jsqlparser.statement.select.AllColumns;
 import net.sf.jsqlparser.statement.select.SelectExpressionItem;
 import net.sf.jsqlparser.statement.select.SelectItem;
@@ -21,7 +23,7 @@ public class LogicalProjectOp extends LogicalOperator {
     setOutputSchema(requiredList == null ? child.getOutputSchema() : requiredList);
   }
 
-  public LogicalProjectOp(List<SelectItem> selectItemList) {
+  public LogicalProjectOp(List<SelectItem> selectItemList, Map<String, Table> aliasMap) {
     this.selectItemList = selectItemList;
     requiredList = new ArrayList<>();
     for (SelectItem e : selectItemList) {

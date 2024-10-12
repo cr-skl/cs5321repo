@@ -1,6 +1,9 @@
 package LogicalOperator;
 
 import java.util.List;
+import java.util.Map;
+
+import net.sf.jsqlparser.schema.Table;
 import net.sf.jsqlparser.statement.select.OrderByElement;
 
 public class LogicalSortOp extends LogicalOperator {
@@ -10,7 +13,7 @@ public class LogicalSortOp extends LogicalOperator {
     return orderByElements;
   }
 
-  public LogicalSortOp(List<OrderByElement> orderByElements) {
+  public LogicalSortOp(List<OrderByElement> orderByElements, Map<String, Table> aliasMap) {
     this.orderByElements = orderByElements;
   }
 }

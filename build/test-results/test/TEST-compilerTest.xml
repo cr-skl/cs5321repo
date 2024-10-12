@@ -1,26 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="compilerTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2024-10-12T01:01:44" hostname="MSI" time="0.12">
+<testsuite name="compilerTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2024-10-12T02:27:13" hostname="MSI" time="30.806">
   <properties/>
-  <testcase name="testCompilerMain()" classname="compilerTest" time="0.12"/>
-  <system-out><![CDATA[21:01:44.031 [Test worker] INFO  compiler.Compiler - schema Directory:samples/input/db
-21:01:44.031 [Test worker] INFO  compiler.Compiler - sql Directory:samples/input/testqueries.sql
-21:01:44.062 [Test worker] INFO  compiler.Compiler - Processing query: SELECT * FROM Sailors
-21:01:44.073 [Test worker] INFO  compiler.Compiler - Processing query: SELECT Sailors.A FROM Sailors
-21:01:44.078 [Test worker] INFO  compiler.Compiler - Processing query: SELECT Boats.F, Boats.D FROM Boats
-21:01:44.083 [Test worker] INFO  compiler.Compiler - Processing query: SELECT Reserves.G, Reserves.H FROM Reserves
-21:01:44.088 [Test worker] INFO  compiler.Compiler - Processing query: SELECT * FROM Sailors WHERE Sailors.B >= Sailors.C
-21:01:44.092 [Test worker] INFO  compiler.Compiler - Processing query: SELECT Sailors.A FROM Sailors WHERE Sailors.B >= Sailors.C
-21:01:44.096 [Test worker] INFO  compiler.Compiler - Processing query: SELECT Sailors.A FROM Sailors WHERE Sailors.B >= Sailors.C AND Sailors.B < Sailors.C
-21:01:44.099 [Test worker] INFO  compiler.Compiler - Processing query: SELECT * FROM Sailors, Reserves WHERE Sailors.A = Reserves.G
-21:01:44.105 [Test worker] INFO  compiler.Compiler - Processing query: SELECT * FROM Sailors, Reserves, Boats WHERE Sailors.A = Reserves.G AND Reserves.H = Boats.D
-21:01:44.116 [Test worker] INFO  compiler.Compiler - Processing query: SELECT * FROM Sailors, Reserves, Boats WHERE Sailors.A = Reserves.G AND Reserves.H = Boats.D AND Sailors.B < 150
-21:01:44.122 [Test worker] INFO  compiler.Compiler - Processing query: SELECT DISTINCT * FROM Sailors
-21:01:44.125 [Test worker] INFO  compiler.Compiler - Processing query: SELECT * FROM Sailors S1, Sailors S2 WHERE S1.A < S2.A
-21:01:44.131 [Test worker] INFO  compiler.Compiler - Processing query: SELECT B.F, B.D FROM Boats B ORDER BY B.D
-21:01:44.132 [Test worker] INFO  compiler.Compiler - Processing query: SELECT * FROM Sailors S, Reserves R, Boats B WHERE S.A = R.G AND R.H = B.D ORDER BY S.C
-21:01:44.137 [Test worker] ERROR compiler.Compiler - Cannot invoke "java.lang.Boolean.booleanValue()" because the return value of "visitor.ConditionVisitor.getResult()" is null
-21:01:44.137 [Test worker] INFO  compiler.Compiler - Processing query: SELECT DISTINCT * FROM Sailors S, Reserves R, Boats B WHERE S.A = R.G AND R.H = B.D ORDER BY S.C
-21:01:44.139 [Test worker] ERROR compiler.Compiler - Cannot invoke "java.lang.Boolean.booleanValue()" because the return value of "visitor.ConditionVisitor.getResult()" is null
+  <testcase name="testCompilerMain()" classname="compilerTest" time="30.806"/>
+  <system-out><![CDATA[22:27:15.113 [Test worker] INFO  compiler.Compiler - schema Directory:samples/input/db
+22:27:15.122 [Test worker] INFO  compiler.Compiler - sql Directory:samples/input/testqueries.sql
+22:27:15.310 [Test worker] INFO  compiler.Compiler - Processing query: SELECT * FROM Sailors
+22:27:15.357 [Test worker] INFO  compiler.Compiler - Processing query: SELECT Sailors.A FROM Sailors
+22:27:15.370 [Test worker] INFO  compiler.Compiler - Processing query: SELECT Boats.F, Boats.D FROM Boats
+22:27:15.388 [Test worker] INFO  compiler.Compiler - Processing query: SELECT Reserves.G, Reserves.H FROM Reserves
+22:27:15.406 [Test worker] INFO  compiler.Compiler - Processing query: SELECT * FROM Sailors WHERE Sailors.B >= Sailors.C
+22:27:15.459 [Test worker] INFO  compiler.Compiler - Processing query: SELECT Sailors.A FROM Sailors WHERE Sailors.B >= Sailors.C
+22:27:15.468 [Test worker] INFO  compiler.Compiler - Processing query: SELECT Sailors.A FROM Sailors WHERE Sailors.B >= Sailors.C AND Sailors.B < Sailors.C
+22:27:15.476 [Test worker] INFO  compiler.Compiler - Processing query: SELECT * FROM Sailors, Reserves WHERE Sailors.A = Reserves.G
+22:27:17.064 [Test worker] INFO  compiler.Compiler - Processing query: SELECT * FROM Sailors, Reserves, Boats WHERE Sailors.A = Reserves.G AND Reserves.H = Boats.D
+22:27:24.169 [Test worker] INFO  compiler.Compiler - Processing query: SELECT * FROM Sailors, Reserves, Boats WHERE Sailors.A = Reserves.G AND Reserves.H = Boats.D AND Sailors.B < 150
+22:27:29.480 [Test worker] INFO  compiler.Compiler - Processing query: SELECT DISTINCT * FROM Sailors
+22:27:29.500 [Test worker] INFO  compiler.Compiler - Processing query: SELECT * FROM Sailors S1, Sailors S2 WHERE S1.A < S2.A
+22:27:31.323 [Test worker] INFO  compiler.Compiler - Processing query: SELECT B.F, B.D FROM Boats B ORDER BY B.D
+22:27:31.333 [Test worker] INFO  compiler.Compiler - Processing query: SELECT * FROM Sailors S, Reserves R, Boats B WHERE S.A = R.G AND R.H = B.D ORDER BY S.C
+22:27:38.057 [Test worker] INFO  compiler.Compiler - Processing query: SELECT DISTINCT * FROM Sailors S, Reserves R, Boats B WHERE S.A = R.G AND R.H = B.D ORDER BY S.C
 ]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

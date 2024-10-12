@@ -3,14 +3,14 @@ package common;
 import LogicalOperator.*;
 import java.util.*;
 
-import PhysicalOperator.SelectOperator;
-import PhysicalOperator.SortOperator;
+import PhysicalOperator.*;
 import net.sf.jsqlparser.expression.Expression;
 import net.sf.jsqlparser.expression.operators.conditional.AndExpression;
 import net.sf.jsqlparser.schema.Table;
 import net.sf.jsqlparser.statement.Statement;
 import net.sf.jsqlparser.statement.select.*;
 import tools.alias.AliasTool;
+import visitor.BuildOpVisitor;
 import visitor.ClassifyExpVisitor;
 import visitor.LogicalOpVisitor;
 
@@ -87,11 +87,11 @@ public class QueryPlanBuilder {
     // Building the operator tree
 
     // FROM ...
-    treeBuilder.visit(new LogicalScanOp(fromItem.getName(), fromItem));
+    treeBuilder.visit(new LogicalScanOp(fromItem.getName(), fromItem, aliasMap));
     // self-selection
     if (selectCond.containsKey(firstAliasOrName)) {
       for (Expression e : selectCond.get(firstAliasOrName)) {
-        treeBuilder.visit(new LogicalSelectOp(e));
+        treeBuilder.visit(new LogicalSelectOp(e, aliasMap));
       }
     }
 
@@ -101,16 +101,16 @@ public class QueryPlanBuilder {
     joined_tables.add(firstAliasOrName);
     if (joins != null) {
       for (Join join : joins) {
-        // get the right table info
+        // get the right table Alias/TableName
         LogicalOpVisitor subTreeBuilder = new LogicalOpVisitor();
         Table rightTable = (Table) join.getRightItem();
         String rightAliasOrName = AliasTool.getAliasOrName(rightTable, aliasMap);
         // scan right table    must use the table's name  , not alias
-        subTreeBuilder.visit(new LogicalScanOp(rightTable.getName(), rightTable));
+        subTreeBuilder.visit(new LogicalScanOp(rightTable.getName(), rightTable, aliasMap));
         // do self-selection
         if (selectCond.containsKey(rightAliasOrName)) {
           for (Expression e : selectCond.get(rightAliasOrName)) {
-            subTreeBuilder.visit(new LogicalSelectOp(e));
+            subTreeBuilder.visit(new LogicalSelectOp(e, aliasMap));
           }
         }
 
@@ -145,16 +145,16 @@ public class QueryPlanBuilder {
     }
     // SELECT .... projection
     if (selectItems.size() > 0) {
-      treeBuilder.visit(new LogicalProjectOp(selectItems));
+      treeBuilder.visit(new LogicalProjectOp(selectItems, aliasMap));
     }
     // ORDER...BY
     if (orderByElements != null) {
-      treeBuilder.visit(new LogicalSortOp(orderByElements));
+      treeBuilder.visit(new LogicalSortOp(orderByElements, aliasMap));
     }
     // DISTINCT
     if (body.getDistinct() != null) {
       if (orderByElements == null) {
-        treeBuilder.visit(new LogicalSortOp(new ArrayList<>()));
+        treeBuilder.visit(new LogicalSortOp(new ArrayList<>(), aliasMap));
       }
       treeBuilder.visit(new LogicalDedupOp());
     }

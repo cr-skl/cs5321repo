@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="tupleGeneratorTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2024-10-12T01:01:44" hostname="MSI" time="0.003">
-  <properties/>
-  <testcase name="test1()" classname="tupleGeneratorTest" time="0.003"/>
-  <system-out><![CDATA[8,10,5,5,4
-]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>

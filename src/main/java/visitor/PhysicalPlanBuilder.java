@@ -59,7 +59,6 @@ public class PhysicalPlanBuilder {
   public Operator buildPlan(
       LogicalOperator logicalPlan, Map<String, Table> aliasMap) {
 
-    // TODO: tree is being built backwards, so everything becomes null
     LogicalOperator curr = logicalPlan;
     if (curr instanceof LogicalScanOp) { // scan
       //leaf node, so we don't need to set children or output schema

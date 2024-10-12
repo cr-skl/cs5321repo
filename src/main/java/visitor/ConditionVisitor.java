@@ -91,6 +91,7 @@ public class ConditionVisitor extends ExpressionVisitorAdapter {
       result = rightMap.get(leftKey).equals(leftMap.get(rightKey));
       //      result = rightMap.get(leftKey) == leftMap.get(rightKey);
     }
+    int i = 0;
   }
 
   /**

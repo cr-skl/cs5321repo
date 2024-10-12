@@ -1,15 +1,15 @@
 package common;
 
-import LogicalOperator.*;
 import java.util.*;
 import net.sf.jsqlparser.expression.Expression;
 import net.sf.jsqlparser.expression.operators.conditional.AndExpression;
 import net.sf.jsqlparser.schema.Table;
 import net.sf.jsqlparser.statement.Statement;
 import net.sf.jsqlparser.statement.select.*;
-import visitor.AliasExpVisitor;
+import operator.*;
+import tools.alias.AliasTool;
+import visitor.BuildOpVisitor;
 import visitor.ClassifyExpVisitor;
-import visitor.LogicalOpVisitor;
 
 /**
  * Class to translate a JSQLParser statement into a relational algebra query plan. For now only
@@ -28,41 +28,36 @@ import visitor.LogicalOpVisitor;
  */
 public class QueryPlanBuilder {
 
-  public QueryPlanBuilder() {
-    aliasMap = new HashMap<>();
-  }
-
-  private Map<String, Table> aliasMap;
-
-  public Map<String, Table> getAliasMap() {
-    return aliasMap;
-  }
+  public QueryPlanBuilder() {}
 
   /**
-   * Top level method to translate statement to LOGICAL query plan. Also generates the alias map
+   * Top level method to translate statement to query plan
    *
    * @param stmt statement to be translated
-   * @return the root of the logical query plan
+   * @return the root of the query plan
    */
-  public LogicalOperator buildPlan(Statement stmt) {
+  public Operator buildPlan(Statement stmt) {
     // alias -> name
+    Map<String, Table> aliasMap = new HashMap<>();
     Select sql = (Select) stmt;
     PlainSelect body = (PlainSelect) sql.getSelectBody();
     // Get  "FROM"
     Table fromItem = (Table) body.getFromItem();
-    String firstTableName = fromItem.getName();
+    // Get "JOIN" "ON"
+    List<Join> joins = body.getJoins();
+    // map each alias to a table instance
+    buildAliasMap(aliasMap, fromItem, joins);
     // Get "WHERE"
     Expression eval = body.getWhere();
     // Get "SELECT"
     List<SelectItem> selectItems = body.getSelectItems();
-    // Get "JOIN" "ON"
-    List<Join> joins = body.getJoins();
     // Get "ORDER BY"
     List<OrderByElement> orderByElements = body.getOrderByElements();
-    // map each alias to a table instance
-    buildAliasMap(aliasMap, fromItem, joins);
+
+    String firstAliasOrName = AliasTool.getAliasOrName(fromItem, aliasMap);
+
     // Build operator tree, return the top
-    LogicalOpVisitor treeBuilder = new LogicalOpVisitor();
+    BuildOpVisitor treeBuilder = new BuildOpVisitor();
 
     // parsing WHERE condition for following JOINs
     Map<String, List<Expression>> selectCond = new HashMap<>();
@@ -76,38 +71,35 @@ public class QueryPlanBuilder {
       for (Expression e : expressions) {
         e.accept(classifier);
       }
-      // turn alias into table_name
-      processAlias(selectCond, aliasMap);
-      processAlias(joinCond, aliasMap);
     }
 
     // Building the operator tree
 
     // FROM ...
-    treeBuilder.visit(new LogicalScanOp(fromItem.getName()));
+    treeBuilder.visit(new ScanOperator(fromItem.getName(), fromItem, aliasMap));
     // self-selection
-    if (selectCond.containsKey(firstTableName)) {
-      for (Expression e : selectCond.get(firstTableName)) {
-        treeBuilder.visit(new LogicalSelectOp(e));
+    if (selectCond.containsKey(firstAliasOrName)) {
+      for (Expression e : selectCond.get(firstAliasOrName)) {
+        treeBuilder.visit(new SelectOperator(e, aliasMap));
       }
     }
 
     // JOIN ...
     // a set to record the tables that already joined the current
     Set<String> joined_tables = new HashSet<>();
-    joined_tables.add(firstTableName);
+    joined_tables.add(firstAliasOrName);
     if (joins != null) {
       for (Join join : joins) {
-        // get the right table info
-        LogicalOpVisitor subTreeBuilder = new LogicalOpVisitor();
+        // get the right table Alias/TableName
+        BuildOpVisitor subTreeBuilder = new BuildOpVisitor();
         Table rightTable = (Table) join.getRightItem();
-        String rightName = rightTable.getName();
+        String rightAliasOrName = AliasTool.getAliasOrName(rightTable, aliasMap);
         // scan right table    must use the table's name  , not alias
-        subTreeBuilder.visit(new LogicalScanOp(rightTable.getName()));
+        subTreeBuilder.visit(new ScanOperator(rightTable.getName(), rightTable, aliasMap));
         // do self-selection
-        if (selectCond.containsKey(rightName)) {
-          for (Expression e : selectCond.get(rightName)) {
-            subTreeBuilder.visit(new LogicalSelectOp(e));
+        if (selectCond.containsKey(rightAliasOrName)) {
+          for (Expression e : selectCond.get(rightAliasOrName)) {
+            subTreeBuilder.visit(new SelectOperator(e, aliasMap));
           }
         }
 
@@ -115,9 +107,9 @@ public class QueryPlanBuilder {
         // imp2
         // Combine join conditions
         Expression combinedCondition = null;
-        for (String leftName : joined_tables) {
-          String combi1 = leftName + "," + rightName;
-          String combi2 = rightName + "," + leftName;
+        for (String leftAliasOrName : joined_tables) {
+          String combi1 = leftAliasOrName + "," + rightAliasOrName;
+          String combi2 = rightAliasOrName + "," + leftAliasOrName;
           if (joinCond.containsKey(combi1) || joinCond.containsKey(combi2)) {
             List<Expression> conditions = joinCond.getOrDefault(combi1, joinCond.get(combi2));
             for (Expression e : conditions) {
@@ -132,43 +124,28 @@ public class QueryPlanBuilder {
 
         // Create a single join operator with the combined condition
         if (combinedCondition != null) {
-          treeBuilder.visit(new LogicalJoinOp(subTreeBuilder.getRoot(), combinedCondition));
+          treeBuilder.visit(new JoinOperator(subTreeBuilder.getRoot(), combinedCondition));
         } else {
           // If no specific condition, just join without conditions
-          treeBuilder.visit(new LogicalJoinOp(subTreeBuilder.getRoot(), null));
+          treeBuilder.visit(new JoinOperator(subTreeBuilder.getRoot(), null));
         }
-        joined_tables.add(rightName);
+        joined_tables.add(rightAliasOrName);
       }
-      // imp1
-      //        for (String leftName : joined_tables) {
-      //          String combi1 = leftName + "," + rightName;
-      //          String combi2 = rightName + "," + leftName;
-      //          if (joinCond.containsKey(combi1)) {
-      //            for (Expression e : joinCond.get(combi1)) {
-      //              treeBuilder.visit(new JoinOperator(subTreeBuilder.getRoot(), e));
-      //            }
-      //          } else if (joinCond.containsKey(combi2)) {
-      //            for (Expression e : joinCond.get(combi2)) {
-      //              treeBuilder.visit(new JoinOperator(subTreeBuilder.getRoot(), e));
-      //            }
-      //          } else {
-      //            treeBuilder.visit(new JoinOperator(subTreeBuilder.getRoot(), null));
-      //          }
-      //        }
-      //        joined_tables.add(rightName);
-      //      }
     }
     // SELECT .... projection
     if (selectItems.size() > 0) {
-      treeBuilder.visit(new LogicalProjectOp(selectItems));
+      treeBuilder.visit(new ProjectOperator(selectItems, aliasMap));
     }
     // ORDER...BY
     if (orderByElements != null) {
-      treeBuilder.visit(new LogicalSortOp(orderByElements));
+      treeBuilder.visit(new SortOperator(orderByElements, aliasMap));
     }
     // DISTINCT
     if (body.getDistinct() != null) {
-      treeBuilder.visit(new LogicalDedupOp());
+      if (orderByElements == null) {
+        treeBuilder.visit(new SortOperator(new ArrayList<>(), aliasMap));
+      }
+      treeBuilder.visit(new DedupOperator());
     }
     return treeBuilder.getRoot();
   }
@@ -193,25 +170,6 @@ public class QueryPlanBuilder {
         if (rightTable.getAlias() != null) {
           aliasMap.put(rightTable.getAlias().getName(), rightTable);
         }
-      }
-    }
-  }
-
-  /**
-   * For each of the Expressions in the map.keySet() turn their alias Column into real Name . e.g:
-   * Expression S.A < R.H --> Expression Sailors.A < Reserves.H
-   *
-   * @param map Map<String, List<Expression> the target Map
-   * @param aliasMap aMap
-   */
-  private void processAlias(Map<String, List<Expression>> map, Map<String, Table> aliasMap) {
-    // deal with case that don't use any alias
-    if (map.isEmpty()) return;
-    Collection<List<Expression>> exprss = map.values();
-    AliasExpVisitor aliasExpVisitor = new AliasExpVisitor(aliasMap);
-    for (List<Expression> exprs : exprss) {
-      for (Expression expr : exprs) {
-        expr.accept(aliasExpVisitor);
       }
     }
   }

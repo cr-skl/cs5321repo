@@ -1,9 +1,10 @@
 package tools.IO;
 
-public interface TupleWriter {
-  void writeTuple();
+import common.Tuple;
 
-  void reset();
+public interface TupleWriter {
+
+  void writeTuple(Tuple tuple);
 
   void close();
 }

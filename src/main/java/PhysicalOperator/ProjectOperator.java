@@ -10,7 +10,7 @@ import net.sf.jsqlparser.schema.Table;
 import net.sf.jsqlparser.statement.select.AllColumns;
 import net.sf.jsqlparser.statement.select.SelectExpressionItem;
 import net.sf.jsqlparser.statement.select.SelectItem;
-import tools.AliasTool;
+import tools.alias.AliasTool;
 
 public class ProjectOperator extends Operator {
   // either a selectOperator or a scan Operator
@@ -30,11 +30,6 @@ public class ProjectOperator extends Operator {
       if (e instanceof SelectExpressionItem) {
         SelectExpressionItem expressionItem = (SelectExpressionItem) e;
         Column aliasCol = (Column) expressionItem.getExpression();
-        // if the Column is alias, set it to tableName
-        if (AliasTool.isAlias(aliasCol, aliasMap)) {
-          Table table = aliasCol.getTable();
-          table.setName(AliasTool.getOriginalName(aliasCol, aliasMap));
-        }
         requiredList.add(aliasCol);
       }
     }
@@ -72,9 +67,19 @@ public class ProjectOperator extends Operator {
       nextTuple = child.getNextTuple();
       // towards the end
       if (nextTuple == null) return null;
+
       ArrayList<Integer> tupleVal = nextTuple.getAllElements();
+      /**
+       * imp1 use Column.toString as Key, not good for self-join since Column.toString() =>
+       * tableName.columnName which cannot differentiate different tableAlias with same table entity
+       */
+      //      for (int i = 0; i < tupleSchema.size(); i++) {
+      //        tupleMap.put(tupleSchema.get(i).toString(), tupleVal.get(i));
+      //      }
       for (int i = 0; i < tupleSchema.size(); i++) {
-        tupleMap.put(tupleSchema.get(i).toString(), tupleVal.get(i));
+        Column col = tupleSchema.get(i);
+        String key = AliasTool.getColumnKey(col);
+        tupleMap.put(key, tupleVal.get(i));
       }
       temp = new ArrayList<>();
       // requirement is AllColumns
@@ -86,8 +91,9 @@ public class ProjectOperator extends Operator {
         // since output is on accord with the order of requiredList
         // requiredList is the one to be iterated
         for (int i = 0; i < requiredList.size(); i++) {
-          String cName = requiredList.get(i).toString();
-          temp.add(tupleMap.get(cName.toString()));
+          Column col = requiredList.get(i);
+          String key = AliasTool.getColumnKey(col);
+          temp.add(tupleMap.get(key));
         }
         break;
       }

@@ -2,8 +2,6 @@
 /*******************************************************************************************/
 package compiler;
 
-import LogicalOperator.LogicalOperator;
-import PhysicalOperator.Operator;
 import common.DBCatalog;
 import common.QueryPlanBuilder;
 import java.io.File;
@@ -16,9 +14,11 @@ import java.util.Objects;
 import net.sf.jsqlparser.parser.CCJSqlParserUtil;
 import net.sf.jsqlparser.statement.Statement;
 import net.sf.jsqlparser.statement.Statements;
+import operator.Operator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import visitor.PhysicalPlanBuilder;
+import tools.IO.TupleWriter;
+import tools.IO.TupleWriterBinImpl;
 
 //
 /// **
@@ -63,7 +63,6 @@ public class Compiler {
           CCJSqlParserUtil.parseStatements(
               Files.readString(Paths.get(InputURI).resolve("testqueries.sql")));
       QueryPlanBuilder queryPlanBuilder = new QueryPlanBuilder();
-      PhysicalPlanBuilder physicalPlanBuilder = new PhysicalPlanBuilder();
 
       if (outputToFiles) {
         // directory
@@ -85,15 +84,17 @@ public class Compiler {
         logger.info("Processing query: " + statement);
         PrintStream out = null;
         try {
-          LogicalOperator logicalPlan = queryPlanBuilder.buildPlan(statement);
-          Operator plan =
-              physicalPlanBuilder.buildPlan(logicalPlan, queryPlanBuilder.getAliasMap());
+          Operator plan = queryPlanBuilder.buildPlan(statement);
 
           if (outputToFiles) {
-            File outfile = new File(Paths.get(OutputURI).resolve("query" + counter).toString());
-            out = new PrintStream(outfile);
-            plan.dump(out);
-            out.close();
+            // human
+            //            File outfile = new File(Paths.get(OutputURI).resolve("query" +
+            // counter).toString());
+            //            TupleWriter writer = new TupleWriterHumanImpl(outfile);
+            File outfile = new File(Paths.get(OutputURI).resolve("queryBin" + counter).toString());
+            // binary
+            TupleWriter writer = new TupleWriterBinImpl(outfile);
+            plan.dump(writer);
           } else {
             plan.dump(System.out);
           }
@@ -115,7 +116,7 @@ public class Compiler {
 // package compiler;
 //
 // import common.DBCatalog;
-// import common.QueryPlanBuilder_old;
+// import common.QueryPlanBuilder;
 // import java.io.File;
 // import java.io.PrintStream;
 // import java.nio.file.Files;
@@ -157,9 +158,7 @@ public class Compiler {
 //      //      String str = Files.readString(Paths.get(inputDir + "/testqueries.sql"));
 //
 //      Statements statements = CCJSqlParserUtil.parseStatements(str);
-//      LogicalOperator logicalPlan = queryPlanBuilder.buildPlan(statement);
-//      Operator plan = PhysicalPlanBuilder.BuildPlan(logicalPlan, queryPlanBuilder.getAliasMap(),
-// InputURI);
+//      QueryPlanBuilder queryPlanBuilder = new QueryPlanBuilder();
 //
 //      if (outputToFiles) {
 //        for (File file : (new File(outputDir).listFiles())) file.delete();

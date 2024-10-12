@@ -63,9 +63,9 @@ public class PhysicalPlanBuilder {
     LogicalOperator curr = logicalPlan;
     if (curr instanceof LogicalScanOp) { // scan
       //leaf node, so we don't need to set children or output schema
-      return new ScanOperator(((LogicalScanOp) curr).getTableName());
+      return new ScanOperator(((LogicalScanOp) curr).getTableName(), ((LogicalScanOp) curr).getTable(), aliasMap);
     } else if (curr instanceof LogicalSelectOp) { // select
-      SelectOperator op = new SelectOperator(((LogicalSelectOp) curr).getExpression());
+      SelectOperator op = new SelectOperator(((LogicalSelectOp) curr).getExpression(), aliasMap);
       op.setChild(buildPlan(curr.getChild(), aliasMap));
       op.setOutputSchema(curr.getOutputSchema());
       return op;

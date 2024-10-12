@@ -1,15 +1,18 @@
 package common;
 
+import LogicalOperator.*;
 import java.util.*;
+
+import PhysicalOperator.SelectOperator;
+import PhysicalOperator.SortOperator;
 import net.sf.jsqlparser.expression.Expression;
 import net.sf.jsqlparser.expression.operators.conditional.AndExpression;
 import net.sf.jsqlparser.schema.Table;
 import net.sf.jsqlparser.statement.Statement;
 import net.sf.jsqlparser.statement.select.*;
-import operator.*;
 import tools.alias.AliasTool;
-import visitor.BuildOpVisitor;
 import visitor.ClassifyExpVisitor;
+import visitor.LogicalOpVisitor;
 
 /**
  * Class to translate a JSQLParser statement into a relational algebra query plan. For now only
@@ -28,17 +31,25 @@ import visitor.ClassifyExpVisitor;
  */
 public class QueryPlanBuilder {
 
-  public QueryPlanBuilder() {}
+  public QueryPlanBuilder() {
+    aliasMap = new HashMap<>();
+  }
+
+  private Map<String, Table> aliasMap;
+
+  public Map<String, Table> getAliasMap() {
+    return aliasMap;
+  }
 
   /**
-   * Top level method to translate statement to query plan
+   * Top level method to translate statement to LOGICAL query plan. Also generates the alias map
    *
    * @param stmt statement to be translated
-   * @return the root of the query plan
+   * @return the root of the logical query plan
    */
-  public Operator buildPlan(Statement stmt) {
+  public LogicalOperator buildPlan(Statement stmt) {
     // alias -> name
-    Map<String, Table> aliasMap = new HashMap<>();
+    aliasMap = new HashMap<>();
     Select sql = (Select) stmt;
     PlainSelect body = (PlainSelect) sql.getSelectBody();
     // Get  "FROM"
@@ -57,7 +68,7 @@ public class QueryPlanBuilder {
     String firstAliasOrName = AliasTool.getAliasOrName(fromItem, aliasMap);
 
     // Build operator tree, return the top
-    BuildOpVisitor treeBuilder = new BuildOpVisitor();
+    LogicalOpVisitor treeBuilder = new LogicalOpVisitor();
 
     // parsing WHERE condition for following JOINs
     Map<String, List<Expression>> selectCond = new HashMap<>();
@@ -76,11 +87,11 @@ public class QueryPlanBuilder {
     // Building the operator tree
 
     // FROM ...
-    treeBuilder.visit(new ScanOperator(fromItem.getName(), fromItem, aliasMap));
+    treeBuilder.visit(new LogicalScanOp(fromItem.getName(), fromItem));
     // self-selection
     if (selectCond.containsKey(firstAliasOrName)) {
       for (Expression e : selectCond.get(firstAliasOrName)) {
-        treeBuilder.visit(new SelectOperator(e, aliasMap));
+        treeBuilder.visit(new LogicalSelectOp(e));
       }
     }
 
@@ -90,16 +101,16 @@ public class QueryPlanBuilder {
     joined_tables.add(firstAliasOrName);
     if (joins != null) {
       for (Join join : joins) {
-        // get the right table Alias/TableName
-        BuildOpVisitor subTreeBuilder = new BuildOpVisitor();
+        // get the right table info
+        LogicalOpVisitor subTreeBuilder = new LogicalOpVisitor();
         Table rightTable = (Table) join.getRightItem();
         String rightAliasOrName = AliasTool.getAliasOrName(rightTable, aliasMap);
         // scan right table    must use the table's name  , not alias
-        subTreeBuilder.visit(new ScanOperator(rightTable.getName(), rightTable, aliasMap));
+        subTreeBuilder.visit(new LogicalScanOp(rightTable.getName(), rightTable));
         // do self-selection
         if (selectCond.containsKey(rightAliasOrName)) {
           for (Expression e : selectCond.get(rightAliasOrName)) {
-            subTreeBuilder.visit(new SelectOperator(e, aliasMap));
+            subTreeBuilder.visit(new LogicalSelectOp(e));
           }
         }
 
@@ -124,28 +135,28 @@ public class QueryPlanBuilder {
 
         // Create a single join operator with the combined condition
         if (combinedCondition != null) {
-          treeBuilder.visit(new JoinOperator(subTreeBuilder.getRoot(), combinedCondition));
+          treeBuilder.visit(new LogicalJoinOp(subTreeBuilder.getRoot(), combinedCondition));
         } else {
           // If no specific condition, just join without conditions
-          treeBuilder.visit(new JoinOperator(subTreeBuilder.getRoot(), null));
+          treeBuilder.visit(new LogicalJoinOp(subTreeBuilder.getRoot(), null));
         }
         joined_tables.add(rightAliasOrName);
       }
     }
     // SELECT .... projection
     if (selectItems.size() > 0) {
-      treeBuilder.visit(new ProjectOperator(selectItems, aliasMap));
+      treeBuilder.visit(new LogicalProjectOp(selectItems));
     }
     // ORDER...BY
     if (orderByElements != null) {
-      treeBuilder.visit(new SortOperator(orderByElements, aliasMap));
+      treeBuilder.visit(new LogicalSortOp(orderByElements));
     }
     // DISTINCT
     if (body.getDistinct() != null) {
       if (orderByElements == null) {
-        treeBuilder.visit(new SortOperator(new ArrayList<>(), aliasMap));
+        treeBuilder.visit(new LogicalSortOp(new ArrayList<>()));
       }
-      treeBuilder.visit(new DedupOperator());
+      treeBuilder.visit(new LogicalDedupOp());
     }
     return treeBuilder.getRoot();
   }

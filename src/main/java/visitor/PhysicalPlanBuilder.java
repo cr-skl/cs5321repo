@@ -5,13 +5,10 @@ import PhysicalOperator.*;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Map;
-import java.util.Objects;
-
 import net.sf.jsqlparser.schema.Table;
 import org.apache.logging.log4j.LogManager;
 
@@ -20,14 +17,14 @@ public class PhysicalPlanBuilder {
 
   private int joinType, joinBufPages, sortType, sortBufPages;
 
-  /**
-   * Read config file and make a physical plan builder
-   */
-  public PhysicalPlanBuilder() throws URISyntaxException {
-    ClassLoader classLoader = PhysicalPlanBuilder.class.getClassLoader();
-    URI InputURI = Objects.requireNonNull(classLoader.getResource("samples/input")).toURI();
-    Path config = Paths.get(InputURI).resolve("plan_builder_config.txt");
-    try{
+  /** Read config file and make a physical plan builder */
+  public PhysicalPlanBuilder(String path) throws URISyntaxException {
+    // ClassLoader classLoader = PhysicalPlanBuilder.class.getClassLoader();
+    // URI InputURI = Objects.requireNonNull(classLoader.getResource("samples/input")).toURI();
+
+    // Path config = Paths.get(InputURI).resolve("plan_builder_config.txt");
+    Path config = Paths.get(path + "/plan_builder_config.txt");
+    try {
       // read config from txt file
       BufferedReader br = new BufferedReader(new FileReader(config.toString()));
       String[] params = br.readLine().split("\\s");
@@ -46,6 +43,7 @@ public class PhysicalPlanBuilder {
       LogManager.getLogger().error(e.getMessage());
     }
   }
+
   /**
    * Take in the root of a tree representing a logical query plan and the alias map and return the
    * root of a tree representing an appropriate physical query plan. Iterates over the logical query
@@ -54,15 +52,16 @@ public class PhysicalPlanBuilder {
    *
    * @param logicalPlan the root of a tree representing a logical query plan
    * @param aliasMap The alias map for this query
-   * @return The root of a tree representing a physical query plan. Null if the input tree is empty/null
+   * @return The root of a tree representing a physical query plan. Null if the input tree is
+   *     empty/null
    */
-  public Operator buildPlan(
-      LogicalOperator logicalPlan, Map<String, Table> aliasMap) {
+  public Operator buildPlan(LogicalOperator logicalPlan, Map<String, Table> aliasMap) {
 
     LogicalOperator curr = logicalPlan;
     if (curr instanceof LogicalScanOp) { // scan
-      //leaf node, so we don't need to set children or output schema
-      return new ScanOperator(((LogicalScanOp) curr).getTableName(), ((LogicalScanOp) curr).getTable(), aliasMap);
+      // leaf node, so we don't need to set children or output schema
+      return new ScanOperator(
+          ((LogicalScanOp) curr).getTableName(), ((LogicalScanOp) curr).getTable(), aliasMap);
     } else if (curr instanceof LogicalSelectOp) { // select
       SelectOperator op = new SelectOperator(((LogicalSelectOp) curr).getExpression(), aliasMap);
       op.setChild(buildPlan(curr.getChild(), aliasMap));
@@ -82,16 +81,19 @@ public class PhysicalPlanBuilder {
       op.setOutputSchema(lOp.getOutputSchema());
       return op;
     } else if (curr instanceof LogicalProjectOp) { // project
-      ProjectOperator op = new ProjectOperator(((LogicalProjectOp) curr).getSelectItemList(), aliasMap);
+      ProjectOperator op =
+          new ProjectOperator(((LogicalProjectOp) curr).getSelectItemList(), aliasMap);
       op.setChild(buildPlan(curr.getChild(), aliasMap));
       return op;
     } else if (curr instanceof LogicalSortOp) { // sort
       SortOperator op = null;
       if (sortType == 0)
-        op = new SortOperator(((LogicalSortOp) curr).getOrderByElements(), aliasMap); // in-memory sort
+        op =
+            new SortOperator(
+                ((LogicalSortOp) curr).getOrderByElements(), aliasMap); // in-memory sort
       else if (sortType == 1)
         ; // TODO: external sort
-      //should never throw a null pointer exception since if sortType is not 0 or 1,
+      // should never throw a null pointer exception since if sortType is not 0 or 1,
       // an exception will be thrown in the constructor for the plan builder
       op.setChild(buildPlan(curr.getChild(), aliasMap));
       op.setOutputSchema(curr.getOutputSchema());

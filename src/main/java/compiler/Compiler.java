@@ -22,14 +22,13 @@ import tools.IO.TupleWriter;
 import tools.IO.TupleWriterBinImpl;
 import visitor.PhysicalPlanBuilder;
 
-//
-/// **
-// * Top level harness class; reads queries from an input file one at a time, processes them and
-// sends
-// * output to file or to System depending on flag.
-// */
 
-public class Compiler {
+/**
+ * Top level harness class; reads queries from an input file one at a time, processes them and
+ * sends output to file or to System depending on flag.
+ */
+
+ public class Compiler {
 
   private static final Logger logger = LogManager.getLogger();
   private static final boolean outputToFiles = true; // true = output to
@@ -65,7 +64,7 @@ public class Compiler {
           CCJSqlParserUtil.parseStatements(
               Files.readString(Paths.get(InputURI).resolve("testqueries.sql")));
       QueryPlanBuilder queryPlanBuilder = new QueryPlanBuilder();
-      PhysicalPlanBuilder physicalPlanBuilder = new PhysicalPlanBuilder();
+      PhysicalPlanBuilder physicalPlanBuilder = new PhysicalPlanBuilder(inputDir);
 
       if (outputToFiles) {
         // directory
@@ -113,30 +112,32 @@ public class Compiler {
       logger.error(e.getMessage());
     }
   }
-}
+ }
 /****************************************************************************************/
 // compiler for jar
 /****************************************************************************************/
-// package compiler;
+//package compiler;
 //
-// import common.DBCatalog;
-// import common.QueryPlanBuilder;
-// import java.io.File;
-// import java.io.PrintStream;
-// import java.nio.file.Files;
-// import java.nio.file.Paths;
-// import net.sf.jsqlparser.parser.CCJSqlParserUtil;
-// import net.sf.jsqlparser.statement.Statement;
-// import net.sf.jsqlparser.statement.Statements;
-// import operator.Operator;
-// import org.apache.logging.log4j.*;
+//import LogicalOperator.LogicalOperator;
+//import PhysicalOperator.Operator;
+//import common.DBCatalog;
+//import common.QueryPlanBuilder;
+//import java.io.File;
+//import java.nio.file.Files;
+//import java.nio.file.Paths;
+//import net.sf.jsqlparser.parser.CCJSqlParserUtil;
+//import net.sf.jsqlparser.statement.Statement;
+//import net.sf.jsqlparser.statement.Statements;
+//import org.apache.logging.log4j.*;
+//import tools.IO.TupleWriter;
+//import tools.IO.TupleWriterBinImpl;
+//import visitor.PhysicalPlanBuilder;
 //
-/// **
-// * Top level harness class; reads queries from an input file one at a time, processes them and
-// sends
+///**
+// * Top level harness class; reads queries from an input file one at a time, processes them and sends
 // * output to file or to System depending on flag.
 // */
-// public class Compiler {
+//public class Compiler {
 //  private static final Logger logger = LogManager.getLogger();
 //
 //  private static String outputDir;
@@ -163,7 +164,7 @@ public class Compiler {
 //
 //      Statements statements = CCJSqlParserUtil.parseStatements(str);
 //      QueryPlanBuilder queryPlanBuilder = new QueryPlanBuilder();
-//      PhysicalPlanBuilder physicalPlanBuilder = new PhysicalPlanBuilder();
+//      PhysicalPlanBuilder physicalPlanBuilder = new PhysicalPlanBuilder(inputDir);
 //
 //      if (outputToFiles) {
 //        for (File file : (new File(outputDir).listFiles())) file.delete();
@@ -180,7 +181,8 @@ public class Compiler {
 //
 //          if (outputToFiles) {
 //            File outfile = new File(outputDir + "/query" + counter);
-//            plan.dump(new PrintStream(outfile));
+//            TupleWriter writer = new TupleWriterBinImpl(outfile);
+//            plan.dump(writer);
 //          } else {
 //            plan.dump(System.out);
 //          }
@@ -195,4 +197,4 @@ public class Compiler {
 //      logger.error(e.getMessage());
 //    }
 //  }
-// }
+//}

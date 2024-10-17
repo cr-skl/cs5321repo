@@ -1,12 +1,12 @@
 package common;
 
+import PhysicalOperator.*;
 import java.util.*;
 import net.sf.jsqlparser.expression.Expression;
 import net.sf.jsqlparser.expression.operators.conditional.AndExpression;
 import net.sf.jsqlparser.schema.Table;
 import net.sf.jsqlparser.statement.Statement;
 import net.sf.jsqlparser.statement.select.*;
-import PhysicalOperator.*;
 import tools.alias.AliasTool;
 import visitor.BuildOpVisitor;
 import visitor.ClassifyExpVisitor;

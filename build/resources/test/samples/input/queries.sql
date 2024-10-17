@@ -8,4 +8,4 @@ SELECT DISTINCT R.G FROM Reserves R;
 SELECT * FROM Sailors ORDER BY Sailors.B;
 
 SELECT User.I, Order.L, Detail.N FROM User, Order, Detail WHERE User.I = Order.K AND User.I = Detail.M;
-SELECT User.I, Order.L, Detail.N FROM User, Order, Detail WHERE User.I = Order.K AND User.I = Detail.M ORDER BY Detail.N DESC ;
+SELECT User.I, Order.L, Detail.N FROM User, Order, Detail WHERE User.I = Order.K AND User.I = Detail.M ORDER BY Detail.N DESC;

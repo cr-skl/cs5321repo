@@ -77,7 +77,7 @@ public class DBCatalog {
    * @return file where table is found on disk
    */
   public File getFileForTable(String tableName) {
-//        return new File(dbDirectory + "/data/" + tableName);
+    // return new File(dbDirectory + "/data/" + tableName);
     return new File(dbDirectory + "/dataBin/" + tableName);
   }
 

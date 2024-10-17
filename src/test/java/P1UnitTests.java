@@ -1,3 +1,4 @@
+import LogicalOperator.LogicalOperator;
 import PhysicalOperator.Operator;
 import common.DBCatalog;
 import common.QueryPlanBuilder;
@@ -22,7 +23,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import visitor.PhysicalPlanBuilder;
-import LogicalOperator.LogicalOperator;
 
 public class P1UnitTests {
   private static List<Statement> statementList;
@@ -44,7 +44,7 @@ public class P1UnitTests {
 
     statements = CCJSqlParserUtil.parseStatements(Files.readString(Paths.get(queriesFile)));
     queryPlanBuilder = new QueryPlanBuilder();
-    physicalPlanBuilder = new PhysicalPlanBuilder();
+    physicalPlanBuilder = new PhysicalPlanBuilder("samples/input");
     queryPlanBuilder_old = new QueryPlanBuilder_old();
     statementList = statements.getStatements();
   }
@@ -137,7 +137,7 @@ public class P1UnitTests {
   public void testQuery4() throws ExecutionControl.NotImplementedException, URISyntaxException {
     LogicalOperator lPlan = queryPlanBuilder.buildPlan(statementList.get(3));
     Operator plan = physicalPlanBuilder.buildPlan(lPlan, queryPlanBuilder.getAliasMap());
-    //Operator plan = queryPlanBuilder_old.buildPlan(statementList.get(3));
+    // Operator plan = queryPlanBuilder_old.buildPlan(statementList.get(3));
 
     List<Tuple> tuples = HelperMethods.collectAllTuples(plan);
 

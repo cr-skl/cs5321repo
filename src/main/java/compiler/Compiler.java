@@ -2,6 +2,8 @@
 /*******************************************************************************************/
 package compiler;
 
+import LogicalOperator.LogicalOperator;
+import PhysicalOperator.PhysicalOperator;
 import common.DBCatalog;
 import common.QueryPlanBuilder;
 import java.io.File;
@@ -14,8 +16,6 @@ import java.util.Objects;
 import net.sf.jsqlparser.parser.CCJSqlParserUtil;
 import net.sf.jsqlparser.statement.Statement;
 import net.sf.jsqlparser.statement.Statements;
-import PhysicalOperator.Operator;
-import LogicalOperator.LogicalOperator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import tools.IO.TupleWriter;
@@ -88,7 +88,8 @@ public class Compiler {
         PrintStream out = null;
         try {
           LogicalOperator lPlan = queryPlanBuilder.buildPlan(statement);
-          Operator plan = physicalPlanBuilder.buildPlan(lPlan, queryPlanBuilder.getAliasMap());
+          PhysicalOperator plan =
+              physicalPlanBuilder.buildPlan(lPlan, queryPlanBuilder.getAliasMap());
 
           if (outputToFiles) {
             // human

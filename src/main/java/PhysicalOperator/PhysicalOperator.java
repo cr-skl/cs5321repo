@@ -13,7 +13,7 @@ import tools.IO.TupleWriter;
  * of Column objects. Each Column has an embedded Table object with the name and alias (if required)
  * fields set appropriately.
  */
-public abstract class Operator {
+public abstract class PhysicalOperator {
 
   protected ArrayList<Column> outputSchema;
 
@@ -25,7 +25,7 @@ public abstract class Operator {
     this.outputSchema = outputSchema;
   }
 
-  public Operator() {}
+  public PhysicalOperator() {}
 
   public ArrayList<Column> getOutputSchema() {
     return outputSchema;

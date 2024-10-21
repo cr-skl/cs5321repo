@@ -1,6 +1,9 @@
 package LogicalOperator;
 
+import java.util.Map;
 import net.sf.jsqlparser.expression.Expression;
+import net.sf.jsqlparser.schema.Table;
+import visitor.PhysicalPlanBuilder;
 
 public class LogicalJoinOp extends LogicalOperator {
   private LogicalOperator leftChild;
@@ -47,5 +50,10 @@ public class LogicalJoinOp extends LogicalOperator {
   public LogicalJoinOp(LogicalOperator rightChild, Expression eval) {
     this.rightChild = rightChild;
     this.eval = eval;
+  }
+
+  @Override
+  public void accept(PhysicalPlanBuilder visitor, Map<String, Table> aliasMap) {
+    visitor.visit(this, aliasMap);
   }
 }

@@ -6,9 +6,9 @@ import net.sf.jsqlparser.expression.Expression;
 import net.sf.jsqlparser.schema.Table;
 import visitor.ExpVisitor;
 
-public class SelectOperator extends Operator {
+public class SelectOperator extends PhysicalOperator {
 
-  private Operator child;
+  private PhysicalOperator child;
   private Expression exp;
   private Map<String, Table> aliasMap;
 
@@ -17,7 +17,7 @@ public class SelectOperator extends Operator {
    *
    * @param child c
    */
-  public void setChild(Operator child) {
+  public void setChild(PhysicalOperator child) {
     this.child = child;
   }
 

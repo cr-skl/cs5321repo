@@ -2,8 +2,8 @@ package PhysicalOperator;
 
 import common.Tuple;
 
-public class DedupOperator extends Operator {
-  private Operator child;
+public class DedupOperator extends PhysicalOperator {
+  private PhysicalOperator child;
   private Tuple prevTuple;
 
   public DedupOperator() {
@@ -15,7 +15,7 @@ public class DedupOperator extends Operator {
    *
    * @param child c
    */
-  public void setChild(Operator child) {
+  public void setChild(PhysicalOperator child) {
     this.child = child;
   }
 

@@ -9,9 +9,9 @@ import java.util.Map;
 import net.sf.jsqlparser.schema.Table;
 import net.sf.jsqlparser.statement.select.OrderByElement;
 
-public class SortOperator extends Operator {
+public class SortOperator extends PhysicalOperator {
   private Boolean sorted;
-  private Operator child;
+  private PhysicalOperator child;
   private List<Tuple> save = new ArrayList<>();
   private List<OrderByElement> orderByElements;
   private Map<String, Table> aliasMap;
@@ -22,7 +22,7 @@ public class SortOperator extends Operator {
    *
    * @param child c
    */
-  public void setChild(Operator child) {
+  public void setChild(PhysicalOperator child) {
     this.child = child;
   }
 

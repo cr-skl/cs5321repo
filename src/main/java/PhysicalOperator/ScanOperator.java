@@ -8,14 +8,13 @@ import net.sf.jsqlparser.schema.Column;
 import net.sf.jsqlparser.schema.Table;
 import tools.IO.TupleReader;
 import tools.IO.TupleReaderBinImpl;
-import tools.IO.TupleReaderHumanImpl;
 
-public class ScanOperator extends Operator {
+public class ScanOperator extends PhysicalOperator {
   private TupleReader tupleReader;
 
   public ScanOperator(String tName, Table tableEntity, Map<String, Table> aliasMap) {
-       // this.tupleReader = new
-     //TupleReaderHumanImpl(DBCatalog.getInstance().getFileForTable(tName));
+    // this.tupleReader = new
+    // TupleReaderHumanImpl(DBCatalog.getInstance().getFileForTable(tName));
     this.tupleReader = new TupleReaderBinImpl(DBCatalog.getInstance().getFileForTable(tName));
 
     //    this.setOutputSchema(DBCatalog.getInstance().getSchema().get(tName));

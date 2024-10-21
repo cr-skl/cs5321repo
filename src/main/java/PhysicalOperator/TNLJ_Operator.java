@@ -5,19 +5,19 @@ import java.util.ArrayList;
 import net.sf.jsqlparser.expression.Expression;
 import visitor.ConditionVisitor;
 
-public class JoinOperator extends Operator {
-  private Operator leftChild;
-  private Operator rightChild;
+public class TNLJ_Operator extends PhysicalOperator {
+  protected PhysicalOperator leftChild;
+  protected PhysicalOperator rightChild;
   private Tuple leftNextTuple = null;
   private Tuple rightNextTuple = null;
-  private Expression eval;
+  protected Expression eval;
 
   /**
    * set the child, called on .visit()
    *
    * @param leftChild lc
    */
-  public void setLeftChild(Operator leftChild) {
+  public void setLeftChild(PhysicalOperator leftChild) {
     this.leftChild = leftChild;
   }
 
@@ -26,7 +26,7 @@ public class JoinOperator extends Operator {
    *
    * @return c
    */
-  public Operator getLeftChild() {
+  public PhysicalOperator getLeftChild() {
     return leftChild;
   }
 
@@ -35,7 +35,7 @@ public class JoinOperator extends Operator {
    *
    * @return c
    */
-  public Operator getRightChild() {
+  public PhysicalOperator getRightChild() {
     return rightChild;
   }
 
@@ -45,7 +45,8 @@ public class JoinOperator extends Operator {
    * @param rightChild rc
    * @param eval e
    */
-  public JoinOperator(Operator rightChild, Expression eval) {
+  public TNLJ_Operator(PhysicalOperator leftChild, PhysicalOperator rightChild, Expression eval) {
+    this.leftChild = leftChild;
     this.rightChild = rightChild;
     this.eval = eval;
   }

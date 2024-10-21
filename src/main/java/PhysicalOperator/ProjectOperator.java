@@ -12,13 +12,13 @@ import net.sf.jsqlparser.statement.select.SelectExpressionItem;
 import net.sf.jsqlparser.statement.select.SelectItem;
 import tools.alias.AliasTool;
 
-public class ProjectOperator extends Operator {
+public class ProjectOperator extends PhysicalOperator {
   // either a selectOperator or a scan Operator
   // depends on whether has the where clause
 
   // either a new tuple or the original tuple
   // depends on what in the SELECT Field
-  private Operator child;
+  private PhysicalOperator child;
   private ArrayList<Column> requiredList;
 
   public ProjectOperator(List<SelectItem> selectItemList, Map<String, Table> aliasMap) {
@@ -40,7 +40,7 @@ public class ProjectOperator extends Operator {
    *
    * @param child c
    */
-  public void setChild(Operator child) {
+  public void setChild(PhysicalOperator child) {
     this.child = child;
     this.setOutputSchema(requiredList == null ? child.getOutputSchema() : requiredList);
   }

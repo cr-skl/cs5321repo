@@ -1,11 +1,11 @@
 package LogicalOperator;
 
 import common.DBCatalog;
-import net.sf.jsqlparser.schema.Column;
-import net.sf.jsqlparser.schema.Table;
-
 import java.util.ArrayList;
 import java.util.Map;
+import net.sf.jsqlparser.schema.Column;
+import net.sf.jsqlparser.schema.Table;
+import visitor.PhysicalPlanBuilder;
 
 public class LogicalScanOp extends LogicalOperator {
   private String tableName;
@@ -50,5 +50,10 @@ public class LogicalScanOp extends LogicalOperator {
       updatedSchema.add(updatedColumn);
     }
     return updatedSchema;
+  }
+
+  @Override
+  public void accept(PhysicalPlanBuilder visitor, Map<String, Table> aliasMap) {
+    visitor.visit(this, aliasMap);
   }
 }

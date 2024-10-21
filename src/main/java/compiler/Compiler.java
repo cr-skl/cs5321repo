@@ -2,6 +2,8 @@
 /*******************************************************************************************/
 package compiler;
 
+import LogicalOperator.LogicalOperator;
+import PhysicalOperator.PhysicalOperator;
 import common.DBCatalog;
 import common.QueryPlanBuilder;
 import java.io.File;
@@ -14,11 +16,11 @@ import java.util.Objects;
 import net.sf.jsqlparser.parser.CCJSqlParserUtil;
 import net.sf.jsqlparser.statement.Statement;
 import net.sf.jsqlparser.statement.Statements;
-import operator.Operator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import tools.IO.TupleWriter;
 import tools.IO.TupleWriterBinImpl;
+import visitor.PhysicalPlanBuilder;
 
 //
 /// **
@@ -63,6 +65,7 @@ public class Compiler {
           CCJSqlParserUtil.parseStatements(
               Files.readString(Paths.get(InputURI).resolve("testqueries.sql")));
       QueryPlanBuilder queryPlanBuilder = new QueryPlanBuilder();
+      PhysicalPlanBuilder physicalPlanBuilder = new PhysicalPlanBuilder();
 
       if (outputToFiles) {
         // directory
@@ -84,7 +87,9 @@ public class Compiler {
         logger.info("Processing query: " + statement);
         PrintStream out = null;
         try {
-          Operator plan = queryPlanBuilder.buildPlan(statement);
+          LogicalOperator lPlan = queryPlanBuilder.buildPlan(statement);
+          PhysicalOperator plan =
+              physicalPlanBuilder.buildPlan(lPlan, queryPlanBuilder.getAliasMap());
 
           if (outputToFiles) {
             // human
@@ -159,6 +164,7 @@ public class Compiler {
 //
 //      Statements statements = CCJSqlParserUtil.parseStatements(str);
 //      QueryPlanBuilder queryPlanBuilder = new QueryPlanBuilder();
+//      PhysicalPlanBuilder physicalPlanBuilder = new PhysicalPlanBuilder();
 //
 //      if (outputToFiles) {
 //        for (File file : (new File(outputDir).listFiles())) file.delete();
@@ -170,7 +176,8 @@ public class Compiler {
 //        logger.info("Processing query: " + statement);
 //
 //        try {
-//          Operator plan = queryPlanBuilder.buildPlan(statement);
+//          LogicalOperator lPlan = queryPlanBuilder.buildPlan(statement);
+//          Operator plan = physicalPlanBuilder.buildPlan(lPlan, queryPlanBuilder.getAliasMap());
 //
 //          if (outputToFiles) {
 //            File outfile = new File(outputDir + "/query" + counter);

@@ -1,14 +1,14 @@
 package visitor;
 
+import PhysicalOperator.DedupOperator;
+import PhysicalOperator.PhysicalOperator;
+import PhysicalOperator.ProjectOperator;
+import PhysicalOperator.ScanOperator;
+import PhysicalOperator.SelectOperator;
+import PhysicalOperator.SortOperator;
+import PhysicalOperator.TNLJ_Operator;
 import java.util.ArrayList;
 import net.sf.jsqlparser.schema.Column;
-import operator.DedupOperator;
-import operator.JoinOperator;
-import operator.Operator;
-import operator.ProjectOperator;
-import operator.ScanOperator;
-import operator.SelectOperator;
-import operator.SortOperator;
 
 /**
  * top comment: calling the visit, will make current root to the left child of the current operator,
@@ -16,7 +16,7 @@ import operator.SortOperator;
  * p.s : all the schema is expected to be only Column using real tableName, not alias
  */
 public class BuildOpVisitor implements OpVisitor {
-  private Operator root;
+  private PhysicalOperator root;
 
   public BuildOpVisitor() {
     this.root = null;
@@ -27,7 +27,7 @@ public class BuildOpVisitor implements OpVisitor {
    *
    * @return r
    */
-  public Operator getRoot() {
+  public PhysicalOperator getRoot() {
     return root;
   }
 
@@ -77,7 +77,7 @@ public class BuildOpVisitor implements OpVisitor {
    *
    * @param operator op
    */
-  public void visit(JoinOperator operator) {
+  public void visit(TNLJ_Operator operator) {
     if (root == null) {
       root = operator;
     } else {

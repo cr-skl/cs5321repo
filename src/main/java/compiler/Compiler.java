@@ -20,6 +20,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import tools.IO.TupleWriter;
 import tools.IO.TupleWriterBinImpl;
+import tools.IO.TupleWriterHumanImpl;
 import visitor.PhysicalPlanBuilder;
 
 //
@@ -93,12 +94,11 @@ public class Compiler {
 
           if (outputToFiles) {
             // human
-            //            File outfile = new File(Paths.get(OutputURI).resolve("query" +
-            // counter).toString());
-            //            TupleWriter writer = new TupleWriterHumanImpl(outfile);
-            File outfile = new File(Paths.get(OutputURI).resolve("queryBin" + counter).toString());
+            File outfile = new File(Paths.get(OutputURI).resolve("query" + counter).toString());
+            TupleWriter writer = new TupleWriterHumanImpl(outfile);
             // binary
-            TupleWriter writer = new TupleWriterBinImpl(outfile);
+//            File outfile = new File(Paths.get(OutputURI).resolve("queryBin" + counter).toString());
+//            TupleWriter writer = new TupleWriterBinImpl(outfile);
             plan.dump(writer);
           } else {
             plan.dump(System.out);

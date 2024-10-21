@@ -1,17 +1,3 @@
-X15:28:25.179 [Test worker] INFO  compiler.Compiler - schema Directory:samples/input/db
-b15:28:25.187 [Test worker] INFO  compiler.Compiler - sql Directory:samples/input/testqueries.sql
-^15:28:25.354 [Test worker] INFO  compiler.Compiler - Processing query: SELECT * FROM Sailors
-f15:28:25.391 [Test worker] INFO  compiler.Compiler - Processing query: SELECT Sailors.A FROM Sailors
-k15:28:25.402 [Test worker] INFO  compiler.Compiler - Processing query: SELECT Boats.F, Boats.D FROM Boats
-t15:28:25.406 [Test worker] INFO  compiler.Compiler - Processing query: SELECT Reserves.G, Reserves.H FROM Reserves
-{15:28:25.411 [Test worker] INFO  compiler.Compiler - Processing query: SELECT * FROM Sailors WHERE Sailors.B >= Sailors.C
-ƒ15:28:25.468 [Test worker] INFO  compiler.Compiler - Processing query: SELECT Sailors.A FROM Sailors WHERE Sailors.B >= Sailors.C
-15:28:25.474 [Test worker] INFO  compiler.Compiler - Processing query: SELECT Sailors.A FROM Sailors WHERE Sailors.B >= Sailors.C AND Sailors.B < Sailors.C
-…15:28:25.477 [Test worker] INFO  compiler.Compiler - Processing query: SELECT * FROM Sailors, Reserves WHERE Sailors.A = Reserves.G
-¥15:28:25.494 [Test worker] INFO  compiler.Compiler - Processing query: SELECT * FROM Sailors, Reserves, Boats WHERE Sailors.A = Reserves.G AND Reserves.H = Boats.D
-¹15:28:25.500 [Test worker] INFO  compiler.Compiler - Processing query: SELECT * FROM Sailors, Reserves, Boats WHERE Sailors.A = Reserves.G AND Reserves.H = Boats.D AND Sailors.B < 150
-g15:28:25.507 [Test worker] INFO  compiler.Compiler - Processing query: SELECT DISTINCT * FROM Sailors
-15:28:25.534 [Test worker] INFO  compiler.Compiler - Processing query: SELECT * FROM Sailors S1, Sailors S2 WHERE S1.A < S2.A
-r15:28:25.542 [Test worker] INFO  compiler.Compiler - Processing query: SELECT B.F, B.D FROM Boats B ORDER BY B.D
- 15:28:25.549 [Test worker] INFO  compiler.Compiler - Processing query: SELECT * FROM Sailors S, Reserves R, Boats B WHERE S.A = R.G AND R.H = B.D ORDER BY S.C
-©15:28:25.555 [Test worker] INFO  compiler.Compiler - Processing query: SELECT DISTINCT * FROM Sailors S, Reserves R, Boats B WHERE S.A = R.G AND R.H = B.D ORDER BY S.C
+X17:44:24.283 [Test worker] INFO  compiler.Compiler - schema Directory:samples/input/db
+b17:44:24.295 [Test worker] INFO  compiler.Compiler - sql Directory:samples/input/testqueries.sql
+…17:44:24.466 [Test worker] INFO  compiler.Compiler - Processing query: SELECT * FROM Sailors, Reserves WHERE Sailors.A = Reserves.G

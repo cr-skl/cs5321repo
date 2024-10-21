@@ -126,7 +126,7 @@ public class PhysicalPlanBuilder {
       LogicalJoinOp lOp = (LogicalJoinOp) curr;
       PhysicalOperator l = buildPlan(lOp.getLeftChild(), aliasMap);
       PhysicalOperator r = buildPlan(lOp.getRightChild(), aliasMap);
-      TNLJ_Operator op = null;
+      JoinOperator op = null;
       if (joinType == 0) op = new TNLJ_Operator(l, r, lOp.getExpression()); // TNLJ
       else if (joinType == 1)
         op = new BNLJ_Operator(l, r, lOp.getExpression(), joinBufPages); // TODO: BNLJ

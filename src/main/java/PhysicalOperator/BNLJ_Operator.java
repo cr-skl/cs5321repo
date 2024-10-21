@@ -41,22 +41,24 @@ public class BNLJ_Operator extends JoinOperator {
    */
   @Override
   public Tuple getNextTuple() {
-    // init()
-    if (!initial) {
-      initial = true;
-      // k
-      leftBlockPtr = 0;
-      // j
-      rightTuple = rightChild.getNextTuple();
-      if (rightTuple == null)
-        return null;
-      // i
-      leftBlock = fetchNextLeftBlock(attrs);
-      // special case: leftTable is Empty
-      if (leftBlock.isEmpty())
-        return null;
-    }
-e      // k outOfBound
+    while(true) {
+      // init()
+      if (!initial) {
+        initial = true;
+        // k
+        leftBlockPtr = 0;
+        // j
+        rightTuple = rightChild.getNextTuple();
+        if (rightTuple == null)
+          return null;
+        // i
+        leftBlock = fetchNextLeftBlock(attrs);
+        // special case: leftTable is Empty
+        if (leftBlock.isEmpty())
+          return null;
+      }
+      // real getNextTuple()
+      // k outOfBound
       if (leftBlockPtr >= leftBlock.size()) {
         // j++
         rightTuple = rightChild.getNextTuple();
@@ -87,7 +89,6 @@ e      // k outOfBound
       }
     }
   }
-
   private List<Tuple> fetchNextLeftBlock(int attrs) {
 
     List<Tuple> block = new ArrayList<>();

@@ -3,7 +3,7 @@ package LogicalOperator;
 import java.util.Map;
 import net.sf.jsqlparser.expression.Expression;
 import net.sf.jsqlparser.schema.Table;
-import visitor.PhysicalPlanBuilder;
+import common.PhysicalPlanBuilder;
 
 public class LogicalJoinOp extends LogicalOperator {
   private LogicalOperator leftChild;

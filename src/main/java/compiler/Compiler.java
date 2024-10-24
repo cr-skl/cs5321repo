@@ -21,7 +21,7 @@ import org.apache.logging.log4j.Logger;
 import tools.IO.TupleWriter;
 import tools.IO.TupleWriterBinImpl;
 import tools.IO.TupleWriterHumanImpl;
-import visitor.PhysicalPlanBuilder;
+import common.PhysicalPlanBuilder;
 
 //
 /// **
@@ -36,6 +36,7 @@ public class Compiler {
   private static final boolean outputToFiles = true; // true = output to
   private static String outputDir;
   private static String inputDir;
+  private static String tempDir;
 
   // files, false = output
   // to System.out
@@ -47,13 +48,24 @@ public class Compiler {
    * <p>If dumping to files result of ith query is in file named queryi, indexed stating at 1.
    */
   public static void main(String[] args) throws URISyntaxException {
+    System.out.println("Current working directory: " + System.getProperty("user.dir"));
 
     inputDir = args[0];
     outputDir = args[1];
+    tempDir = args.length > 2 ? args[2] : null;
     ClassLoader classLoader = Compiler.class.getClassLoader();
     URI InputURI = Objects.requireNonNull(classLoader.getResource(inputDir)).toURI();
     URI OutputURI = Objects.requireNonNull(classLoader.getResource(outputDir)).toURI();
+
+
     DBCatalog.getInstance().setDataDirectory(Paths.get(InputURI).resolve("db").toString());
+    String tempPath = null;
+    if (tempDir != null) {
+      URI TempURI = Objects.requireNonNull(classLoader.getResource(tempDir)).toURI();
+      tempPath = Paths.get(TempURI).toString();
+    } else {
+      tempPath = null;
+    }
     logger.info("schema Directory:" + inputDir + "/db");
     String query = "testqueries.sql";
     logger.info("sql Directory:" + inputDir + "/testqueries.sql");
@@ -66,9 +78,9 @@ public class Compiler {
           CCJSqlParserUtil.parseStatements(
               Files.readString(Paths.get(InputURI).resolve("testqueries.sql")));
       QueryPlanBuilder queryPlanBuilder = new QueryPlanBuilder();
-      PhysicalPlanBuilder physicalPlanBuilder = new PhysicalPlanBuilder();
+        PhysicalPlanBuilder physicalPlanBuilder = new PhysicalPlanBuilder(tempPath);
 
-      if (outputToFiles) {
+        if (outputToFiles) {
         // directory
         File[] files = new File(OutputURI).listFiles();
         if (files != null) {
@@ -94,11 +106,11 @@ public class Compiler {
 
           if (outputToFiles) {
             // human
-            File outfile = new File(Paths.get(OutputURI).resolve("query" + counter).toString());
-            TupleWriter writer = new TupleWriterHumanImpl(outfile);
+//            File outfile = new File(Paths.get(OutputURI).resolve("query" + counter).toString());
+//            TupleWriter writer = new TupleWriterHumanImpl(outfile);
             // binary
-//            File outfile = new File(Paths.get(OutputURI).resolve("queryBin" + counter).toString());
-//            TupleWriter writer = new TupleWriterBinImpl(outfile);
+            File outfile = new File(Paths.get(OutputURI).resolve("queryBin" + counter).toString());
+            TupleWriter writer = new TupleWriterBinImpl(outfile);
             plan.dump(writer);
           } else {
             plan.dump(System.out);

@@ -11,7 +11,7 @@ public class BNLJ_Operator extends JoinOperator {
 
   private List<Tuple> leftBlock;
   private int leftBlockPtr;
-  private int attrs;
+
   private int tuplesPerBlock;
   private static final int PAGE_SIZE = 4096;
   private static final int INT_SIZE = 4;
@@ -22,10 +22,9 @@ public class BNLJ_Operator extends JoinOperator {
    * @param rightChild rc
    * @param eval e
    */
-  public BNLJ_Operator(
-      PhysicalOperator leftChild, PhysicalOperator rightChild, Expression eval, int joinBufPages) {
+  public BNLJ_Operator(PhysicalOperator leftChild, PhysicalOperator rightChild, Expression eval, int joinBufPages) {
     super(leftChild, rightChild, eval);
-    this.attrs = leftChild.getOutputSchema().size();
+    int attrs = leftChild.getOutputSchema().size();
     int tupleSize = INT_SIZE * attrs;
     int tuplesPerPage = (PAGE_SIZE - 2 * INT_SIZE) / tupleSize;
     this.tuplesPerBlock = joinBufPages * tuplesPerPage;
@@ -41,30 +40,30 @@ public class BNLJ_Operator extends JoinOperator {
    */
   @Override
   public Tuple getNextTuple() {
-    while(true) {
-      // init()
-      if (!initial) {
-        initial = true;
-        // k
-        leftBlockPtr = 0;
-        // j
-        rightTuple = rightChild.getNextTuple();
-        if (rightTuple == null)
-          return null;
-        // i
-        leftBlock = fetchNextLeftBlock(attrs);
-        // special case: leftTable is Empty
-        if (leftBlock.isEmpty())
-          return null;
-      }
-      // real getNextTuple()
+    // init()
+    if (!initial) {
+      initial = true;
+      // k
+      leftBlockPtr = 0;
+      // j
+      rightTuple = rightChild.getNextTuple();
+      // special case: rightTable is Empty
+      if (rightTuple == null) return null;
+      // i
+      leftBlock = fetchNextLeftBlock();
+      // special case: leftTable is Empty
+      if (leftBlock.isEmpty()) return null;
+    }
+
+    while (true) {
+
       // k outOfBound
       if (leftBlockPtr >= leftBlock.size()) {
         // j++
         rightTuple = rightChild.getNextTuple();
         // j outOfBound
         if (rightTuple == null) {
-          leftBlock = fetchNextLeftBlock(attrs);
+          leftBlock = fetchNextLeftBlock();
           // i outOfBound
           if (leftBlock.isEmpty()) {
             return null;
@@ -76,7 +75,8 @@ public class BNLJ_Operator extends JoinOperator {
         // k = 0
         leftBlockPtr = 0;
       }
-      // make sure left and right both not null
+//       make sure left and right both not null
+//       k++
       leftTuple = leftBlock.get(leftBlockPtr);
       leftBlockPtr++;
       if (eval == null || evalMatches(leftTuple, rightTuple)) {
@@ -89,8 +89,7 @@ public class BNLJ_Operator extends JoinOperator {
       }
     }
   }
-  private List<Tuple> fetchNextLeftBlock(int attrs) {
-
+  private List<Tuple> fetchNextLeftBlock() {
     List<Tuple> block = new ArrayList<>();
     Tuple nextTuple = leftChild.getNextTuple();
     while (nextTuple != null && block.size() < tuplesPerBlock) {

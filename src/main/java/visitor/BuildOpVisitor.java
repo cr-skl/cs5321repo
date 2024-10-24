@@ -5,7 +5,7 @@ import PhysicalOperator.PhysicalOperator;
 import PhysicalOperator.ProjectOperator;
 import PhysicalOperator.ScanOperator;
 import PhysicalOperator.SelectOperator;
-import PhysicalOperator.SortOperator;
+import PhysicalOperator.IntSortOperator;
 import PhysicalOperator.TNLJ_Operator;
 import java.util.ArrayList;
 import net.sf.jsqlparser.schema.Column;
@@ -97,7 +97,7 @@ public class BuildOpVisitor implements OpVisitor {
    *
    * @param operator op
    */
-  public void visit(SortOperator operator) {
+  public void visit(IntSortOperator operator) {
     if (root == null) {
       root = operator;
     } else {

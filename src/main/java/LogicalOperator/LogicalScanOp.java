@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Map;
 import net.sf.jsqlparser.schema.Column;
 import net.sf.jsqlparser.schema.Table;
-import visitor.PhysicalPlanBuilder;
+import common.PhysicalPlanBuilder;
 
 public class LogicalScanOp extends LogicalOperator {
   private String tableName;

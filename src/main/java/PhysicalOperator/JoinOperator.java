@@ -50,6 +50,7 @@ public abstract class JoinOperator extends PhysicalOperator {
     public void reset() {
         leftChild.reset();
         rightChild.reset();
+        initial = false;
     }
     /**
      * Return if the given tuple left and right satisfy the eval expression

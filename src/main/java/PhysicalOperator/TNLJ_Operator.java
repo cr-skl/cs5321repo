@@ -3,8 +3,6 @@ package PhysicalOperator;
 import common.Tuple;
 import java.util.ArrayList;
 import net.sf.jsqlparser.expression.Expression;
-import net.sf.jsqlparser.statement.select.Join;
-import visitor.ConditionVisitor;
 
 public class TNLJ_Operator extends JoinOperator {
 
@@ -59,6 +57,7 @@ public class TNLJ_Operator extends JoinOperator {
         rightChild.reset();
         rightTuple = rightChild.getNextTuple();
       }
+
       // make sure left and right are not null
       if (eval == null || evalMatches(leftTuple, rightTuple)) {
         ArrayList<Integer> leftArray = leftTuple.getAllElements();
@@ -75,3 +74,12 @@ public class TNLJ_Operator extends JoinOperator {
     }
   }
 }
+/************************************************************************************/
+
+
+
+
+
+
+
+

@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Map;
 import net.sf.jsqlparser.schema.Table;
 import net.sf.jsqlparser.statement.select.OrderByElement;
-import visitor.PhysicalPlanBuilder;
+import common.PhysicalPlanBuilder;
 
 public class LogicalSortOp extends LogicalOperator {
   private List<OrderByElement> orderByElements;

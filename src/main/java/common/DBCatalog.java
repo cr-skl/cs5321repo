@@ -78,8 +78,8 @@ public class DBCatalog {
    */
   public File getFileForTable(String tableName) {
     return new File(dbDirectory + "/data/" + tableName);
-//    return new File(dbDirectory + "/dataBin/" + tableName);
-//    return new File(dbDirectory + "/dataTest/" + tableName);
+    //    return new File(dbDirectory + "/dataBin/" + tableName);
+    //    return new File(dbDirectory + "/dataTest/" + tableName);
 
   }
 

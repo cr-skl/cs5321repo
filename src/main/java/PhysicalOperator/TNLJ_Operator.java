@@ -13,16 +13,14 @@ public class TNLJ_Operator extends JoinOperator {
    * @param eval e
    */
   public TNLJ_Operator(PhysicalOperator leftChild, PhysicalOperator rightChild, Expression eval) {
-      super(leftChild, rightChild, eval);
+    super(leftChild, rightChild, eval);
   }
-
 
   /**
    * Get next tuple from operator
    *
-   * for i  in leftTable
-   *  for j in rightTable
-   *    if (match)
+   * <p>for i in leftTable for j in rightTable if (match)
+   *
    * @return next Tuple, or null if we are at the end
    */
   public Tuple getNextTuple() {
@@ -75,11 +73,3 @@ public class TNLJ_Operator extends JoinOperator {
   }
 }
 /************************************************************************************/
-
-
-
-
-
-
-
-

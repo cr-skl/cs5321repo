@@ -1,8 +1,8 @@
 package LogicalOperator;
 
+import common.PhysicalPlanBuilder;
 import java.util.Map;
 import net.sf.jsqlparser.schema.Table;
-import common.PhysicalPlanBuilder;
 
 public class LogicalDedupOp extends LogicalOperator {
   @Override

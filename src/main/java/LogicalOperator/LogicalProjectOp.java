@@ -1,5 +1,6 @@
 package LogicalOperator;
 
+import common.PhysicalPlanBuilder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -8,7 +9,6 @@ import net.sf.jsqlparser.schema.Table;
 import net.sf.jsqlparser.statement.select.AllColumns;
 import net.sf.jsqlparser.statement.select.SelectExpressionItem;
 import net.sf.jsqlparser.statement.select.SelectItem;
-import common.PhysicalPlanBuilder;
 
 public class LogicalProjectOp extends LogicalOperator {
   private List<SelectItem> selectItemList;

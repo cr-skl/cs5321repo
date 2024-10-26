@@ -5,17 +5,12 @@ import PhysicalOperator.*;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Map;
-import java.util.Objects;
 import net.sf.jsqlparser.schema.Table;
 import org.apache.logging.log4j.LogManager;
-import tools.debug.IntermediateResultSaver;
-
-import static tools.debug.IntermediateResultSaver.saveIntermediateResult;
 
 /** class to turn logical query plans into physical query plans */
 public class PhysicalPlanBuilder {
@@ -26,9 +21,12 @@ public class PhysicalPlanBuilder {
   /** Read config file and make a physical plan builder */
   public PhysicalPlanBuilder(String tempPath) throws URISyntaxException {
     this.tempPath = tempPath;
-    ClassLoader classLoader = PhysicalPlanBuilder.class.getClassLoader();
-    URI InputURI = Objects.requireNonNull(classLoader.getResource("samples/input")).toURI();
-    Path config = Paths.get(InputURI).resolve("plan_builder_config.txt");
+    // FOR TESTING
+    //    ClassLoader classLoader = PhysicalPlanBuilder.class.getClassLoader();
+    //    URI InputURI = Objects.requireNonNull(classLoader.getResource("samples/input")).toURI();
+    //    Path config = Paths.get(InputURI).resolve("plan_builder_config.txt");
+    // END TESTING VERSION
+    Path config = Paths.get(tempPath + "/plan_builder_config.txt"); //FOR JAR FILE
     try {
       // read config from txt file
       BufferedReader br = new BufferedReader(new FileReader(config.toString()));
@@ -114,66 +112,72 @@ public class PhysicalPlanBuilder {
   //      return op;
   //    } else return null;
   //  }
-/*************************************************************************************/
-//  public PhysicalOperator buildPlan(LogicalOperator logicalPlan, Map<String, Table> aliasMap) {
-//
-//    LogicalOperator curr = logicalPlan;
-//    if (curr instanceof LogicalScanOp) { // scan
-//      // leaf node, so we don't need to set children or output schema
-//      return new ScanOperator(
-//          ((LogicalScanOp) curr).getTableName(), ((LogicalScanOp) curr).getTable(), aliasMap);
-//    } else if (curr instanceof LogicalSelectOp) { // select
-//      SelectOperator op = new SelectOperator(((LogicalSelectOp) curr).getExpression(), aliasMap);
-//      op.setChild(buildPlan(curr.getChild(), aliasMap));
-//      op.setOutputSchema(curr.getOutputSchema());
-//      return op;
-//    } else if (curr instanceof LogicalJoinOp) { // join
-//      LogicalJoinOp lOp = (LogicalJoinOp) curr;
-//      PhysicalOperator l = buildPlan(lOp.getLeftChild(), aliasMap);
-//      PhysicalOperator r = buildPlan(lOp.getRightChild(), aliasMap);
-//      JoinOperator op = null;
-//      if (joinType == 0) op = new TNLJ_Operator(l, r, lOp.getExpression()); // TNLJ
-//      else if (joinType == 1)
-//        op = new BNLJ_Operator(l, r, lOp.getExpression(), joinBufPages); // TODO: BNLJ
-//      else if (joinType == 2)
-//        ; // TODO: SMJ
-//      op.setOutputSchema(curr.getOutputSchema());
-//      // 保存当前 join 的中间结果
-//      saveIntermediateResult(op);
-//      return op;
-//    } else if (curr instanceof LogicalProjectOp) { // project
-//      ProjectOperator op =
-//          new ProjectOperator(((LogicalProjectOp) curr).getSelectItemList(), aliasMap);
-//      op.setChild(buildPlan(curr.getChild(), aliasMap));
-//      return op;
-//    } else if (curr instanceof LogicalSortOp) { // sort
-//      SortOperator op = null;
-//      if (sortType == 0)
-//        op =
-//            new IntSortOperator(((LogicalSortOp) curr).getOrderByElements(), aliasMap); // in-memory sort
-//      else if (sortType == 1)
-////        op = new ExtSortOperator(((LogicalSortOp) curr).getOrderByElements(), aliasMap, tempPath, sortBufPages);
-//        ; // TODO: external sort
-//      // should never throw a null pointer exception since if sortType is not 0 or 1,
-//      // an exception will be thrown in the constructor for the plan builder
-//      op.setChild(buildPlan(curr.getChild(), aliasMap));
-//      op.setOutputSchema(curr.getOutputSchema());
-//      return op;
-//    } else if (curr instanceof LogicalDedupOp) { // distinct
-//      DedupOperator op = new DedupOperator();
-//      op.setChild(buildPlan(curr.getChild(), aliasMap));
-//      op.setOutputSchema(curr.getOutputSchema());
-//      return op;
-//    } else return null;
-//  }
+  /*************************************************************************************/
+  //  public PhysicalOperator buildPlan(LogicalOperator logicalPlan, Map<String, Table> aliasMap) {
+  //
+  //    LogicalOperator curr = logicalPlan;
+  //    if (curr instanceof LogicalScanOp) { // scan
+  //      // leaf node, so we don't need to set children or output schema
+  //      return new ScanOperator(
+  //          ((LogicalScanOp) curr).getTableName(), ((LogicalScanOp) curr).getTable(), aliasMap);
+  //    } else if (curr instanceof LogicalSelectOp) { // select
+  //      SelectOperator op = new SelectOperator(((LogicalSelectOp) curr).getExpression(),
+  // aliasMap);
+  //      op.setChild(buildPlan(curr.getChild(), aliasMap));
+  //      op.setOutputSchema(curr.getOutputSchema());
+  //      return op;
+  //    } else if (curr instanceof LogicalJoinOp) { // join
+  //      LogicalJoinOp lOp = (LogicalJoinOp) curr;
+  //      PhysicalOperator l = buildPlan(lOp.getLeftChild(), aliasMap);
+  //      PhysicalOperator r = buildPlan(lOp.getRightChild(), aliasMap);
+  //      JoinOperator op = null;
+  //      if (joinType == 0) op = new TNLJ_Operator(l, r, lOp.getExpression()); // TNLJ
+  //      else if (joinType == 1)
+  //        op = new BNLJ_Operator(l, r, lOp.getExpression(), joinBufPages); // TODO: BNLJ
+  //      else if (joinType == 2)
+  //        ; // TODO: SMJ
+  //      op.setOutputSchema(curr.getOutputSchema());
+  //      // 保存当前 join 的中间结果
+  //      saveIntermediateResult(op);
+  //      return op;
+  //    } else if (curr instanceof LogicalProjectOp) { // project
+  //      ProjectOperator op =
+  //          new ProjectOperator(((LogicalProjectOp) curr).getSelectItemList(), aliasMap);
+  //      op.setChild(buildPlan(curr.getChild(), aliasMap));
+  //      return op;
+  //    } else if (curr instanceof LogicalSortOp) { // sort
+  //      SortOperator op = null;
+  //      if (sortType == 0)
+  //        op =
+  //            new IntSortOperator(((LogicalSortOp) curr).getOrderByElements(), aliasMap); //
+  // in-memory sort
+  //      else if (sortType == 1)
+  ////        op = new ExtSortOperator(((LogicalSortOp) curr).getOrderByElements(), aliasMap,
+  // tempPath, sortBufPages);
+  //        ; // TODO: external sort
+  //      // should never throw a null pointer exception since if sortType is not 0 or 1,
+  //      // an exception will be thrown in the constructor for the plan builder
+  //      op.setChild(buildPlan(curr.getChild(), aliasMap));
+  //      op.setOutputSchema(curr.getOutputSchema());
+  //      return op;
+  //    } else if (curr instanceof LogicalDedupOp) { // distinct
+  //      DedupOperator op = new DedupOperator();
+  //      op.setChild(buildPlan(curr.getChild(), aliasMap));
+  //      op.setOutputSchema(curr.getOutputSchema());
+  //      return op;
+  //    } else return null;
+  //  }
   /*********************************************************************************/
   public PhysicalOperator buildPlan(LogicalOperator logicalPlan, Map<String, Table> aliasMap) {
-    return buildPlan(logicalPlan, aliasMap, 0);  // 初始深度为 0
+    return buildPlan(logicalPlan, aliasMap, 0); // 初始深度为 0
   }
-  public PhysicalOperator buildPlan(LogicalOperator logicalPlan, Map<String, Table> aliasMap, int depth) {
+
+  public PhysicalOperator buildPlan(
+      LogicalOperator logicalPlan, Map<String, Table> aliasMap, int depth) {
     LogicalOperator curr = logicalPlan;
     if (curr instanceof LogicalScanOp) { // scan
-      return new ScanOperator(((LogicalScanOp) curr).getTableName(), ((LogicalScanOp) curr).getTable(), aliasMap);
+      return new ScanOperator(
+          ((LogicalScanOp) curr).getTableName(), ((LogicalScanOp) curr).getTable(), aliasMap);
     } else if (curr instanceof LogicalSelectOp) { // select
       SelectOperator op = new SelectOperator(((LogicalSelectOp) curr).getExpression(), aliasMap);
       op.setChild(buildPlan(curr.getChild(), aliasMap, depth + 1));
@@ -198,16 +202,19 @@ public class PhysicalPlanBuilder {
     } else if (curr instanceof LogicalProjectOp) { // project
       ProjectOperator op =
           new ProjectOperator(((LogicalProjectOp) curr).getSelectItemList(), aliasMap);
-      op.setChild(buildPlan(curr.getChild(), aliasMap, depth+1));
+      op.setChild(buildPlan(curr.getChild(), aliasMap, depth + 1));
       return op;
     } else if (curr instanceof LogicalSortOp) { // sort
       SortOperator op = null;
       if (sortType == 0)
-        op = new IntSortOperator(((LogicalSortOp) curr).getOrderByElements(), aliasMap); // in-memory sort
+        op =
+            new IntSortOperator(
+                ((LogicalSortOp) curr).getOrderByElements(), aliasMap); // in-memory sort
       else if (sortType == 1)
-//        op = new ExtSortOperator(((LogicalSortOp) curr).getOrderByElements(), aliasMap, tempPath, sortBufPages);
+        //        op = new ExtSortOperator(((LogicalSortOp) curr).getOrderByElements(), aliasMap,
+        // tempPath, sortBufPages);
         ; // TODO: external sort
-      op.setChild(buildPlan(curr.getChild(), aliasMap, depth+1));
+      op.setChild(buildPlan(curr.getChild(), aliasMap, depth + 1));
       op.setOutputSchema(curr.getOutputSchema());
       return op;
     } else if (curr instanceof LogicalDedupOp) { // distinct
@@ -217,9 +224,6 @@ public class PhysicalPlanBuilder {
       return op;
     } else return null;
   }
-
-
-
 
   public void visit(LogicalOperator logicalDedupOp, Map<String, Table> aliasMap) {}
 }

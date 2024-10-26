@@ -1,22 +1,22 @@
-//package PhysicalOperator;
+// package PhysicalOperator;
 //
-//import common.Tuple;
-//import net.sf.jsqlparser.schema.Table;
-//import net.sf.jsqlparser.statement.select.OrderByElement;
-//import tools.IO.TupleReader;
-//import tools.IO.TupleReaderHumanImpl;
-//import tools.IO.TupleWriter;
-//import tools.IO.TupleWriterHumanImpl;
+// import common.Tuple;
+// import net.sf.jsqlparser.schema.Table;
+// import net.sf.jsqlparser.statement.select.OrderByElement;
+// import tools.IO.TupleReader;
+// import tools.IO.TupleReaderHumanImpl;
+// import tools.IO.TupleWriter;
+// import tools.IO.TupleWriterHumanImpl;
 //
-//import java.io.File;
-//import java.io.FileNotFoundException;
-//import java.io.IOException;
-//import java.util.ArrayList;
-//import java.util.List;
-//import java.util.Map;
-//import java.util.PriorityQueue;
+// import java.io.File;
+// import java.io.FileNotFoundException;
+// import java.io.IOException;
+// import java.util.ArrayList;
+// import java.util.List;
+// import java.util.Map;
+// import java.util.PriorityQueue;
 //
-//public class ExtSortOperator extends SortOperator {
+// public class ExtSortOperator extends SortOperator {
 //    private String tempPathRoot;
 //    private File sortedFile;
 //    private TupleReader reader;
@@ -25,7 +25,8 @@
 //    // 用于存放临时文件
 //    private List<File> tempFiles = new ArrayList<>();
 //
-//    public ExtSortOperator(List<OrderByElement> orderByElements, Map<String, Table> aliasMap, String tempPath, int bufferSize) {
+//    public ExtSortOperator(List<OrderByElement> orderByElements, Map<String, Table> aliasMap,
+// String tempPath, int bufferSize) {
 //        super(orderByElements, aliasMap);
 //        this.tempPathRoot = tempPath;
 //        this.bufferSize = bufferSize;
@@ -95,7 +96,8 @@
 //     * @param buffer 待排序的元组列表
 //     */
 //    private void sortAndWriteToTempFile(List<Tuple> buffer) {
-//        Collections.sort(buffer, new TupleComparator(orderByElements, this.getOutputSchema(), this.aliasMap));
+//        Collections.sort(buffer, new TupleComparator(orderByElements, this.getOutputSchema(),
+// this.aliasMap));
 //        File tempFile;
 //        try {
 //            tempFile = File.createTempFile("sort_run", ".tmp", new File(tempPathRoot));
@@ -121,7 +123,8 @@
 //            }
 //            sortedFile = new File(tempPathRoot, "sorted_result.tmp");
 //            TupleWriter writer = new TupleWriterHumanImpl(sortedFile);
-//            PriorityQueue<ReaderTuplePair> pq = new PriorityQueue<>(Comparator.comparing(pair -> pair.tuple, new TupleComparator(orderByElements, this.getOutputSchema(), this.aliasMap)));
+//            PriorityQueue<ReaderTuplePair> pq = new PriorityQueue<>(Comparator.comparing(pair ->
+// pair.tuple, new TupleComparator(orderByElements, this.getOutputSchema(), this.aliasMap)));
 //            // 初始化优先队列
 //            for (TupleReader reader : readers) {
 //                if (reader.hasNext()) {
@@ -169,5 +172,5 @@
 //            this.tuple = tuple;
 //        }
 //    }
-//}
+// }
 //

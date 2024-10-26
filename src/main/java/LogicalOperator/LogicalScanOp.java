@@ -1,11 +1,11 @@
 package LogicalOperator;
 
 import common.DBCatalog;
+import common.PhysicalPlanBuilder;
 import java.util.ArrayList;
 import java.util.Map;
 import net.sf.jsqlparser.schema.Column;
 import net.sf.jsqlparser.schema.Table;
-import common.PhysicalPlanBuilder;
 
 public class LogicalScanOp extends LogicalOperator {
   private String tableName;

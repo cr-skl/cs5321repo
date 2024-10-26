@@ -14,7 +14,6 @@ public class IntSortOperator extends SortOperator {
   private List<Tuple> save = new ArrayList<>();
   private int pointer;
 
-
   /**
    * During initialization, no data been stored, the sign sorted marking as false
    *

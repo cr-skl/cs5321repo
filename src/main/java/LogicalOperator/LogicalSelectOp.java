@@ -1,9 +1,9 @@
 package LogicalOperator;
 
+import common.PhysicalPlanBuilder;
 import java.util.Map;
 import net.sf.jsqlparser.expression.Expression;
 import net.sf.jsqlparser.schema.Table;
-import common.PhysicalPlanBuilder;
 
 public class LogicalSelectOp extends LogicalOperator {
   private Expression exp;

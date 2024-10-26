@@ -1,10 +1,10 @@
 package LogicalOperator;
 
+import common.PhysicalPlanBuilder;
 import java.util.ArrayList;
 import java.util.Map;
 import net.sf.jsqlparser.schema.Column;
 import net.sf.jsqlparser.schema.Table;
-import common.PhysicalPlanBuilder;
 
 /**
  * Abstract class to represent logical operators. Every operator has a reference to an outputSchema

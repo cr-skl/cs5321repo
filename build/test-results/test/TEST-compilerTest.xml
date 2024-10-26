@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="compilerTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2024-10-21T21:31:29" hostname="BATMAN-123" time="1.708">
+<testsuite name="compilerTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2024-10-24T04:22:02" hostname="MSI" time="0.805">
   <properties/>
-  <testcase name="testCompilerMain()" classname="compilerTest" time="1.708"/>
-  <system-out><![CDATA[17:31:30.061 [Test worker] INFO  compiler.Compiler - schema Directory:samples/input/db
-17:31:30.069 [Test worker] INFO  compiler.Compiler - sql Directory:samples/input/testqueries.sql
-17:31:30.164 [Test worker] INFO  compiler.Compiler - Processing query: SELECT * FROM Sailors, Reserves WHERE Sailors.A = Reserves.G
+  <testcase name="testCompilerMain()" classname="compilerTest" time="0.805"/>
+  <system-out><![CDATA[00:22:02.894 [Test worker] ERROR common.DBCatalog - samples\input\db\schema.txt (The system cannot find the path specified)
+00:22:02.902 [Test worker] ERROR compiler.Compiler - samples\input\queries.sql
 ]]></system-out>
-  <system-err><![CDATA[]]></system-err>
+  <system-err><![CDATA[Exception occurred in interpreter
+]]></system-err>
 </testsuite>

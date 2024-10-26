@@ -2,10 +2,8 @@ package PhysicalOperator;
 
 import common.Tuple;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import net.sf.jsqlparser.expression.Expression;
-import visitor.ConditionVisitor;
 
 public class BNLJ_Operator extends JoinOperator {
 
@@ -22,7 +20,8 @@ public class BNLJ_Operator extends JoinOperator {
    * @param rightChild rc
    * @param eval e
    */
-  public BNLJ_Operator(PhysicalOperator leftChild, PhysicalOperator rightChild, Expression eval, int joinBufPages) {
+  public BNLJ_Operator(
+      PhysicalOperator leftChild, PhysicalOperator rightChild, Expression eval, int joinBufPages) {
     super(leftChild, rightChild, eval);
     int attrs = leftChild.getOutputSchema().size();
     int tupleSize = INT_SIZE * attrs;
@@ -33,9 +32,8 @@ public class BNLJ_Operator extends JoinOperator {
   }
 
   /**
-   * for i
-   *  for j
-   *    for k
+   * for i for j for k
+   *
    * @return
    */
   @Override
@@ -75,8 +73,8 @@ public class BNLJ_Operator extends JoinOperator {
         // k = 0
         leftBlockPtr = 0;
       }
-//       make sure left and right both not null
-//       k++
+      //       make sure left and right both not null
+      //       k++
       leftTuple = leftBlock.get(leftBlockPtr);
       leftBlockPtr++;
       if (eval == null || evalMatches(leftTuple, rightTuple)) {
@@ -89,6 +87,7 @@ public class BNLJ_Operator extends JoinOperator {
       }
     }
   }
+
   private List<Tuple> fetchNextLeftBlock() {
     List<Tuple> block = new ArrayList<>();
     Tuple nextTuple = leftChild.getNextTuple();

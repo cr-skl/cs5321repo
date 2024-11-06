@@ -230,6 +230,6 @@ public class ConfigHelper {
       indexWriter.writeNode(indexNode);
       pageCnt[0]++;
     }
-    return nodeQueue;gi
+    return nodeQueue;
   }
 }

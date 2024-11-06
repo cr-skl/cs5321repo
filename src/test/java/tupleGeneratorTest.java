@@ -1,4 +1,4 @@
-import common.Tuple;
+import common.entity.Tuple;
 import org.junit.jupiter.api.Test;
 import tools.generator.TupleGenerator;
 

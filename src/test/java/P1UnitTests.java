@@ -2,7 +2,7 @@
 // import common.DBCatalog;
 // import common.QueryPlanBuilder;
 // import common.QueryPlanBuilder_old;
-// import common.Tuple;
+// import common.entity.Tuple;
 // import java.io.IOException;
 // import java.net.URI;
 // import java.net.URISyntaxException;

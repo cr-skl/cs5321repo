@@ -1,5 +1,5 @@
 import PhysicalOperator.PhysicalOperator;
-import common.Tuple;
+import common.entity.Tuple;
 import java.util.ArrayList;
 import java.util.List;
 

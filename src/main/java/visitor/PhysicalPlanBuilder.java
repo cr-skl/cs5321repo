@@ -1,49 +1,26 @@
 package visitor;
 
+import tools.config.ConfigHelper;
 import LogicalOperator.*;
 import PhysicalOperator.*;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.net.URI;
+
 import java.net.URISyntaxException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Map;
-import java.util.Objects;
+
 import net.sf.jsqlparser.schema.Table;
-import org.apache.logging.log4j.LogManager;
 
 /** class to turn logical query plans into physical query plans */
 public class PhysicalPlanBuilder {
 
-  private int joinType, joinBufPages, sortType, sortBufPages;
-
+  private int joinType, joinBufPages, sortType, sortBufPages, useIndex, evalQuery;
   /** Read config file and make a physical plan builder */
-  public PhysicalPlanBuilder() throws URISyntaxException {
-    ClassLoader classLoader = PhysicalPlanBuilder.class.getClassLoader();
-    URI InputURI = Objects.requireNonNull(classLoader.getResource("samples/input")).toURI();
-    Path config = Paths.get(InputURI).resolve("plan_builder_config.txt");
-    try {
-      // read config from txt file
-      BufferedReader br = new BufferedReader(new FileReader(config.toString()));
-      // read JOIN params
-      String[] params = br.readLine().split("\\s");
-      joinType = Integer.valueOf(params[0]);
-      joinBufPages = 0;
-      if (joinType == 1) joinBufPages = Integer.valueOf(params[1]);
-      else if (joinType != 0 && joinType != 2)
-        throw new IllegalArgumentException("Join type must be 0, 1, or 2");
-      // read SORT params
-      params = br.readLine().split("\\s");
-      sortType = Integer.valueOf(params[0]);
-      sortBufPages = 0;
-      if (sortType == 1) sortBufPages = Integer.valueOf(params[1]);
-      else if (sortType != 0) throw new IllegalArgumentException("Sort type must be 0 or 1");
-      br.close();
-    } catch (IOException e) {
-      LogManager.getLogger().error(e.getMessage());
-    }
+  public PhysicalPlanBuilder(ConfigHelper configHelper) throws URISyntaxException {
+    joinType     = configHelper.joinType;
+    joinBufPages = configHelper.joinBufPages;
+    sortType     = configHelper.sortType;
+    sortBufPages = configHelper.sortBufPages;
+    useIndex     = configHelper.useIndex;
+    evalQuery    = configHelper.evalQuery;
   }
 
   /**
@@ -159,6 +136,4 @@ public class PhysicalPlanBuilder {
       return op;
     } else return null;
   }
-
-  public void visit(LogicalOperator logicalDedupOp, Map<String, Table> aliasMap) {}
 }

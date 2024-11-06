@@ -1,7 +1,7 @@
 package PhysicalOperator;
 
 import Comparator.TupleComparator;
-import common.Tuple;
+import common.entity.Tuple;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;

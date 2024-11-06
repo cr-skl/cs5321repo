@@ -1,6 +1,6 @@
 package tools.IO;
 
-import common.Tuple;
+import common.entity.Tuple;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintStream;

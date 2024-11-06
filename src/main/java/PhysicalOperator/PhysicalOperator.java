@@ -1,6 +1,6 @@
 package PhysicalOperator;
 
-import common.Tuple;
+import common.entity.Tuple;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;

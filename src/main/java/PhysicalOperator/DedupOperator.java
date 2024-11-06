@@ -1,6 +1,6 @@
 package PhysicalOperator;
 
-import common.Tuple;
+import common.entity.Tuple;
 
 public class DedupOperator extends PhysicalOperator {
   private PhysicalOperator child;

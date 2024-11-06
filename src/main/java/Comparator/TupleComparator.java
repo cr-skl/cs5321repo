@@ -1,6 +1,6 @@
 package Comparator;
 
-import common.Tuple;
+import common.entity.Tuple;
 import java.util.*;
 import java.util.Comparator;
 import java.util.List;

@@ -1,6 +1,6 @@
 package PhysicalOperator;
 
-import common.Tuple;
+import common.entity.Tuple;
 import java.util.Map;
 import net.sf.jsqlparser.expression.Expression;
 import net.sf.jsqlparser.schema.Table;

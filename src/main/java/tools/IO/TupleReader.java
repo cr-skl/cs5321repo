@@ -1,6 +1,6 @@
 package tools.IO;
 
-import common.Tuple;
+import common.entity.Tuple;
 
 public interface TupleReader {
   Tuple readNextTuple();

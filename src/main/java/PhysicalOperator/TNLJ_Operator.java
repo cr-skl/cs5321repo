@@ -1,6 +1,6 @@
 package PhysicalOperator;
 
-import common.Tuple;
+import common.entity.Tuple;
 import java.util.ArrayList;
 import net.sf.jsqlparser.expression.Expression;
 import visitor.ConditionVisitor;

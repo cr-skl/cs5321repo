@@ -7,6 +7,7 @@ import PhysicalOperator.PhysicalOperator;
 import common.DBCatalog;
 import common.QueryPlanBuilder;
 import java.io.File;
+import java.io.IOException;
 import java.io.PrintStream;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -20,6 +21,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import tools.IO.TupleWriter;
 import tools.IO.TupleWriterBinImpl;
+import tools.config.ConfigHelper;
 import visitor.PhysicalPlanBuilder;
 
 //
@@ -52,20 +54,25 @@ public class Compiler {
     ClassLoader classLoader = Compiler.class.getClassLoader();
     URI InputURI = Objects.requireNonNull(classLoader.getResource(inputDir)).toURI();
     URI OutputURI = Objects.requireNonNull(classLoader.getResource(outputDir)).toURI();
-    DBCatalog.getInstance().setDataDirectory(Paths.get(InputURI).resolve("db").toString());
+    ConfigHelper configHelper = new ConfigHelper(InputURI);
+    DBCatalog.getInstance().setDataDirectory(configHelper);
     logger.info("schema Directory:" + inputDir + "/db");
     String query = "testqueries.sql";
     logger.info("sql Directory:" + inputDir + "/testqueries.sql");
+
+    // build Index
+    if (configHelper.useIndex == 1) {
+      try {
+        configHelper.buildIndex();
+      } catch (IOException e) {
+        logger.info("Cannot builIndex" + e.getMessage());
+      }
+    }
     try {
-      //      Statements statements =
-      //
-      CCJSqlParserUtil.parseStatements(
-          Files.readString(Paths.get(InputURI).resolve("testqueries.sql")));
-      Statements statements =
-          CCJSqlParserUtil.parseStatements(
-              Files.readString(Paths.get(InputURI).resolve("testqueries.sql")));
+      // read the queries.txt
+      Statements statements = CCJSqlParserUtil.parseStatements(configHelper.sqlPath.toString());
       QueryPlanBuilder queryPlanBuilder = new QueryPlanBuilder();
-      PhysicalPlanBuilder physicalPlanBuilder = new PhysicalPlanBuilder();
+      PhysicalPlanBuilder physicalPlanBuilder = new PhysicalPlanBuilder(configHelper);
 
       if (outputToFiles) {
         // directory

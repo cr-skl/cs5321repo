@@ -1,6 +1,6 @@
 package tools.IO;
 
-import common.Tuple;
+import common.entity.Tuple;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -20,6 +20,8 @@ public class TupleReaderBinImpl implements TupleReader {
   private int tupleSize;
   private int tupleCount;
   private int tuplePtr;
+  // for index use
+  private int pageCnt = -1;
 
   public TupleReaderBinImpl(File file) {
     this.endOfFile = false;
@@ -49,8 +51,9 @@ public class TupleReaderBinImpl implements TupleReader {
       // write buffer to metaData
       tupleSize = buffer.getInt();
       tupleCount = buffer.getInt();
-      // reset the tuplePointer to the
+      // reset the tuplePointer to the beginning
       tuplePtr = 0;
+      pageCnt++;
     }
   }
 
@@ -80,10 +83,14 @@ public class TupleReaderBinImpl implements TupleReader {
     tuplePtr++;
     return new Tuple(tupleData);
   }
+  public int[] getMeta() {
+    return new int[]{tuplePtr-1, pageCnt};
+  }
 
   @Override
   public void reset() {
     try {
+      pageCnt = -1;
       fileChannel.position(0);
       loadNextPage();
       endOfFile = false;

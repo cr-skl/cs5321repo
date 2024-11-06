@@ -1,6 +1,6 @@
 package tools.generator;
 
-import common.Tuple;
+import common.entity.Tuple;
 import java.util.ArrayList;
 import java.util.Random;
 

@@ -1,7 +1,7 @@
 package PhysicalOperator;
 
 import common.DBCatalog;
-import common.Tuple;
+import common.entity.Tuple;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;

@@ -98,7 +98,7 @@ public class ConfigHelper {
     Collections.sort(whole, Comparator.comparingInt(a -> a.getElementAtIndex(keyIdx)));
     metaTuple mt = null;
     Integer entryKeyVal = null;
-    if (clustered) {
+    if (!clustered) {
       // generate all entryQueue
       // put them in an entryList, for preparation of generating leafNode
       Queue<Entry> entryQueue = new LinkedList<>();

@@ -1,13 +1,8 @@
 package visitor;
 
-import PhysicalOperator.DedupOperator;
-import PhysicalOperator.PhysicalOperator;
-import PhysicalOperator.ProjectOperator;
-import PhysicalOperator.ScanOperator;
-import PhysicalOperator.SelectOperator;
-import PhysicalOperator.SortOperator;
-import PhysicalOperator.TNLJ_Operator;
 import java.util.ArrayList;
+
+import PhysicalOperator.PhysicalOperator;
 import net.sf.jsqlparser.schema.Column;
 
 /**

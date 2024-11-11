@@ -1,11 +1,12 @@
 package PhysicalOperator;
 
 import common.entity.Tuple;
+import net.sf.jsqlparser.schema.Column;
+import tools.IO.TupleWriter;
+
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
-import net.sf.jsqlparser.schema.Column;
-import tools.IO.TupleWriter;
 
 /**
  * Abstract class to represent relational operators. Every operator has a reference to an
@@ -16,10 +17,6 @@ import tools.IO.TupleWriter;
 public abstract class PhysicalOperator {
 
   protected ArrayList<Column> outputSchema;
-
-  //  public Operator(ArrayList<Column> outputSchema) {
-  //    this.outputSchema = outputSchema;
-  //  }
 
   public void setOutputSchema(ArrayList<Column> outputSchema) {
     this.outputSchema = outputSchema;

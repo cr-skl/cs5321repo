@@ -1,10 +1,11 @@
 package PhysicalOperator;
 
 import common.entity.Tuple;
-import java.util.Map;
 import net.sf.jsqlparser.expression.Expression;
 import net.sf.jsqlparser.schema.Table;
 import visitor.ExpVisitor;
+
+import java.util.Map;
 
 public class SelectOperator extends PhysicalOperator {
 

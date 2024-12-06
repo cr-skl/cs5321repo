@@ -3,12 +3,11 @@ package tools.IO;
 import common.entity.IndexNode;
 import common.entity.LeafNode;
 import common.entity.Node;
-import tools.debug.FileLogger;
-
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.nio.ByteBuffer;
+import tools.debug.FileLogger;
 
 public class IndexWriterBinImpl implements IndexWriter {
   private FileLogger logger = FileLogger.getInstance();
@@ -31,8 +30,6 @@ public class IndexWriterBinImpl implements IndexWriter {
     }
   }
 
-
-
   @Override
   public void writeNode(Node node) {
     if (node instanceof LeafNode) {
@@ -41,10 +38,12 @@ public class IndexWriterBinImpl implements IndexWriter {
       writeIndexNode((IndexNode) node);
     }
   }
+
   private void writeLeafNode(LeafNode leafNode) {
     buffer = ByteBuffer.allocate(PAGE_SIZE);
     buffer.put(leafNode.toByteArray());
   }
+
   private void writeIndexNode(IndexNode indexNode) {
     buffer = ByteBuffer.allocate(PAGE_SIZE);
     buffer.put(indexNode.toByteArray());
@@ -52,21 +51,19 @@ public class IndexWriterBinImpl implements IndexWriter {
 
   @Override
   public void writeHeader(int leafCnt, int rootAddr) {
-//    out.flush();
+    //    out.flush();
     try {
       this.out = new DataOutputStream(new FileOutputStream(outputFile));
-      buffer = ByteBuffer.allocate(3*INT_SIZE);
+      buffer = ByteBuffer.allocate(3 * INT_SIZE);
       buffer.putInt(rootAddr);
       buffer.putInt(leafCnt);
       buffer.putInt(order);
-      out.write(buffer.array(), 0, 3*INT_SIZE);
+      out.write(buffer.array(), 0, 3 * INT_SIZE);
     } catch (Exception e) {
       logger.log("cannot write header" + e.getMessage());
     }
   }
 
   @Override
-  public void close() {
-
-  }
+  public void close() {}
 }

@@ -19,9 +19,6 @@
 -- SELECT * FROM Sailors ORDER BY Sailors.B;
 
 -- P1 Test2
--- 23 test:
--- SELECT * FROM Sailors S1, Sailors S2 WHERE S1.A < S2.A ;
--- SELECT * FROM Sailors S1, Reserves R WHERE S1.A = R.G;
 -- 23:
 -- SELECT * FROM Sailors S1, Sailors S2, Reserves R WHERE S1.A < S2.A AND S1.A = R.G;
 -- -- 24:

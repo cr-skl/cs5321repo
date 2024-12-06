@@ -1,10 +1,9 @@
 package PhysicalOperator;
 
-import net.sf.jsqlparser.schema.Table;
-import net.sf.jsqlparser.statement.select.OrderByElement;
-
 import java.util.List;
 import java.util.Map;
+import net.sf.jsqlparser.schema.Table;
+import net.sf.jsqlparser.statement.select.OrderByElement;
 
 public abstract class SortOperator extends PhysicalOperator {
   protected List<OrderByElement> orderByElements;

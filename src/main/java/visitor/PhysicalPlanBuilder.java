@@ -1,26 +1,30 @@
 package visitor;
 
-import tools.config.ConfigHelper;
 import LogicalOperator.*;
 import PhysicalOperator.*;
-
 import java.net.URISyntaxException;
 import java.util.Map;
-
 import net.sf.jsqlparser.schema.Table;
+import tools.config.ConfigHelper;
 
 /** class to turn logical query plans into physical query plans */
 public class PhysicalPlanBuilder {
 
-  private int joinType, joinBufPages, sortType, sortBufPages, useIndex, evalQuery;
+  private int joinType, joinBufPages, sortType, sortBufPages;
+
   /** Read config file and make a physical plan builder */
-  public PhysicalPlanBuilder(ConfigHelper configHelper) throws URISyntaxException {
-    joinType     = configHelper.joinType;
-    joinBufPages = configHelper.joinBufPages;
-    sortType     = configHelper.sortType;
-    sortBufPages = configHelper.sortBufPages;
-    useIndex     = configHelper.useIndex;
-    evalQuery    = configHelper.evalQuery;
+//  public PhysicalPlanBuilder(ConfigHelper configHelper) throws URISyntaxException {
+//    joinType = configHelper.joinType;
+//    joinBufPages = configHelper.joinBufPages;
+//    sortType = configHelper.sortType;
+//    sortBufPages = configHelper.sortBufPages;
+//  }
+  // re-write for P1 submission, all set as default
+  public PhysicalPlanBuilder() throws URISyntaxException {
+    joinType = 0;
+    joinBufPages = 0;
+    sortType = 0;
+    sortBufPages = 0;
   }
 
   /**
@@ -103,7 +107,7 @@ public class PhysicalPlanBuilder {
       LogicalJoinOp lOp = (LogicalJoinOp) curr;
       PhysicalOperator l = buildPlan(lOp.getLeftChild(), aliasMap);
       PhysicalOperator r = buildPlan(lOp.getRightChild(), aliasMap);
-      TNLJ_Operator op = null;
+      JoinOperator op = null;
       if (joinType == 0) op = new TNLJ_Operator(l, r, lOp.getExpression()); // TNLJ
       else if (joinType == 1)
         op = new BNLJ_Operator(l, r, lOp.getExpression(), joinBufPages); // TODO: BNLJ
@@ -120,7 +124,7 @@ public class PhysicalPlanBuilder {
       SortOperator op = null;
       if (sortType == 0)
         op =
-            new SortOperator(
+            new IntSortOperator(
                 ((LogicalSortOp) curr).getOrderByElements(), aliasMap); // in-memory sort
       else if (sortType == 1)
         ; // TODO: external sort

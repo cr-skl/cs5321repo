@@ -2,13 +2,12 @@ package PhysicalOperator;
 
 import Comparator.TupleComparator;
 import common.entity.Tuple;
-import net.sf.jsqlparser.schema.Table;
-import net.sf.jsqlparser.statement.select.OrderByElement;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import net.sf.jsqlparser.schema.Table;
+import net.sf.jsqlparser.statement.select.OrderByElement;
 
 public class IntSortOperator extends SortOperator {
   private Boolean sorted;

@@ -83,8 +83,9 @@ public class TupleReaderBinImpl implements TupleReader {
     tuplePtr++;
     return new Tuple(tupleData);
   }
+
   public int[] getMeta() {
-    return new int[]{tuplePtr-1, pageCnt};
+    return new int[] {tuplePtr - 1, pageCnt};
   }
 
   @Override

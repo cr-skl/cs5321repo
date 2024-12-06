@@ -41,7 +41,7 @@
 </td>
 <td>
 <div class="infoBox" id="duration">
-<div class="counter">1.262s</div>
+<div class="counter">1.121s</div>
 <p>duration</p>
 </div>
 </td>
@@ -79,7 +79,7 @@
 </thead>
 <tr>
 <td class="success">testCompilerMain()</td>
-<td class="success">1.262s</td>
+<td class="success">1.121s</td>
 <td class="success">passed</td>
 </tr>
 </table>
@@ -87,23 +87,26 @@
 <div id="tab1" class="tab">
 <h2>Standard output</h2>
 <span class="code">
-<pre>15:28:25.179 [Test worker] INFO  compiler.Compiler - schema Directory:samples/input/db
-15:28:25.187 [Test worker] INFO  compiler.Compiler - sql Directory:samples/input/testqueries.sql
-15:28:25.354 [Test worker] INFO  compiler.Compiler - Processing query: SELECT * FROM Sailors
-15:28:25.391 [Test worker] INFO  compiler.Compiler - Processing query: SELECT Sailors.A FROM Sailors
-15:28:25.402 [Test worker] INFO  compiler.Compiler - Processing query: SELECT Boats.F, Boats.D FROM Boats
-15:28:25.406 [Test worker] INFO  compiler.Compiler - Processing query: SELECT Reserves.G, Reserves.H FROM Reserves
-15:28:25.411 [Test worker] INFO  compiler.Compiler - Processing query: SELECT * FROM Sailors WHERE Sailors.B &gt;= Sailors.C
-15:28:25.468 [Test worker] INFO  compiler.Compiler - Processing query: SELECT Sailors.A FROM Sailors WHERE Sailors.B &gt;= Sailors.C
-15:28:25.474 [Test worker] INFO  compiler.Compiler - Processing query: SELECT Sailors.A FROM Sailors WHERE Sailors.B &gt;= Sailors.C AND Sailors.B &lt; Sailors.C
-15:28:25.477 [Test worker] INFO  compiler.Compiler - Processing query: SELECT * FROM Sailors, Reserves WHERE Sailors.A = Reserves.G
-15:28:25.494 [Test worker] INFO  compiler.Compiler - Processing query: SELECT * FROM Sailors, Reserves, Boats WHERE Sailors.A = Reserves.G AND Reserves.H = Boats.D
-15:28:25.500 [Test worker] INFO  compiler.Compiler - Processing query: SELECT * FROM Sailors, Reserves, Boats WHERE Sailors.A = Reserves.G AND Reserves.H = Boats.D AND Sailors.B &lt; 150
-15:28:25.507 [Test worker] INFO  compiler.Compiler - Processing query: SELECT DISTINCT * FROM Sailors
-15:28:25.534 [Test worker] INFO  compiler.Compiler - Processing query: SELECT * FROM Sailors S1, Sailors S2 WHERE S1.A &lt; S2.A
-15:28:25.542 [Test worker] INFO  compiler.Compiler - Processing query: SELECT B.F, B.D FROM Boats B ORDER BY B.D
-15:28:25.549 [Test worker] INFO  compiler.Compiler - Processing query: SELECT * FROM Sailors S, Reserves R, Boats B WHERE S.A = R.G AND R.H = B.D ORDER BY S.C
-15:28:25.555 [Test worker] INFO  compiler.Compiler - Processing query: SELECT DISTINCT * FROM Sailors S, Reserves R, Boats B WHERE S.A = R.G AND R.H = B.D ORDER BY S.C
+<pre>16:29:57.350 [Test worker] INFO  compiler.Compiler - Processing query: SELECT R.G, S.A FROM Sailors S, Reserves R WHERE R.G &gt; S.A
+16:29:57.407 [Test worker] INFO  compiler.Compiler - Processing query: SELECT R.G, S.A FROM Sailors S, Reserves R WHERE R.G &gt; S.A ORDER BY R.G
+16:29:57.417 [Test worker] INFO  compiler.Compiler - Processing query: SELECT R.G, S.A FROM Sailors S, Reserves R WHERE R.G &gt; S.A ORDER BY S.A
+16:29:57.427 [Test worker] INFO  compiler.Compiler - Processing query: SELECT R.G, S.A FROM Sailors S, Reserves R WHERE R.G &gt; S.A ORDER BY R.G, S.A
+16:29:57.429 [Test worker] INFO  compiler.Compiler - Processing query: SELECT User.I, Order.L, Detail.N FROM User, Order, Detail WHERE User.I = Order.K AND User.I = Detail.M
+16:29:57.432 [Test worker] INFO  compiler.Compiler - Processing query: SELECT User.I, Order.L, Detail.N FROM User, Order, Detail WHERE User.I = Order.K AND User.I = Detail.M ORDER BY Detail.N DESC
+16:29:57.435 [Test worker] INFO  compiler.Compiler - Processing query: SELECT * FROM Sailors
+16:29:57.436 [Test worker] INFO  compiler.Compiler - Processing query: SELECT Sailors.A FROM Sailors
+16:29:57.437 [Test worker] INFO  compiler.Compiler - Processing query: SELECT S.A FROM Sailors S
+16:29:57.438 [Test worker] INFO  compiler.Compiler - Processing query: SELECT * FROM Sailors S WHERE S.A &lt; 3
+16:29:57.442 [Test worker] INFO  compiler.Compiler - Processing query: SELECT * FROM Sailors, Reserves WHERE Sailors.A = Reserves.G
+16:29:57.444 [Test worker] INFO  compiler.Compiler - Processing query: SELECT * FROM Sailors S1, Sailors S2 WHERE S1.A &lt; S2.A
+16:29:57.447 [Test worker] INFO  compiler.Compiler - Processing query: SELECT DISTINCT R.G FROM Reserves R
+16:29:57.449 [Test worker] INFO  compiler.Compiler - Processing query: SELECT * FROM Sailors ORDER BY Sailors.B
+16:29:57.450 [Test worker] INFO  compiler.Compiler - Processing query: SELECT * FROM Sailors S1, Sailors S2, Reserves R WHERE S1.A &lt; S2.A AND S1.A = R.G
+16:29:57.455 [Test worker] INFO  compiler.Compiler - Processing query: SELECT S1.A, S2.A, S3.A FROM Sailors S1, Sailors S2, Sailors S3 WHERE S1.A &lt; S2.A AND S2.A &lt; S3.A AND S3.A &lt; 5
+16:29:57.459 [Test worker] INFO  compiler.Compiler - Processing query: SELECT * FROM Sailors, Reserves, Boats WHERE Sailors.A = Reserves.G AND Reserves.H = Boats.D ORDER BY Sailors.C, Boats.F, Boats.E
+16:29:57.463 [Test worker] INFO  compiler.Compiler - Processing query: SELECT B.F, B.D FROM Boats B ORDER BY B.D
+16:29:57.464 [Test worker] INFO  compiler.Compiler - Processing query: SELECT * FROM Sailors S, Reserves R, Boats B WHERE S.A = R.G AND R.H = B.D ORDER BY S.C
+16:29:57.467 [Test worker] INFO  compiler.Compiler - Processing query: SELECT * FROM Sailors S2, Sailors S1, Reserves R WHERE S1.A &lt; S2.A AND S1.A = R.G
 </pre>
 </span>
 </div>
@@ -115,7 +118,7 @@
 <input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
 </label>
 </div>Generated by 
-<a href="http://www.gradle.org">Gradle 8.5</a> at 2024年10月21日 15:28:25</p>
+<a href="http://www.gradle.org">Gradle 8.5</a> at 2024年12月5日 16:29:57</p>
 </div>
 </div>
 </body>

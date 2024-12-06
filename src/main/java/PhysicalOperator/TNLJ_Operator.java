@@ -1,9 +1,8 @@
 package PhysicalOperator;
 
 import common.entity.Tuple;
-import net.sf.jsqlparser.expression.Expression;
-
 import java.util.ArrayList;
+import net.sf.jsqlparser.expression.Expression;
 
 public class TNLJ_Operator extends JoinOperator {
 

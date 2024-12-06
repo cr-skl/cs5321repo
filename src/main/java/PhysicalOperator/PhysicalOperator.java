@@ -1,12 +1,11 @@
 package PhysicalOperator;
 
 import common.entity.Tuple;
-import net.sf.jsqlparser.schema.Column;
-import tools.IO.TupleWriter;
-
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
+import net.sf.jsqlparser.schema.Column;
+import tools.IO.TupleWriter;
 
 /**
  * Abstract class to represent relational operators. Every operator has a reference to an

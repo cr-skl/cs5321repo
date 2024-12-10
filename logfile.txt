@@ -1,0 +1,35 @@
+Cannot open printStream for fileE:\5321tmp\samples-p2\temp\ExtSort_0\0-run (¾Ü¾ø·ÃÎÊ¡£)
+Cannot open printStream for fileE:\5321tmp\samples-p2\temp\ExtSort_1\0-run (¾Ü¾ø·ÃÎÊ¡£)
+Cannot open printStream for fileE:\5321tmp\samples-p2\temp\ExtSort_2\0-run (¾Ü¾ø·ÃÎÊ¡£)
+Cannot open printStream for fileE:\5321tmp\samples-p2\temp\ExtSort_3\0-run (¾Ü¾ø·ÃÎÊ¡£)
+Cannot open printStream for fileE:\5321tmp\samples-p2\temp\ExtSort_0\0-run (¾Ü¾ø·ÃÎÊ¡£)
+Cannot open printStream for fileE:\5321tmp\samples-p2\temp\ExtSort_0\0-run (¾Ü¾ø·ÃÎÊ¡£)
+Cannot open printStream for fileE:\5321tmp\samples-p2\temp\ExtSort_1\0-run (¾Ü¾ø·ÃÎÊ¡£)
+Cannot open printStream for fileE:\5321tmp\samples-p2\temp\ExtSort_2\0-run (¾Ü¾ø·ÃÎÊ¡£)
+Cannot open printStream for fileE:\5321tmp\samples-p2\temp\ExtSort_3\0-run (¾Ü¾ø·ÃÎÊ¡£)
+Cannot open printStream for fileE:\5321tmp\samples-p2\temp\ExtSort_0\0-run (¾Ü¾ø·ÃÎÊ¡£)
+Cannot open printStream for fileE:\5321tmp\samples-p2\temp\ExtSort_0\0-run (¾Ü¾ø·ÃÎÊ¡£)
+Cannot open printStream for fileE:\5321tmp\samples-p2\temp\ExtSort_0\0-run (¾Ü¾ø·ÃÎÊ¡£)
+Cannot read FileE:\5321tmp\samples-p2\temp\ExtSort_0\0-run\1-run (¾Ü¾ø·ÃÎÊ¡£)
+Cannot readLine Cannot invoke "java.io.BufferedReader.readLine()" because "this.reader" is null
+Cannot read FileE:\5321tmp\samples-p2\temp\ExtSort_0\0-run\1-run (¾Ü¾ø·ÃÎÊ¡£)
+Cannot readLine Cannot invoke "java.io.BufferedReader.readLine()" because "this.reader" is null
+Cannot read FileE:\5321tmp\samples-p2\temp\ExtSort_0\0-run\1-run (¾Ü¾ø·ÃÎÊ¡£)
+Cannot readLine Cannot invoke "java.io.BufferedReader.readLine()" because "this.reader" is null
+Cannot read FileE:\5321tmp\samples-p2\temp\ExtSort_0\0-run\1-run (¾Ü¾ø·ÃÎÊ¡£)
+Cannot readLine Cannot invoke "java.io.BufferedReader.readLine()" because "this.reader" is null
+Cannot read FileE:\5321tmp\samples-p2\temp\ExtSort_0\0-run\1-run (¾Ü¾ø·ÃÎÊ¡£)
+Cannot read FileE:\5321tmp\samples-p2\temp\ExtSort_0\0-run\1-run (¾Ü¾ø·ÃÎÊ¡£)
+Cannot readLine Cannot invoke "java.io.BufferedReader.readLine()" because "this.reader" is null
+Cannot read FileE:\5321tmp\samples-p2\temp\ExtSort_0\0-run\1-run (¾Ü¾ø·ÃÎÊ¡£)
+Cannot readLine Cannot invoke "java.io.BufferedReader.readLine()" because "this.reader" is null
+Cannot read FileE:\5321tmp\samples-p2\temp\ExtSort_0\0-run\1-run (¾Ü¾ø·ÃÎÊ¡£)
+Cannot readLine Cannot invoke "java.io.BufferedReader.readLine()" because "this.reader" is null
+Cannot read FileE:\5321tmp\samples-p2\temp\ExtSort_0\0-run\1-run (¾Ü¾ø·ÃÎÊ¡£)
+Cannot readLine Cannot invoke "java.io.BufferedReader.readLine()" because "this.reader" is null
+Cannot read FileE:\5321tmp\samples-p2\temp\ExtSort_0\0-run\1-run (¾Ü¾ø·ÃÎÊ¡£)
+Cannot read FileE:\5321tmp\samples-p2\temp\ExtSort_0\0-run\1-run (¾Ü¾ø·ÃÎÊ¡£)
+Cannot readLine Cannot invoke "java.io.BufferedReader.readLine()" because "this.reader" is null
+Cannot read FileE:\5321tmp\samples-p2\temp\ExtSort_0\0-run\1-run (¾Ü¾ø·ÃÎÊ¡£)
+Cannot readLine Cannot invoke "java.io.BufferedReader.readLine()" because "this.reader" is null
+Cannot read FileE:\5321tmp\samples-p2\temp\ExtSort_0\0-run\1-run (¾Ü¾ø·ÃÎÊ¡£)

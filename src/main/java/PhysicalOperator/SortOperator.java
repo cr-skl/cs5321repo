@@ -10,6 +10,7 @@ public abstract class SortOperator extends PhysicalOperator {
   protected Map<String, Table> aliasMap;
   protected PhysicalOperator child;
   protected Boolean sorted;
+
   public SortOperator(List<OrderByElement> orderByElements, Map<String, Table> aliasMap) {
     this.orderByElements = orderByElements;
     this.aliasMap = aliasMap;

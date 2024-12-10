@@ -57,7 +57,6 @@ public class TupleReaderBinImpl implements TupleReader {
     }
   }
 
-
   @Override
   public Tuple readNextTuple() {
     if (endOfFile) {

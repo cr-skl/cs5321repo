@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="compilerTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2024-12-10T02:56:04" hostname="BATMAN-123" time="47.528">
+<testsuite name="compilerTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2024-12-10T03:41:22" hostname="MSI" time="0.823">
   <properties/>
-  <testcase name="testCompilerMain()" classname="compilerTest" time="47.528"/>
-  <system-out><![CDATA[21:56:05.322 [Test worker] INFO  compiler.Compiler - Processing query: SELECT DISTINCT * FROM Sailors
-21:56:50.612 [Test worker] INFO  compiler.Compiler - Processing query: SELECT * FROM Sailors S1, Sailors S2 WHERE S1.A < S2.A
-21:56:51.936 [Test worker] ERROR compiler.Compiler - Failed to delete file or directory: E:\5321tmp\samples-p2\temp\ExtSort_0\0-run\gen-0
+  <testcase name="testCompilerMain()" classname="compilerTest" time="0.823"/>
+  <system-out><![CDATA[22:41:23.439 [Test worker] ERROR common.DBCatalog - E:\5321tmp\samples-p2\input\db\schema.txt (The system cannot find the path specified)
+22:41:23.451 [Test worker] ERROR tools.config.ConfigHelper - E:\5321tmp\samples-p2\input\plan_builder_config.txt (The system cannot find the path specified)
+22:41:23.452 [Test worker] ERROR compiler.Compiler - E:\5321tmp\samples-p2\input\queries.sql
 ]]></system-out>
   <system-err><![CDATA[Exception occurred in interpreter
 ]]></system-err>

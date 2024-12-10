@@ -37,7 +37,6 @@ public class BNLJ_Operator extends JoinOperator {
    *
    * @return
    */
-
   @Override
   public Tuple getNextTuple() {
     // init()
@@ -90,15 +89,15 @@ public class BNLJ_Operator extends JoinOperator {
     }
   }
 
-//  private List<Tuple> fetchNextLeftBlock() {
-//    List<Tuple> block = new ArrayList<>();
-//    Tuple nextTuple = leftChild.getNextTuple();
-//    while (nextTuple != null && block.size() < tuplesPerBlock) {
-//      block.add(nextTuple);
-//      nextTuple = leftChild.getNextTuple();
-//    }
-//    return block;
-//  }
+  //  private List<Tuple> fetchNextLeftBlock() {
+  //    List<Tuple> block = new ArrayList<>();
+  //    Tuple nextTuple = leftChild.getNextTuple();
+  //    while (nextTuple != null && block.size() < tuplesPerBlock) {
+  //      block.add(nextTuple);
+  //      nextTuple = leftChild.getNextTuple();
+  //    }
+  //    return block;
+  //  }
   private List<Tuple> fetchNextLeftBlock() {
     List<Tuple> block = new ArrayList<>();
     Tuple nextTuple = leftChild.getNextTuple();

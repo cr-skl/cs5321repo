@@ -19,8 +19,6 @@ public class TupleReaderHumanImpl implements TupleReader {
     }
   }
 
-
-
   @Override
   public Tuple readNextTuple() {
     try {

@@ -4,16 +4,13 @@ import common.DBCatalog;
 import common.entity.*;
 import java.io.*;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.*;
 import net.sf.jsqlparser.schema.Column;
 import org.apache.logging.log4j.LogManager;
 import tools.IO.IndexWriter;
 import tools.IO.IndexWriterBinImpl;
 import tools.IO.TupleReaderBinImpl;
-import visitor.PhysicalPlanBuilder;
 
 public class ConfigHelper {
   public int joinType, joinBufPages, sortType, sortBufPages;
@@ -26,6 +23,7 @@ public class ConfigHelper {
     readConfig(inputDir);
     this.tempDir = tempDir;
   }
+
   public void readConfig(String inputDir) {
     String configDir = inputDir + "/plan_builder_config.txt";
     try {
@@ -36,7 +34,7 @@ public class ConfigHelper {
       joinType = Integer.valueOf(params[0]);
       joinBufPages = 0;
       if (joinType == 1) joinBufPages = Integer.valueOf(params[1]); // BNLJ
-                                                                    // SMJ TODO
+      // SMJ TODO
       else if (joinType != 0 && joinType != 2)
         throw new IllegalArgumentException("Join type must be 0, 1, or 2");
 
@@ -51,45 +49,46 @@ public class ConfigHelper {
       LogManager.getLogger().error(e.getMessage());
     }
   }
-//  public void readConfig(String configDir) throws URISyntaxException, IOException {
-//    BufferedReader fileReader = new BufferedReader(new FileReader(configDir));
-//    ClassLoader classLoader = PhysicalPlanBuilder.class.getClassLoader();
-//
-//    inputDir = fileReader.readLine();
-//    outputDir = fileReader.readLine();
-//    tempDir = fileReader.readLine();
-//    buildIndex = fileReader.readLine().equals("1");
-//    execQuery = fileReader.readLine().equals("1");
-//    outputURI = classLoader.getResource(outputDir).toURI();
-//    URI InputURI = classLoader.getResource(inputDir).toURI();
-//    Path input = Paths.get(InputURI);
-//    Path config = input.resolve("plan_builder_config.txt");
-//    dbPath = input.resolve("db");
-//    sqlPath = input.resolve("queries.sql");
-//    schemaPath = dbPath.resolve("schema.txt");
-//    index_info_Path = dbPath.resolve("index_info.txt");
-//    index_Path = dbPath.resolve("indexes");
-//    try {
-//      // read join, sort config from plan_builder_config.txt file
-//      BufferedReader br = new BufferedReader(new FileReader(config.toString()));
-//      // read JOIN params
-//      String[] params = br.readLine().split("\\s");
-//      joinType = Integer.valueOf(params[0]);
-//      joinBufPages = 0;
-//      if (joinType == 1) joinBufPages = Integer.valueOf(params[1]);
-//      else if (joinType != 0 && joinType != 2)
-//        throw new IllegalArgumentException("Join type must be 0, 1, or 2");
-//      // read SORT params
-//      params = br.readLine().split("\\s");
-//      sortType = Integer.valueOf(params[0]);
-//      sortBufPages = 0;
-//      if (sortType == 1) sortBufPages = Integer.valueOf(params[1]);
-//      else if (sortType != 0) throw new IllegalArgumentException("Sort type must be 0 or 1");
-//      br.close();
-//    } catch (IOException e) {
-//      LogManager.getLogger().error(e.getMessage());
-//    }
-//  }
+
+  //  public void readConfig(String configDir) throws URISyntaxException, IOException {
+  //    BufferedReader fileReader = new BufferedReader(new FileReader(configDir));
+  //    ClassLoader classLoader = PhysicalPlanBuilder.class.getClassLoader();
+  //
+  //    inputDir = fileReader.readLine();
+  //    outputDir = fileReader.readLine();
+  //    tempDir = fileReader.readLine();
+  //    buildIndex = fileReader.readLine().equals("1");
+  //    execQuery = fileReader.readLine().equals("1");
+  //    outputURI = classLoader.getResource(outputDir).toURI();
+  //    URI InputURI = classLoader.getResource(inputDir).toURI();
+  //    Path input = Paths.get(InputURI);
+  //    Path config = input.resolve("plan_builder_config.txt");
+  //    dbPath = input.resolve("db");
+  //    sqlPath = input.resolve("queries.sql");
+  //    schemaPath = dbPath.resolve("schema.txt");
+  //    index_info_Path = dbPath.resolve("index_info.txt");
+  //    index_Path = dbPath.resolve("indexes");
+  //    try {
+  //      // read join, sort config from plan_builder_config.txt file
+  //      BufferedReader br = new BufferedReader(new FileReader(config.toString()));
+  //      // read JOIN params
+  //      String[] params = br.readLine().split("\\s");
+  //      joinType = Integer.valueOf(params[0]);
+  //      joinBufPages = 0;
+  //      if (joinType == 1) joinBufPages = Integer.valueOf(params[1]);
+  //      else if (joinType != 0 && joinType != 2)
+  //        throw new IllegalArgumentException("Join type must be 0, 1, or 2");
+  //      // read SORT params
+  //      params = br.readLine().split("\\s");
+  //      sortType = Integer.valueOf(params[0]);
+  //      sortBufPages = 0;
+  //      if (sortType == 1) sortBufPages = Integer.valueOf(params[1]);
+  //      else if (sortType != 0) throw new IllegalArgumentException("Sort type must be 0 or 1");
+  //      br.close();
+  //    } catch (IOException e) {
+  //      LogManager.getLogger().error(e.getMessage());
+  //    }
+  //  }
 
   public void buildIndex() throws IOException {
     BufferedReader br = new BufferedReader(new FileReader(index_info_Path.toString()));

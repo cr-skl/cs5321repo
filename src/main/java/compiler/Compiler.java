@@ -4,32 +4,29 @@
 /****************************************************************************************/
 // compiler for jar
 /****************************************************************************************/
- package compiler;
+package compiler;
 
- import LogicalOperator.LogicalOperator;
- import PhysicalOperator.PhysicalOperator;
- import common.DBCatalog;
- import common.QueryPlanBuilder;
- import java.io.File;
- import java.io.PrintStream;
- import java.nio.file.Files;
- import java.nio.file.Paths;
- import net.sf.jsqlparser.parser.CCJSqlParserUtil;
- import net.sf.jsqlparser.statement.Statement;
- import net.sf.jsqlparser.statement.Statements;
- import org.apache.logging.log4j.*;
- import tools.IO.TupleWriter;
- import tools.IO.TupleWriterBinImpl;
- import tools.IO.TupleWriterHumanImpl;
- import tools.config.ConfigHelper;
- import visitor.PhysicalPlanBuilder;
+import LogicalOperator.LogicalOperator;
+import PhysicalOperator.PhysicalOperator;
+import common.DBCatalog;
+import common.QueryPlanBuilder;
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import net.sf.jsqlparser.parser.CCJSqlParserUtil;
+import net.sf.jsqlparser.statement.Statement;
+import net.sf.jsqlparser.statement.Statements;
+import org.apache.logging.log4j.*;
+import tools.IO.TupleWriter;
+import tools.IO.TupleWriterBinImpl;
+import tools.config.ConfigHelper;
+import visitor.PhysicalPlanBuilder;
 
 /**
- * Top level harness class; reads queries from an input file one at a time, processes them and
- sends
+ * Top level harness class; reads queries from an input file one at a time, processes them and sends
  * output to file or to System depending on flag.
  */
- public class Compiler {
+public class Compiler {
   private static final Logger logger = LogManager.getLogger();
 
   private static String outputDir;
@@ -72,15 +69,16 @@
         clearDirectory(tempDir);
         try {
           LogicalOperator lPlan = queryPlanBuilder.buildPlan(statement);
-          PhysicalOperator plan = physicalPlanBuilder.buildPlan(lPlan, queryPlanBuilder.getAliasMap());
+          PhysicalOperator plan =
+              physicalPlanBuilder.buildPlan(lPlan, queryPlanBuilder.getAliasMap());
           TupleWriter tp;
           if (outputToFiles) {
             File outfile = new File(outputDir + "/query" + counter);
-            tp = new TupleWriterHumanImpl(outfile);
+            //            tp = new TupleWriterHumanImpl(outfile);
+            //            plan.dump(tp);
+            //            File outfile = new File(outputDir + "/queryBin" + counter);
+            tp = new TupleWriterBinImpl(outfile);
             plan.dump(tp);
-//            File outfile = new File(outputDir + "/queryBin" + counter);
-//            tp = new TupleWriterBinImpl(outfile);
-//            plan.dump(tp);
           } else {
             plan.dump(System.out);
           }
@@ -95,12 +93,14 @@
       logger.error(e.getMessage());
     }
   }
+
   public static void clearDirectory(String folderPath) {
     File folder = new File(folderPath);
 
     // check valid
     if (!folder.exists() || !folder.isDirectory()) {
-      throw new IllegalArgumentException("The provided path is not a valid directory: " + folderPath);
+      throw new IllegalArgumentException(
+          "The provided path is not a valid directory: " + folderPath);
     }
 
     // recursively delete all the files
@@ -124,7 +124,8 @@
     }
     // if file, just delete
     if (!file.delete()) {
-      throw new IllegalStateException("Failed to delete file or directory: " + file.getAbsolutePath());
+      throw new IllegalStateException(
+          "Failed to delete file or directory: " + file.getAbsolutePath());
     }
   }
- }
+}

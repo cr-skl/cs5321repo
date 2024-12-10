@@ -33,7 +33,6 @@ public class PhysicalPlanBuilder {
    * @return The root of a tree representing a physical query plan. Null if the input tree is
    *     empty/null
    */
-
   public PhysicalOperator buildPlan(LogicalOperator logicalPlan, Map<String, Table> aliasMap) {
 
     LogicalOperator curr = logicalPlan;
@@ -70,7 +69,13 @@ public class PhysicalPlanBuilder {
             new IntSortOperator(
                 ((LogicalSortOp) curr).getOrderByElements(), aliasMap); // in-memory sort
       else if (sortType == 1)
-        op = new ExtSortOperator(((LogicalSortOp) curr).getOrderByElements(), aliasMap, tempDir, sortBufPages, false); // TODO: external sort
+        op =
+            new ExtSortOperator(
+                ((LogicalSortOp) curr).getOrderByElements(),
+                aliasMap,
+                tempDir,
+                sortBufPages,
+                false); // TODO: external sort
       // should never throw a null pointer exception since if sortType is not 0 or 1,
       // an exception will be thrown in the constructor for the plan builder
       op.setChild(buildPlan(curr.getChild(), aliasMap));

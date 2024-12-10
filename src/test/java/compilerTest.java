@@ -7,7 +7,11 @@ public class compilerTest {
 
   @Test
   public void testCompilerMain() throws URISyntaxException, IOException {
-    String[] args = {"E:\\5321tmp\\samples-p2\\input", "E:\\5321tmp\\samples-p2\\output", "E:\\5321tmp\\samples-p2\\temp"};
+    String[] args = {
+      "E:\\5321tmp\\samples-p2\\input",
+      "E:\\5321tmp\\samples-p2\\output",
+      "E:\\5321tmp\\samples-p2\\temp"
+    };
     Compiler.main(args);
   }
 }

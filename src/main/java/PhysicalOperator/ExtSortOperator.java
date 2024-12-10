@@ -1,176 +1,176 @@
-package PhysicalOperator;// package PhysicalOperator;
-//
-// import common.entity.Tuple;
-// import net.sf.jsqlparser.schema.Table;
-// import net.sf.jsqlparser.statement.select.OrderByElement;
-// import tools.IO.TupleReader;
-// import tools.IO.TupleReaderHumanImpl;
-// import tools.IO.TupleWriter;
-// import tools.IO.TupleWriterHumanImpl;
-//
-// import java.io.File;
-// import java.io.FileNotFoundException;
-// import java.io.IOException;
-// import java.util.ArrayList;
-// import java.util.List;
-// import java.util.Map;
-// import java.util.PriorityQueue;
-//
-// public class ExtSortOperator extends SortOperator {
-//    private String tempPathRoot;
-//    private File sortedFile;
-//    private TupleReader reader;
-//    private int bufferSize;
-//
-//    // 用于存放临时文件
-//    private List<File> tempFiles = new ArrayList<>();
-//
-//    public ExtSortOperator(List<OrderByElement> orderByElements, Map<String, Table> aliasMap,
-// String tempPath, int bufferSize) {
-//        super(orderByElements, aliasMap);
-//        this.tempPathRoot = tempPath;
-//        this.bufferSize = bufferSize;
-//    }
-//
-//    /**
-//     * Resets cursor on the operator to the beginning
-//     */
-//    @Override
-//    public void reset() {
-//        if (reader != null) {
-//            reader.reset();
-//        } else {
-//            throw new IllegalStateException("Reader is not initialized yet");
-//        }
-//    }
-//
-//    /**
-//     * Get next tuple from operator
-//     *
-//     * @return next Tuple, or null if we are at the end
-//     */
-//    @Override
-//    public Tuple getNextTuple() {
-//        if (reader == null) {
-//            // 执行排序并生成归并结果文件
-//            executeExternalSort();
-//        }
-//        return reader.readNextTuple();
-//    }
-//
-//    /**
-//     * 执行外部排序过程，包括划分初始块和归并阶段
-//     */
-//    private void executeExternalSort() {
-//        // 1. 初始排序阶段：生成多个已排序的临时块文件
-//        partitionAndSort();
-//
-//        // 2. 归并阶段：对所有临时块文件进行多路归并
-//        mergeSortedRuns();
-//
-//        // 3. 初始化读取器以获取排序结果
-//        this.reader = new TupleReaderHumanImpl(sortedFile);
-//    }
-//
-//    /**
-//     * 划分初始块，并对每块进行排序然后存入临时文件
-//     */
-//    private void partitionAndSort() {
-//        List<Tuple> buffer = new ArrayList<>();
-//        Tuple tuple;
-//        while ((tuple = child.getNextTuple()) != null) {
-//            buffer.add(tuple);
-//            if (buffer.size() == bufferSize) {
-//                sortAndWriteToTempFile(buffer);
-//                buffer.clear();
-//            }
-//        }
-//        if (!buffer.isEmpty()) {
-//            sortAndWriteToTempFile(buffer);
-//        }
-//    }
-//
-//    /**
-//     * 对缓冲区内的元组进行排序，并将排序结果写入临时文件
-//     *
-//     * @param buffer 待排序的元组列表
-//     */
-//    private void sortAndWriteToTempFile(List<Tuple> buffer) {
-//        Collections.sort(buffer, new TupleComparator(orderByElements, this.getOutputSchema(),
-// this.aliasMap));
-//        File tempFile;
-//        try {
-//            tempFile = File.createTempFile("sort_run", ".tmp", new File(tempPathRoot));
-//            tempFiles.add(tempFile);
-//            TupleWriter writer = new TupleWriterHumanImpl(tempFile);
-//            for (Tuple t : buffer) {
-//                writer.writeTuple(t);
-//            }
-//
-//        } catch (IOException e) {
-//            throw new IllegalStateException("Error creating/writing temp file", e);
-//        }
-//    }
-//
-//    /**
-//     * 对所有的已排序临时文件进行多路归并
-//     */
-//    private void mergeSortedRuns() {
-//        List<TupleReader> readers = new ArrayList<>();
-//        try {
-//            for (File file : tempFiles) {
-//                readers.add(new TupleReaderHumanImpl(file));
-//            }
-//            sortedFile = new File(tempPathRoot, "sorted_result.tmp");
-//            TupleWriter writer = new TupleWriterHumanImpl(sortedFile);
-//            PriorityQueue<ReaderTuplePair> pq = new PriorityQueue<>(Comparator.comparing(pair ->
-// pair.tuple, new TupleComparator(orderByElements, this.getOutputSchema(), this.aliasMap)));
-//            // 初始化优先队列
-//            for (TupleReader reader : readers) {
-//                if (reader.hasNext()) {
-//                    pq.add(new ReaderTuplePair(reader, reader.readNextTuple()));
-//                }
-//            }
-//            // 归并排序
-//            while (!pq.isEmpty()) {
-//                ReaderTuplePair minPair = pq.poll();
-//                writer.writeTuple(minPair.tuple);
-//                if (minPair.reader.hasNext()) {
-//                    pq.add(new ReaderTuplePair(minPair.reader, minPair.reader.readNextTuple()));
-//                }
-//            }
-//        } catch (IOException e) {
-//            throw new IllegalStateException("Error during merging sorted runs", e);
-//        }
-//    }
-//
-//    /**
-//     * 清理所有的临时文件，包括最终的排序结果文件
-//     */
-//    public void cleanup() {
-//        // 删除中间临时文件
-//        for (File file : tempFiles) {
-//            if (file.exists()) {
-//                file.delete();
-//            }
-//        }
-//        // 删除最终的排序结果文件
-//        if (sortedFile != null && sortedFile.exists()) {
-//            sortedFile.delete();
-//        }
-//    }
-//
-//    /**
-//     * 用于存储TupleReader和对应的当前元组
-//     */
-//    private static class ReaderTuplePair {
-//        TupleReader reader;
-//        Tuple tuple;
-//
-//        ReaderTuplePair(TupleReader reader, Tuple tuple) {
-//            this.reader = reader;
-//            this.tuple = tuple;
-//        }
-//    }
-// }
-//
+package PhysicalOperator;
+
+import Comparator.TupleComparator;
+import common.entity.Tuple;
+import net.sf.jsqlparser.schema.Column;
+import net.sf.jsqlparser.schema.Table;
+import net.sf.jsqlparser.statement.select.OrderByElement;
+import tools.IO.*;
+
+import java.io.File;
+import java.util.*;
+
+public class ExtSortOperator extends SortOperator {
+  private static final int PAGE_SIZE = 4096;
+  private static final int INT_SIZE = 4;
+  private int pageSize = PAGE_SIZE;
+  private static int counter;
+  private TupleReader reader;
+  private int buffPages;
+
+  private String tempPath;
+  private File rootDir;
+  private boolean useBin;
+
+  public ExtSortOperator(List<OrderByElement> orderByElements, Map<String, Table> aliasMap, String tempPath, int buffPages, boolean useBin) {
+    super(orderByElements, aliasMap);
+    this.buffPages = buffPages;
+    this.tempPath = tempPath;
+    String rootDirName = "ExtSort_"+ counter++;
+    this.rootDir = createDir(tempPath, rootDirName);
+  }
+
+  /**
+   * Resets cursor on the operator to the beginning
+   */
+  @Override
+  public void reset() {
+    reader.reset();
+  }
+
+  /**
+   * Get next tuple from operator
+   *
+   * @return next Tuple, or null if we are at the end
+   */
+  @Override
+  public Tuple getNextTuple() {
+    if (!sorted) {
+      File res = sortIt(child);
+      reader = new TupleReaderHumanImpl(res);
+      sorted = true;
+    }
+    return reader.readNextTuple();
+  }
+  private File createDir(String parentFile, String fileName){
+    File dir = new File(parentFile, fileName);
+    if (!dir.exists() && !dir.mkdirs()) {
+      throw new IllegalStateException("Failed to create directory: " + dir.getAbsolutePath());
+    }
+    return dir;
+  }
+  private File createDir(File parentDir, String fileName) {
+    File dir = new File(parentDir, fileName);
+    if (!dir.exists() && !dir.mkdirs()) {
+      throw new IllegalStateException("Failed to create directory: " + dir.getAbsolutePath());
+    }
+    return dir;
+  }
+  private File sortIt(PhysicalOperator child) {
+    File firstRun = firstRun(child);
+    File finalOne = kRun(firstRun, buffPages, 1);
+    return finalOne;
+  }
+
+  private File firstRun(PhysicalOperator child) {
+    File first = createDir(rootDir, "0-run");
+    boolean flag = true;
+    int maxTuplesPerPage = (pageSize - 2 * INT_SIZE) / (child.getOutputSchema().size() * INT_SIZE);
+    int ptr = 0;
+    TupleWriter w = null;
+    try {
+      while(flag) {
+        List<Tuple> lst = new LinkedList<>();
+        File outputFile = new File(first, "gen-" + ptr);
+        w = new TupleWriterHumanImpl(outputFile);
+        Tuple t = null;
+        for (int i = 0; i < maxTuplesPerPage && (t = child.getNextTuple()) != null; i++) {
+          lst.add(t);
+        }
+        if (t == null)
+          flag = false;
+        Collections.sort(lst, new TupleComparator(orderByElements, this.getOutputSchema(), this.aliasMap));
+        for (Tuple e : lst) {
+          w.writeTuple(e);
+        }
+        ptr++;
+      }
+    } finally {
+      if (w != null)
+        w.close();
+    }
+    return first;
+  }
+  private File kRun(File lastRun, int B, int depth) {
+    File[] files = lastRun.listFiles();
+    if (files.length == 1)
+      return lastRun;
+    File nextRun = createDir(lastRun, depth + "-run");
+    List<Tuple> res = new LinkedList<>();
+    PriorityQueue<Node> pq = new PriorityQueue<>(new NodeComparator(orderByElements, getOutputSchema(), aliasMap));
+    TupleReader r = null;
+    TupleWriter w = null;
+    List<TupleReader> lst = null;
+    try {
+      for (int i = 0, ptr = 0; i < files.length; i += B - 1, ptr++) {
+        lst = new LinkedList<>();
+        for (int j = i; j < Math.min(i + B -1, files.length); j++) {
+          r = new TupleReaderHumanImpl(files[i]);
+          lst.add(r);
+          pq.offer(new Node(r));
+        }
+
+        while (!pq.isEmpty()) {
+          Node node = pq.poll();
+          Tuple lastE = node.top;
+          if (node.renewTop()) {
+            pq.offer(node);
+          }
+          res.add(lastE);
+        }
+        File outputFile = new File(nextRun, "gen-" + ptr);
+        try {
+          w = new TupleWriterHumanImpl(outputFile);
+          for (Tuple t : res) {
+            w.writeTuple(t);
+          }
+        } finally {
+          w.close();
+        }
+      }
+    } finally {
+      if (lst != null) {
+        for (TupleReader rd : lst)
+          if (rd != null)
+            rd.close();
+      }
+    }
+    return kRun(nextRun, B, depth+1);
+  }
+  private class NodeComparator implements Comparator<Node> {
+    TupleComparator tCmp;
+    public NodeComparator(List<OrderByElement> orderByElements, ArrayList<Column> cols, Map<String, Table> aliasMap) {
+      tCmp = new TupleComparator(orderByElements, cols, aliasMap);
+    }
+    @Override
+    public int compare(Node o1, Node o2) {
+      return tCmp.compare(o1.top, o2.top);
+    }
+
+  }
+  private class Node {
+
+    TupleReader reader;
+    Tuple top;
+    public Node(TupleReader reader) {
+      this.reader = reader;
+      renewTop();
+    }
+    private boolean renewTop() {
+      top = reader.readNextTuple();
+      if (top == null)
+          return false;
+      return true;
+    }
+  }
+}

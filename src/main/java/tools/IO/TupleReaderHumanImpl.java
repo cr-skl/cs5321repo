@@ -8,6 +8,7 @@ public class TupleReaderHumanImpl implements TupleReader {
   private FileLogger logger = FileLogger.getInstance();
   private File file;
   private BufferedReader reader;
+  private Tuple lastVisit;
 
   public TupleReaderHumanImpl(File file) {
     this.file = file;
@@ -17,6 +18,8 @@ public class TupleReaderHumanImpl implements TupleReader {
       logger.log("Cannot read File" + e.getMessage());
     }
   }
+
+
 
   @Override
   public Tuple readNextTuple() {

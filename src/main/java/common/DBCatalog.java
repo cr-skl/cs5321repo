@@ -46,35 +46,12 @@ public class DBCatalog {
     return db;
   }
 
-  /**
-   * Sets the data directory for the database catalog.
-   *
-   */
-  public void setDataDirectory(ConfigHelper configHelper) {
-    try {
-      // set schema for data
-      dbDirectory = configHelper.dbPath.toString();
-      BufferedReader br = new BufferedReader(new FileReader(configHelper.schemaPath.toString()));
-      String line;
-      while ((line = br.readLine()) != null) {
-        String[] tokens = line.split("\\s");
-        String tableName = tokens[0];
-        ArrayList<Column> cols = new ArrayList<Column>();
-        for (int i = 1; i < tokens.length; i++) {
-          cols.add(new Column(new Table(null, tableName), tokens[i]));
-        }
-        tables.put(tokens[0], cols);
-      }
-      br.close();
-    } catch (Exception e) {
-      logger.error(e.getMessage());
-    }
-  }
-//  public void setDataDirectory(String directory) {
+  /** Sets the data directory for the database catalog. */
+//  public void setDataDirectory(ConfigHelper configHelper) {
 //    try {
-//      dbDirectory = directory;
 //      // set schema for data
-//      BufferedReader br = new BufferedReader(new FileReader(directory + "/schema.txt"));
+//      dbDirectory = configHelper.dbPath.toString();
+//      BufferedReader br = new BufferedReader(new FileReader(configHelper.schemaPath.toString()));
 //      String line;
 //      while ((line = br.readLine()) != null) {
 //        String[] tokens = line.split("\\s");
@@ -91,6 +68,27 @@ public class DBCatalog {
 //    }
 //  }
 
+    public void setDataDirectory(String directory) {
+      try {
+        dbDirectory = directory;
+        // set schema for data
+        BufferedReader br = new BufferedReader(new FileReader(directory + "/schema.txt"));
+        String line;
+        while ((line = br.readLine()) != null) {
+          String[] tokens = line.split("\\s");
+          String tableName = tokens[0];
+          ArrayList<Column> cols = new ArrayList<Column>();
+          for (int i = 1; i < tokens.length; i++) {
+            cols.add(new Column(new Table(null, tableName), tokens[i]));
+          }
+          tables.put(tokens[0], cols);
+        }
+        br.close();
+      } catch (Exception e) {
+        logger.error(e.getMessage());
+      }
+    }
+
   /**
    * Gets path to file where a particular table is stored
    *
@@ -98,7 +96,7 @@ public class DBCatalog {
    * @return file where table is found on disk
    */
   public File getFileForTable(String tableName) {
-    //        return new File(dbDirectory + "/data/" + tableName);
+//            return new File(dbDirectory + "/data/" + tableName);
     return new File(dbDirectory + "/dataBin/" + tableName);
   }
 

@@ -1,10 +1,9 @@
 package PhysicalOperator;
 
 import common.entity.Tuple;
-import net.sf.jsqlparser.expression.Expression;
-
 import java.util.ArrayList;
 import java.util.List;
+import net.sf.jsqlparser.expression.Expression;
 
 public class BNLJ_Operator extends JoinOperator {
 
@@ -33,10 +32,12 @@ public class BNLJ_Operator extends JoinOperator {
   }
 
   /**
-   * for i for j for k
+   * for i meaning the Block of leftTable for j meaning the row of rightTable for k meaning the row
+   * of leftCurrentBlock
    *
    * @return
    */
+
   @Override
   public Tuple getNextTuple() {
     // init()
@@ -55,13 +56,13 @@ public class BNLJ_Operator extends JoinOperator {
     }
 
     while (true) {
-
       // k outOfBound
       if (leftBlockPtr >= leftBlock.size()) {
         // j++
         rightTuple = rightChild.getNextTuple();
         // j outOfBound
         if (rightTuple == null) {
+          // i++
           leftBlock = fetchNextLeftBlock();
           // i outOfBound
           if (leftBlock.isEmpty()) {
@@ -74,8 +75,8 @@ public class BNLJ_Operator extends JoinOperator {
         // k = 0
         leftBlockPtr = 0;
       }
-      //       make sure left and right both not null
-      //       k++
+      // make sure left and right both not null
+      // k++
       leftTuple = leftBlock.get(leftBlockPtr);
       leftBlockPtr++;
       if (eval == null || evalMatches(leftTuple, rightTuple)) {
@@ -89,11 +90,23 @@ public class BNLJ_Operator extends JoinOperator {
     }
   }
 
+//  private List<Tuple> fetchNextLeftBlock() {
+//    List<Tuple> block = new ArrayList<>();
+//    Tuple nextTuple = leftChild.getNextTuple();
+//    while (nextTuple != null && block.size() < tuplesPerBlock) {
+//      block.add(nextTuple);
+//      nextTuple = leftChild.getNextTuple();
+//    }
+//    return block;
+//  }
   private List<Tuple> fetchNextLeftBlock() {
     List<Tuple> block = new ArrayList<>();
     Tuple nextTuple = leftChild.getNextTuple();
-    while (nextTuple != null && block.size() < tuplesPerBlock) {
+    while (nextTuple != null) {
       block.add(nextTuple);
+      if (block.size() >= tuplesPerBlock) {
+        break;
+      }
       nextTuple = leftChild.getNextTuple();
     }
     return block;

@@ -8,7 +8,6 @@ import net.sf.jsqlparser.schema.Table;
 import net.sf.jsqlparser.statement.select.AllColumns;
 import net.sf.jsqlparser.statement.select.SelectExpressionItem;
 import net.sf.jsqlparser.statement.select.SelectItem;
-import visitor.PhysicalPlanBuilder;
 
 public class LogicalProjectOp extends LogicalOperator {
   private List<SelectItem> selectItemList;
@@ -20,12 +19,8 @@ public class LogicalProjectOp extends LogicalOperator {
 
   public void setChild(LogicalOperator child) {
     this.child = child;
+    // project all or the items specified in the list
     setOutputSchema(requiredList == null ? child.getOutputSchema() : requiredList);
-  }
-
-  @Override
-  public void accept(PhysicalPlanBuilder visitor, Map<String, Table> aliasMap) {
-    visitor.visit(this, aliasMap);
   }
 
   public LogicalProjectOp(List<SelectItem> selectItemList, Map<String, Table> aliasMap) {

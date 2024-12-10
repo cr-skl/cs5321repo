@@ -24,7 +24,6 @@ public class TupleWriterBinImpl implements TupleWriter {
     try {
       this.out = new DataOutputStream(new FileOutputStream(outputFile));
       this.buffer = ByteBuffer.allocate(pageSize);
-
     } catch (FileNotFoundException e) {
       logger.log("Cannot open BIN outputStream for file" + e.getMessage());
     }
@@ -38,7 +37,7 @@ public class TupleWriterBinImpl implements TupleWriter {
       tupleSize = tuple.getAllElements().size();
       maxTuplesPerPage = (pageSize - 2 * INT_SIZE) / (tupleSize * INT_SIZE);
       buffer.putInt(tupleSize);
-      buffer.putInt(0); // placeholder,  will be editted for pageDone
+      buffer.putInt(0); // placeholder,  will be edited for pageDone
     }
     for (int e : tuple.getAllElements()) {
       buffer.putInt(e);
